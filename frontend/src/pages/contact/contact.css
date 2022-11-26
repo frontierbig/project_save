@@ -1,0 +1,64 @@
+.bg-imagecontact{
+    background-image: url("../../images/contact.png");
+    display: flexbox;
+    align-items: center;
+    height: 40rem;
+    border-bottom: 3px solid white;
+    opacity: 1;
+    display: grid;
+    text-align: center;
+}
+.bg-imagecontact:hover{
+    opacity: 1;
+}
+.Text_contact{
+    max-width: 70rem;
+    display: block;
+    padding-left: 21%;
+    color: red;
+    
+}
+.Text_contact h1{
+    color: black;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+.Text_contact p{
+    font-size: 1.5rem;
+    color: #000000;
+    margin-bottom:3rem; 
+}
+.contact__container{
+    display: grid;
+    place-items: center;
+    height: 20rem;
+    background-color: #140740;
+    margin-bottom: 0%;
+}
+.contact__wrapper{
+    width: fit-content;
+    display: flex;
+    gap:8rem;
+
+}
+.contact__wrapper a {
+    background-color: var(--color-primary);
+    font-size: 2rem;
+    border: 2px solid transparent;
+    transition: var(--transition);
+    padding: 2rem;
+    border-radius: 1.5rem;
+}
+.contact__wrapper a:hover{
+    background: transparent;
+    border-color: var(--color-gray-100);
+}
+
+@media screen and (max-width : 1024px) {
+    .Text_contact{
+        color: red;
+    
+    }
+   
+
+}

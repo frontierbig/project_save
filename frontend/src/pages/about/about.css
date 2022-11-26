@@ -1,0 +1,35 @@
+.about__img{
+    display: flex;
+    max-height: 50%;
+    margin-bottom: 4rem;
+    border-bottom: 3px solid whitesmoke;
+    opacity: 1;
+}
+.about__img:hover{
+    opacity: 1;
+}
+
+.about__container{
+    padding-left: 15%;
+    padding-right:15% ;
+}
+.about_certificate{
+    padding-top:5rem ;
+}
+.about_certificate img{
+    padding-top:5rem ;
+}
+.about_personaldata{
+    padding-top:5rem ;
+}
+.about_personaldata h1{
+    padding-bottom:5rem ;
+}
+.about_his h1{
+    padding-top: 6rem;
+    padding-bottom:5rem ;
+}
+.about_his p{
+    padding-top:5rem ;
+
+}

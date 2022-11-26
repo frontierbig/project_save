@@ -1,0 +1,126 @@
+/* ====================HEADER========================== */
+.bg-imagehome{
+    background-color: #666666;
+    background-image: url('https://baanlalisa.com/wp-content/uploads/2021/02/7-%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%82%E0%B8%A2%E0%B8%8A%E0%B8%99%E0%B9%8C-%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%94%E0%B8%B9%E0%B9%81%E0%B8%A5%E0%B8%9C%E0%B8%B9%E0%B9%89%E0%B8%AA%E0%B8%B9%E0%B8%87%E0%B8%AD%E0%B8%B2%E0%B8%A2%E0%B8%B8-%E0%B9%81%E0%B8%A5%E0%B8%B0-%E0%B8%9C%E0%B8%B9%E0%B9%89%E0%B8%9B%E0%B9%88%E0%B8%A7%E0%B8%A2%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%9A%E0%B9%89%E0%B8%B2%E0%B8%99.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 27.74rem 5rem  ;
+    
+
+}
+
+.main__header{
+    width: 100%;
+    height: 100vh;
+   
+
+
+}
+.header-container{
+    position: initial;
+
+}
+.header-container h4{
+    color: #0e1dc2;
+}
+.header-container h1{
+    color: #000b8a
+}
+.header-container p{
+    font-size: 1.1rem;
+    color: #000000;
+    margin-bottom:3rem; 
+    max-width: 35rem;
+}
+.btn{
+    color: var(--color-gray-100);
+    width: fit-content;
+    margin: 0 auto;
+    padding: 0.9rem 2rem;
+    /* background: var(--color-primary);  ปุ่มสีฟ้า*/ 
+    background: black;
+    border-radius: 1.5rem;
+    transition: var(--transition);   
+}
+.btn:hover{
+    /* background: var(--color-secondary);  */
+    background: var(--color-secondary);
+    color: var(--color-gray-600);
+}
+.btn.lg{
+    padding: 1.2rem 3rem;
+    border-radius: 2rem;
+    font-size: 1.1rem;
+}
+.btn.sm{
+    padding: 0.4rem 1.2rem;
+    font-size: 0.9rem;
+
+}
+.btn.sm:hover{
+    background: var(--color-gray-100);
+}
+
+
+/* ====================  Footer   ================ */
+footer{
+    background: var(--color-primary);
+    margin-top: 0rem;
+    padding-top:4rem ;
+    font-size: 0.9rem;
+    color: var(--color-gray--100);
+}
+.footer__container{
+    display: grid;
+    grid-template-columns: 26rem 
+    1fr 1fr 1fr;
+    gap: 6rem;
+    
+
+}
+.footer__container article{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    
+    
+}
+.footer__container article p{
+    margin-top: 0.5rem;
+    color: aliceblue;
+}
+.footer__container article h4{
+    margin-bottom: 0.6rem;
+    font-size: 1rem;
+}
+.footer__socials{
+   margin-top: 1rem;
+   display: flex;
+   gap: 1rem;
+   align-items: center;
+   padding-bottom: 0.3rem;
+}
+
+.footer__socials a {
+    background:var(--color-gray-100);
+    padding: 0.7rem;
+    border: 1px solid transparent;
+    border-radius: 0.6rem;
+    transition: var(--transition);
+}
+.footer__socials a svg{
+    color: var(--color-gray-600);
+}
+.footer__socials a:hover{
+    border-color:var(--color-gray--100) ;
+    background: transparent;
+}
+.footer__copyright{
+    color: black;
+    padding: 1rem 0;
+    text-align: center;
+    border-top: 2px solid var(--color-primary-variant) ;
+    margin-top: 5rem;
+}
