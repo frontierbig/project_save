@@ -42,11 +42,7 @@ export const linksPatient = [
         path: '/recordpatient'
     }
     ,
-    {   
-        name:"Medicalhistory",
-        path: '/historypatient'
-    }
-    ,
+    
     {   
         name:"Treatment",
         path: '/treatmentpatient'

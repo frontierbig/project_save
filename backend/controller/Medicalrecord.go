@@ -160,8 +160,11 @@ func DecryptionMedicalRecord(c *gin.Context) {
 	fmt.Println(Data.Decryption)
 	fmt.Println(MedicalRecord.Secret_Data)
 
-	decrypted := decrypt(MedicalRecord.Secret_Data, Data.Decryption)
-
+	decrypted, err := decrypt(MedicalRecord.Secret_Data, Data.Decryption, c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
 	
 	c.JSON(http.StatusOK, gin.H{"data": decrypted})
 
@@ -225,7 +228,7 @@ func encrypt(stringToEncrypt string, keyString string) (encryptedString string) 
 	return fmt.Sprintf("%x", ciphertext)
 }
 
-func decrypt(encryptedString string, keyString string) (decryptedString string) {
+func decrypt(encryptedString string, keyString string, c *gin.Context) (decryptedString string, err error) {
 
 	key, _ := hex.DecodeString(keyString)
 	enc, _ := hex.DecodeString(encryptedString)
@@ -233,13 +236,14 @@ func decrypt(encryptedString string, keyString string) (decryptedString string) 
 	//Create a new Cipher Block from the key
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		panic(err.Error())
+		//panic(err.Error())
+		return "", err
 	}
 
 	//Create a new GCM
 	aesGCM, err := cipher.NewGCM(block)
 	if err != nil {
-		panic(err.Error())
+		return "", err
 	}
 
 	//Get the nonce size
@@ -251,9 +255,8 @@ func decrypt(encryptedString string, keyString string) (decryptedString string) 
 	//Decrypt the data
 	plaintext, err := aesGCM.Open(nil, nonce, ciphertext, nil)
 	if err != nil {
-		panic(err.Error())
-
+		return "", err
 	}
 	println(plaintext)
-	return fmt.Sprintf("%s", plaintext)
+	return fmt.Sprintf("%s", plaintext), nil
 }

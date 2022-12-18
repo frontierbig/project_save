@@ -28,6 +28,11 @@ import { DecrytionInterface } from '../../model/Decryption';
 
 
 
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+
 const ParentData=[{name:"Both_parent"},{name:"Guardain"},{name:"Mother Only"},{name:"Father Only"}];
 
 const ChronicData=[
@@ -71,6 +76,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
+
 export default function HistoryMedicalrecord() {
 
     const classes = useStyles();
@@ -82,8 +88,6 @@ export default function HistoryMedicalrecord() {
     // const [decryption, setMedicalrecord] = useState<MedicalRecordInterface[]>([]);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
-
-
     const [chronics,setChronic]=useState<any[]>([])
     const [allergies,setAllergies]=useState<any[]>([])
     const[parents,setParents]=useState<any[]>([])
@@ -184,32 +188,36 @@ export default function HistoryMedicalrecord() {
               return res.data
               
             } else {
-              console.log("NoRRRRRRRR");
+              setError(true);
+              console.log(res);
             }
           });
       };
 
-
-      console.log(medicalrecord,":")
-    
-         
+      const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === "clickaway") {
+          return;
+        }
+        setSuccess(false);
+        setError(false);
+      };
       
-
-
-
-    
-
-
-
-
-   
-  
     return (
     <>
     <NavbarPatient/>
 
    
     <Container className={classes.container} maxWidth="lg">
+    <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+        Decriptionsuccess
+        </Alert>
+      </Snackbar>
+      <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error">
+          Decription fail  , invalid Key
+        </Alert>
+      </Snackbar>
     <Paper className={classes.paper}>
         <Box display="flex">
             <Box flexGrow={1}>
@@ -235,14 +243,9 @@ export default function HistoryMedicalrecord() {
 
 
         
-        <Divider />
-
-        
-
-
-                    
+        <Divider />                    
                     {medicalrecord.map((item: MedicalRecordInterface) => (
-                    <MenuItem value={item.ID} key={item.ID}>
+                    <MenuItem value={item.ID} key={item.ID}  >
                       <Grid container spacing={5}>
                       {/* <Grid item xs={5}>
                                 <p>ID</p>

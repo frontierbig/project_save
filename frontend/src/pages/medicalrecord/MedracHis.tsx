@@ -64,6 +64,7 @@ export default function HistoryMedicalracord() {
       <div>
           
       <Container className={classes.container} maxWidth="lg">
+  
         <Box display="flex">
           <Box flexGrow={1}>
             <Typography
@@ -139,6 +140,7 @@ export default function HistoryMedicalracord() {
             </TableBody>
           </Table>
         </TableContainer>
+     
       </Container>
     </div>
       )
