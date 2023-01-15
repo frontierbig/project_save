@@ -3,7 +3,7 @@ export interface MedicalRecordInterface {
     Hospital_Number : string, 
 	Personal_ID : string 
 
-	Patient_Name: string
+	Patient_ID: number
 	Patient_Age : number
 	Patient_gender : string
 	Patient_dob : Date

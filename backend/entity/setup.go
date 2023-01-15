@@ -74,7 +74,7 @@ func SetupDatabase() {
 	User3 := User{
 		Name:     "patient2",
 		Password: string(PasswordUser3),
-		Email:    "Big_2099%@hotmail.com",
+		Email:    "big_20995@hotmail.com",
 		Tel:      "045-XXXXXXX",
 		Gender:   "Female",
 		Brithday: time.Now().AddDate(-21, -11, 5),

@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sut64/team03/backend/entity"
 
-	// "net/smtp"
+	"net/smtp"
 	
 
 	"crypto/aes"
@@ -41,6 +41,7 @@ func ListUser(c *gin.Context) {
 func CreateMedicalRecord(c *gin.Context) {
 
 	var MedicalRecord entity.MedicalRecord
+	var User    entity.User
 	
 	
 
@@ -48,6 +49,13 @@ func CreateMedicalRecord(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	if tx := entity.DB().Where("id = ?",MedicalRecord.Patient_ID).First(&User); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
+		return
+	}
+
+	
 
 
 
@@ -65,33 +73,33 @@ func CreateMedicalRecord(c *gin.Context) {
 
 
 
-	//  // Sender data.
-	//  from := "big16635@gmail.com"
-	//  password := "vcxvgglchwchhzcj"
+	 // Sender data.
+	 from := "big16635@gmail.com"
+	 password := "vcxvgglchwchhzcj"
    
-	//  // Receiver email address.
-	//  to := []string{
-	//    "big166351@gmail.com",
-	//  }
+	 // Receiver email address.
+	 to := []string{
+	   User.Email,
+	 }
    
-	//  // smtp server configuration.
-	//  smtpHost := "smtp.gmail.com"
-	//  smtpPort := "587"
+	 // smtp server configuration.
+	 smtpHost := "smtp.gmail.com"
+	 smtpPort := "587"
    
    
-	//  // Message.
-	//  message := []byte("Key is "+key)
+	 // Message.
+	 message := []byte("Key is "+key)
 	 
-	//  // Authentication.
-	//  auth := smtp.PlainAuth("", from, password, smtpHost)
+	 // Authentication.
+	 auth := smtp.PlainAuth("", from, password, smtpHost)
 	 
-	//  // Sending email.
-	//  err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
-	//  if err != nil {
-	//    fmt.Println(err)
-	//    return
-	//  }
-	//  fmt.Println("Email Sent Successfully!")
+	 // Sending email.
+	 err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
+	 if err != nil {
+	   fmt.Println(err)
+	   return
+	 }
+	 fmt.Println("Email Sent Successfully!")
 
 	
 
@@ -128,7 +136,7 @@ func CreateMedicalRecord(c *gin.Context) {
 	mr := entity.MedicalRecord{
 		Hospital_Number:     MedicalRecord.Hospital_Number,
 		Personal_ID:         MedicalRecord.Personal_ID,
-		Patient_Name:        MedicalRecord.Patient_Name,
+		Patient:    User,
 		Patient_Age:         MedicalRecord.Patient_Age,
 		Patient_gender:      MedicalRecord.Patient_gender,
 		Patient_dob:         MedicalRecord.Patient_dob,

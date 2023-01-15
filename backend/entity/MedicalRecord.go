@@ -12,7 +12,8 @@ type MedicalRecord struct {
 	Hospital_Number string `gorm:"uniqueIndex"`
 	Personal_ID     string `gorm:"uniqueIndex"`
 
-	Patient_Name    string
+	Patient_ID      int
+	Patient    User  `gorm:"references:id"`
 	Patient_Age     int
 	Patient_gender  string
 	Patient_dob     time.Time

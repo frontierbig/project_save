@@ -184,6 +184,8 @@ export default function  MedrecPatient() {
       .then((res) => {
         console.log(res.data);
         if (res.data) {
+
+          console.log(res.data);
           setUser(res.data);
         } else {
           console.log("else");
@@ -198,7 +200,7 @@ export default function  MedrecPatient() {
       //?? ""
       Hospital_Number: medicalrecord.Hospital_Number?? "" ,
       Personal_ID: medicalrecord.Personal_ID ?? "",
-      Patient_Name:medicalrecord.Patient_Name?? "",
+      Patient_ID:medicalrecord.Patient_ID?? "",
       Patient_Age: typeof medicalrecord.Patient_Age === "string" ? parseInt(medicalrecord.Patient_Age) : NaN,
       Patient_gender:medicalrecord.Patient_gender?? "",
       // Patient_dob:medicalrecord.Patient_dob?? "",
@@ -249,7 +251,9 @@ export default function  MedrecPatient() {
 
     };
 
-    
+    console.log(data)
+
+   
     
    
     const apiUrl = "http://localhost:8080/api/CreateMedicalRecord";
@@ -342,26 +346,14 @@ return (
                    
 
 
-                    {/* <Grid item xs={5}>
-                        <p>Name</p>
-                        <TextField 
-                        
-                        id="Patient_Name" 
-                        type="string"
-                        inputProps={{name:"Patient_Name"}}
-                        variant="outlined" 
-                        value={medicalrecord.Patient_Name ||""}
-                        onChange={handleChange}                      
-                        fullWidth/>
-                    </Grid>
-                     */}
+                
 
                     <Grid item xs={5}>
                     <p>Name</p>
             <Select
               variant="outlined"
               defaultValue={0}
-              inputProps={{ name: "Patient_Name" }}
+              inputProps={{ name: "Patient_ID" }}
               onChange={handleChange}
            
               style={{ width: 350 }}
@@ -370,7 +362,7 @@ return (
                 SelectUser
               </MenuItem>
               {User.map((item: UserInterface) => (
-                <MenuItem value={item.Name} key={item.ID}>
+                <MenuItem value={item.ID} key={item.ID}>
                   {item.Name}
                 </MenuItem>
               ))}

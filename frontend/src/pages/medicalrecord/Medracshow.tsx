@@ -295,7 +295,7 @@ export default function HistoryMedicalrecord() {
                                id="Hospital_Number" 
                                type="string"
                                variant="outlined" 
-                               value={item.Patient_Name}                   
+                               value={item.Patient_ID}                   
                                fullWidth
                                />
                             </Grid>
