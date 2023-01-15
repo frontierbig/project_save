@@ -13,14 +13,18 @@ type User struct {
 	Password string
 	Tel      string
 	Gender   string
+	Key   string
+
 	Brithday time.Time
-
-	// Facility []Facility `gorm:"foreignKey:UserID"`
-
 	RoleID *uint
 	Role   Role
 
-}
+	
+
+
+
+
+}   
 
 type Role struct {
 	gorm.Model

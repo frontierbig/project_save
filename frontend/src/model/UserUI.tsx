@@ -9,6 +9,8 @@ export interface UserInterface{
 
     Role : RoleInterface,
     RoleID: number,
+
+    Key : string,
     // ID: string,
     // FirstName: string;
     // LastName: string;

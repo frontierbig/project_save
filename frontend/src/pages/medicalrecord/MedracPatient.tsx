@@ -24,6 +24,11 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { KeyboardDateTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
 import { MedicalRecordInterface } from '../../model/Medicalrec';
+import { UserInterface} from '../../model/UserUI';
+
+
+
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -58,6 +63,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ParentData=[{name:"Both_parent"},{name:"Guardain"},{name:"Mother Only"},{name:"Father Only"}];
 
+
 const ChronicData=[
   {name:"Asthma"},
   {name:"Heart disease / defect "},
@@ -91,6 +97,8 @@ const AllergiesData=[
 export default function  MedrecPatient() {
 
 
+  const [User, setUser] = useState<UserInterface[]>([]);
+
  const[parents,setParents]=useState<any[]>([])
  const [chronics,setChronic]=useState<any[]>([])
  const [allergies,setAllergies]=useState<any[]>([])
@@ -99,6 +107,7 @@ export default function  MedrecPatient() {
     setParents(ParentData);
     setChronic(ChronicData);
     setAllergies(AllergiesData);
+    getUser();
     },[]);
     
 
@@ -159,7 +168,28 @@ export default function  MedrecPatient() {
  
   };
 
-  console.log(chronics)
+  
+
+  const getUser= async() => {
+    const apiUrl = `http://localhost:8080/api/ListUser`; //ดึง
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+    };
+    fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res.data);
+        if (res.data) {
+          setUser(res.data);
+        } else {
+          console.log("else");
+        }
+      });
+    }
   
   const [ErrorMessage, setErrorMessage] = React.useState<String>();
 
@@ -218,6 +248,8 @@ export default function  MedrecPatient() {
 
 
     };
+
+    
     
    
     const apiUrl = "http://localhost:8080/api/CreateMedicalRecord";
@@ -310,7 +342,7 @@ return (
                    
 
 
-                    <Grid item xs={5}>
+                    {/* <Grid item xs={5}>
                         <p>Name</p>
                         <TextField 
                         
@@ -322,6 +354,28 @@ return (
                         onChange={handleChange}                      
                         fullWidth/>
                     </Grid>
+                     */}
+
+                    <Grid item xs={5}>
+                    <p>Name</p>
+            <Select
+              variant="outlined"
+              defaultValue={0}
+              inputProps={{ name: "Patient_Name" }}
+              onChange={handleChange}
+           
+              style={{ width: 350 }}
+            >
+              <MenuItem value={0} key={0} disabled>
+                SelectUser
+              </MenuItem>
+              {User.map((item: UserInterface) => (
+                <MenuItem value={item.Name} key={item.ID}>
+                  {item.Name}
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
 
                     <Grid item xs={5}>
                         <p>Age</p>

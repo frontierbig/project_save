@@ -6,14 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sut64/team03/backend/entity"
 
-	// "crypto/rand"
-	// "crypto/rsa"
-	// "crypto/sha256"
-	// "crypto/x509"
-	// "encoding/base64"
-	// "encoding/pem"
-	// "fmt"
-	// "golang.org/x/crypto/ssh"
+	// "net/smtp"
+	
 
 	"crypto/aes"
 	"crypto/cipher"
@@ -26,35 +20,86 @@ import (
 	"os"
 )
 
+
+
+func ListUser(c *gin.Context) {
+	var User []*entity.User
+	if err :=
+		entity.DB().Preload("Role").Raw("SELECT * FROM users WHERE role_id = 1").Find(&User).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	
+	c.JSON(http.StatusOK, gin.H{"data": User})
+}
+
+
+
+
+
 // POST /users
 func CreateMedicalRecord(c *gin.Context) {
 
 	var MedicalRecord entity.MedicalRecord
+	
+	
 
 	if err := c.ShouldBindJSON(&MedicalRecord); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	bytes := make([]byte, 32) //generate a random 32 byte key for AES-256
+
+
+
+
+
+
+
+	bytes := make([]byte, 32) ////generate a random 32 byte key for AES-256
 	if _, err := rand.Read(bytes); err != nil {
 		panic(err.Error())
 	}
 
-	key := hex.EncodeToString(bytes) //encode key in bytes to string and keep as secret, put in a vault
+	key := hex.EncodeToString(bytes) 
 
-	// fmt.Printf("key to encrypt/decrypt : %s\n", key)
-	// fmt.Println("my public key is...")
-	// fmt.Println(pubKey)
-	// fmt.Println("my private key is...")
-	// fmt.Println(privKey)
 
-	// test1, err := encrypt(MedicalRecord.Secret_Data, pubKey)
-	// if err != nil {
-	// 	return
-	// }
-	// fmt.Println("=============================================")
-	// fmt.Println(test1)
+
+	//  // Sender data.
+	//  from := "big16635@gmail.com"
+	//  password := "vcxvgglchwchhzcj"
+   
+	//  // Receiver email address.
+	//  to := []string{
+	//    "big166351@gmail.com",
+	//  }
+   
+	//  // smtp server configuration.
+	//  smtpHost := "smtp.gmail.com"
+	//  smtpPort := "587"
+   
+   
+	//  // Message.
+	//  message := []byte("Key is "+key)
+	 
+	//  // Authentication.
+	//  auth := smtp.PlainAuth("", from, password, smtpHost)
+	 
+	//  // Sending email.
+	//  err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
+	//  if err != nil {
+	//    fmt.Println(err)
+	//    return
+	//  }
+	//  fmt.Println("Email Sent Successfully!")
+
+	
+
+
+
+
+
+
 
 	f, err := os.Create("data.txt")
 
@@ -75,6 +120,7 @@ func CreateMedicalRecord(c *gin.Context) {
 
 	fmt.Println(n, "bytes written")
 	fmt.Println("done")
+
 
 	encrypted := encrypt(MedicalRecord.Secret_Data, key)
 	fmt.Printf("encrypted : %s\n", encrypted)
@@ -137,9 +183,18 @@ func CreateMedicalRecord(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": mr})
 }
 
+
 type Payload struct {
 	Decryption string `json:"decryption"`
 }
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
 
 func DecryptionMedicalRecord(c *gin.Context) {
 
@@ -170,6 +225,8 @@ func DecryptionMedicalRecord(c *gin.Context) {
 
 }
 
+
+
 func ListMedicalRecord(c *gin.Context) {
 	var MedicalRecord []*entity.MedicalRecord
 	if err :=
@@ -192,7 +249,6 @@ func ListMedicalRecordByID(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{"data": MedicalRecord})
 
 }
@@ -202,6 +258,8 @@ func encrypt(stringToEncrypt string, keyString string) (encryptedString string) 
 	//Since the key is in string, we need to convert decode it to bytes
 	key, _ := hex.DecodeString(keyString)
 	plaintext := []byte(stringToEncrypt)
+
+	
 
 	//Create a new Cipher Block from the key
 	block, err := aes.NewCipher(key)

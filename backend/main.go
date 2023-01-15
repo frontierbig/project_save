@@ -20,11 +20,13 @@ func main() {
 		protected := api.Use(middlewares.Authorizes())
 		{
 			protected.GET("api/ListDoctor", controller.ListDoctor)
+			protected.GET("api/ListUser", controller.ListUser)
 			protected.POST("/api/CreateMedicalRecord", MedicalRecord.CreateMedicalRecord)
 			protected.GET("/api/ListMedicalRecord", MedicalRecord.ListMedicalRecord)
 			// protected.GET("/api/DecryptionMedicalRecord", MedicalRecord.DecryptionMedicalRecord)
 			protected.POST("/api/DecryptionMedicalRecord/:MedrecID", MedicalRecord.DecryptionMedicalRecord)
 			protected.GET("/api/ListMedicalRecord/:MedrecID", MedicalRecord.ListMedicalRecordByID)
+
 
 		}
 	}
