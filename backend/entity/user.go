@@ -20,7 +20,7 @@ type User struct {
 	Role   Role
 
 	MedicalRecord []MedicalRecord `gorm:"foreignKey:Patient_ID"`
-
+	Treatment   []Treatment `gorm:"foreignKey:Patient_ID"`
 
 }   
 

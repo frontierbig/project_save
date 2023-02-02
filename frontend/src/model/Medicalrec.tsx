@@ -53,6 +53,8 @@ export interface MedicalRecordInterface {
 
 	Secret_Data: string
 
+	Master_Key :string
+
   
   }
   

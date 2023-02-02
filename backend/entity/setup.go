@@ -21,7 +21,7 @@ func SetupDatabase() {
 	}
 
 	// Migrate the schema
-	database.AutoMigrate( &MedicalRecord{}, &Doctor{},&User{})
+	database.AutoMigrate( &MedicalRecord{}, &Doctor{},&User{},&Treatment{})
 
 	db = database
 
@@ -39,6 +39,11 @@ func SetupDatabase() {
 		Name: "admin",
 	}
 	db.Model(&Role{}).Create(&Role3)
+
+	
+
+
+	
 
 	//setup User ----------------------------------------------------------------------
 	PasswordUser1, err := bcrypt.GenerateFromPassword([]byte("123"), 14)
@@ -78,7 +83,6 @@ func SetupDatabase() {
 		Tel:      "045-XXXXXXX",
 		Gender:   "Female",
 		Brithday: time.Now().AddDate(-21, -11, 5),
-		Key:      "3667fd42587b54305e51791f38953782fac847c9f78ff9dc25fa2407a866ed4e",
 		Role:     Role1,
 	}
 	db.Model(&User{}).Create(&User3)

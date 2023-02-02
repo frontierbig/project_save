@@ -59,4 +59,6 @@ type MedicalRecord struct {
 	Medicine_drugs bool
 
 	Secret_Data string
+
+	Master_Key string
 }

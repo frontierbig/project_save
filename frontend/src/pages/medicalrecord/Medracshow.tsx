@@ -144,7 +144,7 @@ export default function HistoryMedicalrecord() {
     useEffect(() => {
       getMedicalracordByID();
       setParents(ParentData);
-     setChronic(ChronicData);
+      setChronic(ChronicData);
       setAllergies(AllergiesData);
 
       

@@ -9,15 +9,15 @@ import (
 	"net/smtp"
 	
 
-	"crypto/aes"
-	"crypto/cipher"
+	// "crypto/aes"
+	// "crypto/cipher"
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
-	"io"
+	// "io"
 
-	"log"
-	"os"
+	// "log"
+	// "os"
 )
 
 
@@ -59,11 +59,6 @@ func CreateMedicalRecord(c *gin.Context) {
 
 
 
-
-
-
-
-
 	bytes := make([]byte, 32) ////generate a random 32 byte key for AES-256
 	if _, err := rand.Read(bytes); err != nil {
 		panic(err.Error())
@@ -88,7 +83,7 @@ func CreateMedicalRecord(c *gin.Context) {
    
    
 	 // Message.
-	 message := []byte("Key is "+key)
+	 message := []byte("Patient Key is "+key)
 	 
 	 // Authentication.
 	 auth := smtp.PlainAuth("", from, password, smtpHost)
@@ -103,35 +98,58 @@ func CreateMedicalRecord(c *gin.Context) {
 
 	
 
+	// encrypted ,err := encrypt(MedicalRecord.Secret_Data, key)
+	//  if err != nil{
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	//  }
+	// encryptedKey ,err:= encrypt(key,MedicalRecord.Master_Key)
+	// if err != nil{
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	//  }
+
+
+	//ลองถอดรหัส 
+
+	// patientkeytest, err := decrypt("d5dd99f8ed05be83c3212b6756caeac9e7c1b8df9d44a7f8cf1c403125894fd751a3ecce6caacdd12c56ae470a7be218c10e83cb30ec342d6478da5ff9c56df1fd2fc61c09d9894cd8da206abeb268ae532ad0e994627d36e4e28eab", "692546ad410fd46d09be787077942d972d6173d0ce50559df470adc016d4c7fa", c)
+	// if err != nil {
+	// 	c.JSON(http.StatusBadRequest, err.Error())
+	// 	return
+	// }
+	// // patientkeytest := decrypted("d5dd99f8ed05be83c3212b6756caeac9e7c1b8df9d44a7f8cf1c403125894fd751a3ecce6caacdd12c56ae470a7be218c10e83cb30ec342d6478da5ff9c56df1fd2fc61c09d9894cd8da206abeb268ae532ad0e994627d36e4e28eab",
+	// // "692546ad410fd46d09be787077942d972d6173d0ce50559df470adc016d4c7fa")
+
+	//  fmt.Println(patientkeytest)
+	
+		
+	
+
+	// f, err := os.Create("KeypatientEncrype.txt")
+
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// defer f.Close()
+	// n, err := fmt.Fprintln(f, encryptedKey)
+
+	// if err != nil {
+
+	// 	log.Fatal(err)
+	// }
+	// if err != nil {
+
+	// 	log.Fatal(err)
+	// }
+
+	// fmt.Println(n, "bytes written")
+	// fmt.Println("done")
+
+	
 
 
 
-
-
-
-	f, err := os.Create("data.txt")
-
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer f.Close()
-	n, err := fmt.Fprintln(f, key)
-
-	if err != nil {
-
-		log.Fatal(err)
-	}
-	if err != nil {
-
-		log.Fatal(err)
-	}
-
-	fmt.Println(n, "bytes written")
-	fmt.Println("done")
-
-
-	encrypted := encrypt(MedicalRecord.Secret_Data, key)
-	fmt.Printf("encrypted : %s\n", encrypted)
+	// fmt.Printf("encrypted : %s\n", encrypted)
 
 	mr := entity.MedicalRecord{
 		Hospital_Number:     MedicalRecord.Hospital_Number,
@@ -180,7 +198,8 @@ func CreateMedicalRecord(c *gin.Context) {
 
 
 		// Secret_Data : MedicalRecord.Secret_Data,
-		Secret_Data: encrypted,
+		// Secret_Data: encrypted,
+		
 	}
 
 	// 12: บันทึก
@@ -192,10 +211,9 @@ func CreateMedicalRecord(c *gin.Context) {
 }
 
 
-type Payload struct {
-	Decryption string `json:"decryption"`
-}
-
+// type Payload struct {
+// 	Decryption string `json:"decryption"`
+// }
 
 
 
@@ -261,68 +279,70 @@ func ListMedicalRecordByID(c *gin.Context) {
 
 }
 
-func encrypt(stringToEncrypt string, keyString string) (encryptedString string) {
+// func encrypt(stringToEncrypt string, keyString string) (encryptedString string) {
 
-	//Since the key is in string, we need to convert decode it to bytes
-	key, _ := hex.DecodeString(keyString)
-	plaintext := []byte(stringToEncrypt)
+// 	//Since the key is in string, we need to convert decode it to bytes
+// 	key, _ := hex.DecodeString(keyString)
+// 	plaintext := []byte(stringToEncrypt)
 
 	
 
-	//Create a new Cipher Block from the key
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		panic(err.Error())
-	}
+// 	//Create a new Cipher Block from the key
+// 	block, err := aes.NewCipher(key)
+// 	if err != nil {
+// 		panic(err.Error())
+// 	}
 
-	//Create a new GCM - https://en.wikipedia.org/wiki/Galois/Counter_Mode
-	//https://golang.org/pkg/crypto/cipher/#NewGCM
-	aesGCM, err := cipher.NewGCM(block)
-	if err != nil {
-		panic(err.Error())
-	}
+// 	//Create a new GCM - https://en.wikipedia.org/wiki/Galois/Counter_Mode
+// 	//https://golang.org/pkg/crypto/cipher/#NewGCM
+// 	aesGCM, err := cipher.NewGCM(block)
+// 	if err != nil {
+// 		panic(err.Error())
+// 	}
 
-	//Create a nonce. Nonce should be from GCM
-	nonce := make([]byte, aesGCM.NonceSize())
-	if _, err = io.ReadFull(rand.Reader, nonce); err != nil {
-		panic(err.Error())
-	}
+// 	//Create a nonce. Nonce should be from GCM
+// 	nonce := make([]byte, aesGCM.NonceSize())
+// 	if _, err = io.ReadFull(rand.Reader, nonce); err != nil {
+// 		panic(err.Error())
+// 	}
 
-	//Encrypt the data using aesGCM.Seal
-	//Since we don't want to save the nonce somewhere else in this case, we add it as a prefix to the encrypted data. The first nonce argument in Seal is the prefix.
-	ciphertext := aesGCM.Seal(nonce, nonce, plaintext, nil)
-	return fmt.Sprintf("%x", ciphertext)
-}
+// 	//Encrypt the data using aesGCM.Seal
+// 	//Since we don't want to save the nonce somewhere else in this case, we add it as a prefix to the encrypted data. The first nonce argument in Seal is the prefix.
+// 	ciphertext := aesGCM.Seal(nonce, nonce, plaintext, nil)
+// 	return fmt.Sprintf("%x", ciphertext)
+// }
 
-func decrypt(encryptedString string, keyString string, c *gin.Context) (decryptedString string, err error) {
+// func decrypt(encryptedString string, keyString string, c *gin.Context) (decryptedString string, err error) {
 
-	key, _ := hex.DecodeString(keyString)
-	enc, _ := hex.DecodeString(encryptedString)
+// 	key, _ := hex.DecodeString(keyString)
+// 	enc, _ := hex.DecodeString(encryptedString)
 
-	//Create a new Cipher Block from the key
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		//panic(err.Error())
-		return "", err
-	}
+// 	//Create a new Cipher Block from the key
+// 	block, err := aes.NewCipher(key)
+// 	if err != nil {
+// 		//panic(err.Error())
+// 		return "", err
+// 	}
 
-	//Create a new GCM
-	aesGCM, err := cipher.NewGCM(block)
-	if err != nil {
-		return "", err
-	}
+// 	//Create a new GCM
+// 	aesGCM, err := cipher.NewGCM(block)
+// 	if err != nil {
+// 		return "", err
+// 	}
 
-	//Get the nonce size
-	nonceSize := aesGCM.NonceSize()
+// 	//Get the nonce size
+// 	nonceSize := aesGCM.NonceSize()
 
-	//Extract the nonce from the encrypted data
-	nonce, ciphertext := enc[:nonceSize], enc[nonceSize:]
+// 	//Extract the nonce from the encrypted data
+// 	nonce, ciphertext := enc[:nonceSize], enc[nonceSize:]
 
-	//Decrypt the data
-	plaintext, err := aesGCM.Open(nil, nonce, ciphertext, nil)
-	if err != nil {
-		return "", err
-	}
-	println(plaintext)
-	return fmt.Sprintf("%s", plaintext), nil
-}
+// 	//Decrypt the data
+// 	plaintext, err := aesGCM.Open(nil, nonce, ciphertext, nil)
+// 	if err != nil {
+// 		return "", err
+// 	}
+// 	println(plaintext)
+// 	return fmt.Sprintf("%s", plaintext), nil
+// }
+
+

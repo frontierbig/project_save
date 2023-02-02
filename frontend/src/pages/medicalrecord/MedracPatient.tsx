@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
       textAlign: 'left',
       color: theme.palette.text.secondary,
-      marginTop:theme.spacing(15),
+      marginTop:theme.spacing(4),
     
     },
     container: { marginTop: theme.spacing(2) },
@@ -219,6 +219,7 @@ export default function  MedrecPatient() {
       Current_medications:medicalrecord.Current_medications?? "",
 
       Secret_Data:medicalrecord.Secret_Data?? "",
+      Master_Key :medicalrecord.Master_Key??"",
 
       Asthma:chronics[0].isChecked?true:false,
       Heart_disease:chronics[1].isChecked?true:false,
@@ -243,6 +244,8 @@ export default function  MedrecPatient() {
 	    Hay_Fever : allergies[4].isChecked?true:false,
 	    Insect_Stings : allergies[5].isChecked?true:false,
 	    Medicine_drugs : allergies[6].isChecked?true:false,
+
+      
 
     
 
@@ -344,9 +347,6 @@ return (
                     </Grid>
 
                    
-
-
-                
 
                     <Grid item xs={5}>
                     <p>Name</p>
@@ -604,7 +604,15 @@ return (
                     </Grid>
 
                     <Grid item xs={5}>
-                    
+                        <p>Master Key</p>
+                        <TextField 
+                        id="Master_Key" 
+                        type="string"
+                        inputProps={{name:"Master_Key"}}
+                        variant="outlined" 
+                        value={medicalrecord.Master_Key ||""}
+                        onChange={handleChange}                      
+                        fullWidth/>
                     </Grid>
 
                     <Grid item xs={6}>
@@ -628,10 +636,7 @@ return (
                         บันทึก
                       </Button>
                     </Grid>
-
-                    
-
-        
+                  
                 </Grid>   
         
         </Paper>

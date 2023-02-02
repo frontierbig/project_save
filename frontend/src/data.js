@@ -25,18 +25,18 @@ export const links = [
 ]
 
 export const linksPatient = [
-    {
-        name: "Home",
-        path: '/'
-    },
-    {
-        name: "Doctor",
-        path: '/doctorpatient'
-    },
-    {
-        name: "Department",
-        path: '/departmentpatient'
-    },
+    // {
+    //     name: "Home",
+    //     path: '/'
+    // },
+    // {
+    //     name: "Doctor",
+    //     path: '/doctorpatient'
+    // },
+    // {
+    //     name: "Department",
+    //     path: '/departmentpatient'
+    // },
     {   
         name:"Medicalrecord",
         path: '/recordpatient'

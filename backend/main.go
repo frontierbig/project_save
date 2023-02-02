@@ -7,6 +7,7 @@ import (
 	"github.com/sut64/team03/backend/middlewares"
 
 	MedicalRecord "github.com/sut64/team03/backend/controller"
+	Treatment   "github.com/sut64/team03/backend/controller"
 )
 
 func main() {
@@ -21,7 +22,15 @@ func main() {
 		{
 			protected.GET("api/ListDoctor", controller.ListDoctor)
 			protected.GET("api/ListUser", controller.ListUser)
+
+
+
 			protected.POST("/api/CreateMedicalRecord", MedicalRecord.CreateMedicalRecord)
+			protected.POST("/api/CreateTreatment", Treatment.CreateTreatment)
+
+
+
+
 			protected.GET("/api/ListMedicalRecord", MedicalRecord.ListMedicalRecord)
 			// protected.GET("/api/DecryptionMedicalRecord", MedicalRecord.DecryptionMedicalRecord)
 			protected.POST("/api/DecryptionMedicalRecord/:MedrecID", MedicalRecord.DecryptionMedicalRecord)
