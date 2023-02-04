@@ -14,7 +14,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
-
 	// "log"
 	// "os"
 )
@@ -24,6 +23,7 @@ func CreateTreatment(c *gin.Context) {
 
 	var Treatment entity.Treatment
 	var User entity.User
+	var key string
 
 	if err := c.ShouldBindJSON(&Treatment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -36,12 +36,19 @@ func CreateTreatment(c *gin.Context) {
 	}
 
 	//เช็คก่อนว่า User มีกุญแจหรือยัง ถ้ามีแล้ว ให้ใช้อันนั้น ถ้าไม่มีให้ สร้างใหม่แล้ว Update ให้  user คนนั้น
-	bytes := make([]byte, 32) ////generate a random 32 byte key for AES-256
+
+
+	if User.Key == ""{
+		bytes := make([]byte, 32) ////generate a random 32 byte key for AES-256
 	if _, err := rand.Read(bytes); err != nil {
 		panic(err.Error())
 	}
 
-	key := hex.EncodeToString(bytes)
+	key = hex.EncodeToString(bytes)
+		
+
+	}
+	
 
 	// // Sender data.
 	// from := "big16635@gmail.com"
@@ -70,66 +77,35 @@ func CreateTreatment(c *gin.Context) {
 	// }
 	// fmt.Println("Email Sent Successfully!")
 
-	encrypted_Diagnosis,err := encrypt(Treatment.Diagnosis_results, key)
+	encrypted_Diagnosis, err := encrypt(Treatment.Diagnosis_results, key)
 
-	if err != nil{
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
-	 }
+	}
 
+	encrypted_Method_treatment, err := encrypt(Treatment.Method_treatment, key)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	encryptedKey, err := encrypt("key", Treatment.Master_Key)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Incorrect Key"})
+		return
+	}
+
+
+
+	if err := entity.DB().Raw("UPDATE users SET key = ? WHERE id = ?", encryptedKey,User.ID).Find(&User).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	
-	encrypted_Method_treatment,err := encrypt(Treatment.Method_treatment, key)
-	if err != nil{
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	 }
-
-	encryptedKey,err := encrypt("ASDFDASFSDAFSDA",Treatment.Master_Key)
-	if err != nil{
-		c.JSON(http.StatusBadRequest, gin.H{"error": "WORNFASD"})
-		return
-	 }
-
-	//ลองถอดรหัส
-
-	// patientkeytest, err := decrypt("d5dd99f8ed05be83c3212b6756caeac9e7c1b8df9d44a7f8cf1c403125894fd751a3ecce6caacdd12c56ae470a7be218c10e83cb30ec342d6478da5ff9c56df1fd2fc61c09d9894cd8da206abeb268ae532ad0e994627d36e4e28eab", "692546ad410fd46d09be787077942d972d6173d0ce50559df470adc016d4c7fa", c)
-	// if err != nil {
-	// 	c.JSON(http.StatusBadRequest, err.Error())
-	// 	return
-	// }
-	// // patientkeytest := decrypted("d5dd99f8ed05be83c3212b6756caeac9e7c1b8df9d44a7f8cf1c403125894fd751a3ecce6caacdd12c56ae470a7be218c10e83cb30ec342d6478da5ff9c56df1fd2fc61c09d9894cd8da206abeb268ae532ad0e994627d36e4e28eab",
-	// // "692546ad410fd46d09be787077942d972d6173d0ce50559df470adc016d4c7fa")
-
-	//  fmt.Println(patientkeytest)
 
 
 
-
-
-
-
-    // เชียน Key ไว้ใน Base
-	// f, err := os.Create("KeypatientEncrype.txt")
-
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// defer f.Close()
-	// n, err := fmt.Fprintln(f, encryptedKey)
-
-	// if err != nil {
-
-	// 	log.Fatal(err)
-	// }
-	// if err != nil {
-
-	// 	log.Fatal(err)
-	// }
-
-	// fmt.Println(n, "bytes written")
-	// fmt.Println("done")
-
-	// fmt.Printf("encrypted : %s\n", encrypted_Diagnosis)
 
 	mr := entity.Treatment{
 
@@ -138,7 +114,7 @@ func CreateTreatment(c *gin.Context) {
 		Diagnosis_results: encrypted_Diagnosis,
 		Method_treatment:  encrypted_Method_treatment,
 		Appointment:       Treatment.Appointment,
-		Master_Key: encryptedKey,
+		Master_Key:        encryptedKey,
 
 		// Secret_Data : Treatment.Secret_Data,
 
@@ -156,10 +132,7 @@ type Payload struct {
 	Decryption string `json:"decryption"` // ต้องสร้างฟิลมารับ Decrypt tion อยู่หน้า medrecshow
 }
 
-////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
+
 
 type Datadecryptreturn struct {
 	Diagnosis       string `json:"diagnosis"`
@@ -229,7 +202,7 @@ func ListTreatmentByID(c *gin.Context) {
 
 }
 
-func encrypt(stringToEncrypt string, keyString string) (encryptedString string,err error) {
+func encrypt(stringToEncrypt string, keyString string) (encryptedString string, err error) {
 
 	//Since the key is in string, we need to convert decode it to bytes
 	key, _ := hex.DecodeString(keyString)
@@ -238,7 +211,7 @@ func encrypt(stringToEncrypt string, keyString string) (encryptedString string,e
 	//Create a new Cipher Block from the key
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		return "",err
+		return "", err
 
 	}
 
@@ -246,21 +219,20 @@ func encrypt(stringToEncrypt string, keyString string) (encryptedString string,e
 	//https://golang.org/pkg/crypto/cipher/#NewGCM
 	aesGCM, err := cipher.NewGCM(block)
 	if err != nil {
-		return "",err
+		return "", err
 
 	}
-
 
 	//Create a nonce. Nonce should be from GCM
 	nonce := make([]byte, aesGCM.NonceSize())
 	if _, err = io.ReadFull(rand.Reader, nonce); err != nil {
-		return "",err
+		return "", err
 	}
 
 	//Encrypt the data using aesGCM.Seal
 	//Since we don't want to save the nonce somewhere else in this case, we add it as a prefix to the encrypted data. The first nonce argument in Seal is the prefix.
 	ciphertext := aesGCM.Seal(nonce, nonce, plaintext, nil)
-	return fmt.Sprintf("%x", ciphertext),nil
+	return fmt.Sprintf("%x", ciphertext), nil
 }
 
 func decrypt(encryptedString string, keyString string, c *gin.Context) (decryptedString string, err error) {
