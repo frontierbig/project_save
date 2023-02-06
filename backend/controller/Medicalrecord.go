@@ -6,13 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sut64/team03/backend/entity"
 
-	"net/smtp"
+	// "net/smtp"
 	
 
 	// "crypto/aes"
 	// "crypto/cipher"
 	"crypto/rand"
-	"encoding/hex"
+	// "encoding/hex"
 	"fmt"
 	// "io"
 
@@ -64,37 +64,37 @@ func CreateMedicalRecord(c *gin.Context) {
 		panic(err.Error())
 	}
 
-	key := hex.EncodeToString(bytes) 
+	// key := hex.EncodeToString(bytes) 
 
 
 
-	 // Sender data.
-	 from := "big16635@gmail.com"
-	 password := "vcxvgglchwchhzcj"
+	//  // Sender data.
+	//  from := "big16635@gmail.com"
+	//  password := "vcxvgglchwchhzcj"
    
-	 // Receiver email address.
-	 to := []string{
-	   User.Email,
-	 }
+	//  // Receiver email address.
+	//  to := []string{
+	//    User.Email,
+	//  }
    
-	 // smtp server configuration.
-	 smtpHost := "smtp.gmail.com"
-	 smtpPort := "587"
+	//  // smtp server configuration.
+	//  smtpHost := "smtp.gmail.com"
+	//  smtpPort := "587"
    
    
-	 // Message.
-	 message := []byte("Patient Key is "+key)
+	//  // Message.
+	//  message := []byte("Patient Key is "+key)
 	 
-	 // Authentication.
-	 auth := smtp.PlainAuth("", from, password, smtpHost)
+	//  // Authentication.
+	//  auth := smtp.PlainAuth("", from, password, smtpHost)
 	 
-	 // Sending email.
-	 err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
-	 if err != nil {
-	   fmt.Println(err)
-	   return
-	 }
-	 fmt.Println("Email Sent Successfully!")
+	//  // Sending email.
+	//  err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
+	//  if err != nil {
+	//    fmt.Println(err)
+	//    return
+	//  }
+	//  fmt.Println("Email Sent Successfully!")
 
 	
 
