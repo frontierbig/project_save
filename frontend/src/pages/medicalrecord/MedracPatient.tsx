@@ -286,8 +286,8 @@ return (
    
     <Container className={classes.container} maxWidth="lg">
     <Paper className={classes.paper}>
-        <Box display="flex">
-            <Box flexGrow={1}>
+        <div >
+            <div >
 
             <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
@@ -313,8 +313,8 @@ return (
                     Personal Health and Medical Record 
                 </Typography>
 
-            </Box>
-        </Box>
+            </div>
+        </div>
         <Divider />
 
         <h3>Participant information</h3>

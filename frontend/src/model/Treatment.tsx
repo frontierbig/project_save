@@ -8,7 +8,9 @@ export interface TreatmentInterface {
     Appointment: Date,
 
 
-	Master_Key :string
+    Doctor_ID  :number,
+    Encription_Key: string ,
+
 
   
   }

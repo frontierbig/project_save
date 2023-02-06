@@ -6,8 +6,16 @@ import (
 	"gorm.io/gorm"
 )
 
+type Model struct {
+	ID        uint `gorm:"primarykey" json:"id"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
+}
+
+
 type MedicalRecord struct {
-	gorm.Model
+	Model 
 
 	Hospital_Number string `gorm:"uniqueIndex"`
 	Personal_ID     string `gorm:"uniqueIndex"`

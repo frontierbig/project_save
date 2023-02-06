@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut64/team03/backend/entity"
@@ -17,38 +18,62 @@ import (
 	// "log"
 	// "os"
 )
+type TreatmentPayload struct {
+	Master_Key string // ต้องสร้างฟิลมารับ Decrypt tion อยู่หน้า medrecshow
+	Patient_ID	uint
+	Diagnosis_results  string      
+	Method_treatment	string
+	Appointment_time	time.Time
+	Doctor_ID  uint
+}
 
 // POST /users
 func CreateTreatment(c *gin.Context) {
 
-	var Treatment entity.Treatment
+	var Patient entity.User
 	var User entity.User
-	var key string
+	// var Master_key TreatmentPayload
+	var payload TreatmentPayload
 
-	if err := c.ShouldBindJSON(&Treatment); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+	if err := c.ShouldBindJSON(&payload); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณากรอกข้อมูลให้ถูกต้อง"})
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", Treatment.Patient_ID).First(&User); tx.RowsAffected == 0 {
+	fmt.Println("is playlode", payload.Master_Key)
+
+	if tx := entity.DB().Where("id = ?", payload.Patient_ID).First(&Patient); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Patient not found"})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", payload.Doctor_ID).First(&User); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
 		return
 	}
 
+
+
+
 	//เช็คก่อนว่า User มีกุญแจหรือยัง ถ้ามีแล้ว ให้ใช้อันนั้น ถ้าไม่มีให้ สร้างใหม่แล้ว Update ให้  user คนนั้น
 
+	// if User.Key == ""{
+	// 	bytes := make([]byte, 32) ////generate a random 32 byte key for AES-256
+	// if _, err := rand.Read(bytes); err != nil {
+	// 	panic(err.Error())
+	// }
 
-	if User.Key == ""{
-		bytes := make([]byte, 32) ////generate a random 32 byte key for AES-256
+	// key = hex.EncodeToString(bytes)
+
+	// }
+
+	bytes := make([]byte, 32) ////generate a random 32 byte key for AES-256
 	if _, err := rand.Read(bytes); err != nil {
 		panic(err.Error())
 	}
 
-	key = hex.EncodeToString(bytes)
-		
-
-	}
-	
+	key := hex.EncodeToString(bytes)
 
 	// // Sender data.
 	// from := "big16635@gmail.com"
@@ -77,44 +102,41 @@ func CreateTreatment(c *gin.Context) {
 	// }
 	// fmt.Println("Email Sent Successfully!")
 
-	encrypted_Diagnosis, err := encrypt(Treatment.Diagnosis_results, key)
+	encrypted_Diagnosis, err := encrypt(payload.Diagnosis_results, key)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	encrypted_Method_treatment, err := encrypt(Treatment.Method_treatment, key)
+	encrypted_Method_treatment, err := encrypt(payload.Method_treatment, key)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	encryptedKey, err := encrypt("key", Treatment.Master_Key)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Incorrect Key"})
-		return
-	}
 
-
-
-	if err := entity.DB().Raw("UPDATE users SET key = ? WHERE id = ?", encryptedKey,User.ID).Find(&User).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 	
+	encryptedKey, err := encrypt(key, payload.Master_Key)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Incorrect Master Key"})
+		return
+	}
 
-
-
+	// if err := entity.DB().Raw("UPDATE users SET key = ? WHERE id = ?", encryptedKey,User.ID).Find(&User).Error; err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
 
 	mr := entity.Treatment{
 
-		Patient: User,
-		// Diagnosis_results:         Treatment.Diagnosis_results,
+		Patient: Patient,
 		Diagnosis_results: encrypted_Diagnosis,
 		Method_treatment:  encrypted_Method_treatment,
-		Appointment:       Treatment.Appointment,
-		Master_Key:        encryptedKey,
+		Appointment:       payload.Appointment_time,
+
+		Encription_Key: encryptedKey,
+		Doctor: User,
 
 		// Secret_Data : Treatment.Secret_Data,
 
@@ -131,8 +153,6 @@ func CreateTreatment(c *gin.Context) {
 type Payload struct {
 	Decryption string `json:"decryption"` // ต้องสร้างฟิลมารับ Decrypt tion อยู่หน้า medrecshow
 }
-
-
 
 type Datadecryptreturn struct {
 	Diagnosis       string `json:"diagnosis"`

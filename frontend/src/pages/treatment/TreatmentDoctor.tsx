@@ -25,6 +25,7 @@ import { KeyboardDateTimePicker, KeyboardDatePicker } from '@material-ui/pickers
 import { MedicalRecordInterface } from '../../model/Medicalrec';
 import { TreatmentInterface } from '../../model/Treatment';
 import { UserInterface} from '../../model/UserUI';
+import { MasterkeyInterface } from '../../model/Decryption';
 
 import { DateTimePicker } from "@material-ui/pickers";
 
@@ -70,8 +71,9 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function  MedrecPatient() {
 
 
-  const [User, setUser] = useState<UserInterface[]>([]);
+  const [patient, setPatient] = useState<UserInterface[]>([]);
 
+  const User: UserInterface = JSON.parse(localStorage.getItem("User") || "");
 
 
  
@@ -89,8 +91,7 @@ export default function  MedrecPatient() {
   const classes = useStyles();
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
-  
-  
+  const [masterkey, setMasterkey] = useState<Partial<MasterkeyInterface>>( {} );
   const [treatment, setTreatment] = useState<Partial<TreatmentInterface>>(
     {}
   );
@@ -108,6 +109,11 @@ export default function  MedrecPatient() {
   const handleChange = (event: ChangeEvent<{name?: string; value: unknown}>) => {
     const name = event.target.name as keyof typeof treatment;
     setTreatment({...treatment, [name]: event.target.value,});
+  }; 
+
+  const handleChangekey = (event: ChangeEvent<{name?: string; value: any}>) => {
+    const name = event.target.name as keyof typeof masterkey;
+    setMasterkey({...masterkey,[name]: event.target.value,});
   }; 
 
   const handleDateChange = (date: Date | null) => {
@@ -135,7 +141,7 @@ export default function  MedrecPatient() {
         if (res.data) {
 
           console.log(res.data);
-          setUser(res.data);
+          setPatient(res.data);
         } else {
           console.log("else");
         }
@@ -152,10 +158,9 @@ export default function  MedrecPatient() {
       Patient_ID:treatment.Patient_ID?? "",
       Diagnosis_results : treatment.Diagnosis_results??"",      
       Method_treatment : treatment.Method_treatment??"",
-      Appointment_time : treatment.Appointment??"",
-      Master_Key :treatment.Master_Key??"",
-    
-
+      Appointment_time : selectedDate??"",
+      Master_Key  :  masterkey.Master_Key??"",
+      Doctor_ID : User.ID
     };
 
     console.log(data)
@@ -188,8 +193,8 @@ return (
    
     <Container className={classes.container} maxWidth="md">
     <Paper className={classes.paper}>
-        <Box display="flex">
-            <Box flexGrow={1}>
+        <div >
+            <div >
 
             <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
@@ -215,8 +220,8 @@ return (
                     Treatment
                 </Typography>
 
-            </Box>
-        </Box>
+            </div>
+        </div>
         <Divider />
 
         
@@ -237,7 +242,7 @@ return (
                               <MenuItem value={0} key={0} disabled>
                 SelectUser
               </MenuItem>
-                     {User.map((item: UserInterface) => (
+                     {patient.map((item: UserInterface) => (
                 <MenuItem value={item.ID} key={item.ID}>
                   {item.Name}
                 </MenuItem>
@@ -246,12 +251,6 @@ return (
                     </Grid>
 
 
-                   
-
-
-                
-
-          
 
                     <Grid item xs={5}>
                        
@@ -335,8 +334,8 @@ return (
                         type="string"
                         inputProps={{name:"Master_Key"}}
                         variant="outlined" 
-                        value={treatment.Master_Key ||""}
-                        onChange={handleChange}                      
+                        value={masterkey.Master_Key ||""}
+                        onChange={handleChangekey}                      
                         fullWidth/>
                     </Grid>
                     

@@ -174,7 +174,6 @@ export default function HistoryMedicalrecord() {
             "Content-Type": "application/json",
           },
           body:JSON.stringify(decryption),
-          
         };
        
         fetch(apiUrl, requestOptions)
@@ -219,8 +218,8 @@ export default function HistoryMedicalrecord() {
         </Alert>
       </Snackbar>
     <Paper className={classes.paper}>
-        <Box display="flex">
-            <Box flexGrow={1}>
+        <div >
+            <div >
 
       <br/><br/> 
       
@@ -237,9 +236,9 @@ export default function HistoryMedicalrecord() {
                     ข้อมูลป่วย
                 </Typography>
 
-            </Box>
+            </div>
             
-        </Box>
+        </div>
 
 
         
@@ -480,7 +479,7 @@ export default function HistoryMedicalrecord() {
                           </Grid>
                           
 
-                            <Grid item xs={12}>
+                            {/* <Grid item xs={12}>
                             <h3>Secret Data</h3>
                             </Grid>
 
@@ -536,7 +535,7 @@ export default function HistoryMedicalrecord() {
                       >
                         Decryption
                       </Button>
-                    </Grid>
+                    </Grid> */}
 
                       </Grid>
                     </MenuItem>

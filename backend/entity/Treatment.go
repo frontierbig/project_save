@@ -14,6 +14,10 @@ type Treatment struct {
 	Diagnosis_results string
 	Method_treatment string
 	Appointment    time.Time
-	Master_Key string
+
+	Doctor_ID  int
+	Doctor   User  `gorm:"references:id"`
+	Encription_Key string 
+	
 	
 }

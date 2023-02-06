@@ -45,7 +45,7 @@ export const linksPatient = [
     
     {   
         name:"Treatment",
-        path: '/treatmentpatient'
+        path: '/treatmentdoctor'
     }
     ,
     {
@@ -82,7 +82,7 @@ export const linkDoctor = [
     ,
     {   
         name:"Treatment",
-        path: '/Doctortreatment'
+        path: '/treatmentdoctor'
     }
     ,
     {
