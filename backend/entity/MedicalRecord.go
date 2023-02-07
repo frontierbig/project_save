@@ -17,16 +17,16 @@ type Model struct {
 type MedicalRecord struct {
 	Model 
 
-	Hospital_Number string `gorm:"uniqueIndex"`
-	Personal_ID     string `gorm:"uniqueIndex"`
+	Hospital_Number string `gorm:"uniqueIndex" json:"hospital_number"`
+	Personal_ID     string `gorm:"uniqueIndex" json:"personal_id"`
 
-	Patient_ID      int
-	Patient    User  `gorm:"references:id"`
-	Patient_Age     int
-	Patient_gender  string
-	Patient_dob     time.Time
-	Patient_address string
-	Patient_phone   string
+	Patient_ID      int      `json:"patient_id"`
+	Patient    User          `gorm:"references:id" json:"patient"`
+	Patient_Age     int      `json:"patient_age"`
+	Patient_gender  string      `json:"patient_gender"`
+	Patient_dob     time.Time   `json:"patient_dob"`
+	Patient_address string   `json:"patient_address"`
+	Patient_phone   string   `json:"patient_phone"`
 
 	//Parent
 	Both_parent bool

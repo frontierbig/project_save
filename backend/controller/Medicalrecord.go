@@ -264,6 +264,17 @@ func ListMedicalRecord(c *gin.Context) {
 
 }
 
+func ListMedicalRecord2(c *gin.Context) {
+	var MedicalRecord []entity.MedicalRecord
+	if err := entity.DB().Preload("medical_records").Preload("users").Raw("SELECT * FROM medical_records ORDER BY id desc").Find(&MedicalRecord).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": MedicalRecord})
+}
+
+
 func ListMedicalRecordByID(c *gin.Context) {
 
 	Medrecid := c.Param("MedrecID")
