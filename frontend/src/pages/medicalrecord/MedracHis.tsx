@@ -2,32 +2,35 @@ import React, { useEffect ,useState} from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import './medrec.css'
-
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 
 import { DataGrid, GridToolbar,GridColDef ,GridValueGetterParams } from '@mui/x-data-grid';
 import { MedicalRecordInterface2,MedicalRecordInterface } from '../../model/Medicalrec';
+import { colors } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 
 
 
-// const Mapst = (MedicalRecord:MedicalRecordInterface) =>{
-//   if (MedicalRecord== null) {
-//       return null;
-//   }
-//   let sourceObject: MedicalRecordInterface2 = {
-//     id: MedicalRecord.ID,
-//     hospital_number: MedicalRecord.Hospital_Number,
-//     personal_id : MedicalRecord.Personal_ID ,
-// 	  patient_id: MedicalRecord.Patient_ID,
-// 	  patient_age : MedicalRecord.Patient_Age,
-// 	  patient_gender : MedicalRecord.Patient_gender,
-// 	  patient_dob : MedicalRecord.Patient_dob,
-// 	  patient_address :MedicalRecord.Patient_address,
-// 	  patient_phone : MedicalRecord.Patient_phone
+const MatEdit = (index:any ) => {
+  const handleEditClick = () => {
+      console.log('123321321312')
+  }
 
-//   };
-//    return sourceObject
-// }
-
+  return <div>
+    <Button
+                    style={{ float: "left" }}
+                    component={RouterLink}
+                    to={"/medrecshow/" + index}
+                    color="primary"
+                  >
+                    <VisibilityOutlinedIcon style={{ fill: '#0072ea' }} />
+                  </Button>
+  </div>
+                     
+          
+             
+         
+};
 
  
 
@@ -38,61 +41,173 @@ function HistoryMedicalracord() {
      headerName: 'ID', 
      headerAlign: 'center',
      align:'center',
-     width: 200
+     width: 120,
+     hideable:false,
+     
     }, 
+
+    { field: 'hospital_number',
+     headerName: 'Hospital Number', 
+     headerAlign: 'center',
+     align:'center',
+     width: 170,
+     hide: true,
+     editable:false,
+    }, 
+
+
+    {
+      field: 'patient',
+      
+      hideable: false,
+      headerName: 'Name',
+      width: 200,
+      align:'center',
+      headerAlign: 'center',
+      editable: true,
+    },
     {
       field: 'personal_id',
       headerName: 'Personal ID',
-      width: 220,
+      width: 180,
       align:'center',
       headerAlign: 'center',
-      editable: true,
-    },
-    {
-      field: 'patient_age',
-      headerName: 'AGE',
-      width: 230,
-      headerAlign: 'center',
-      align:'center',
-      headerClassName: 'super-app-theme--header',
-      editable: true,
+      editable: false,
+      sortable:false,
     },
   
-    // {
-    //   field: 'fullName',
-    
-    //   headerAlign: 'center',
-      
-    //   headerName: 'Full name',
-    //   description: 'This column has a value getter and is not sortable.',
-    //   sortable: false,
-    //   align:'center',
-    //   width: 350,
-    //   valueGetter: (params: GridValueGetterParams) =>
-    //     `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    // },
     {
       field: 'patient_phone',
       headerName: 'Tel',
       align:'center',
       headerAlign: 'center',
       sortable: false,
-      width: 200,
+      width: 170,
       editable: true,
     },
+    {
+      field: 'patient_age',
+      headerName: 'Age',
+      hide:true,
+      width: 100,
+      headerAlign: 'center',
+      align:'center',
+      headerClassName: 'super-app-theme--header',
+      editable: false,
+      
+    }
+
+    ,
+    {
+      field: 'patient_gender',
+      headerName: 'Gender',
+      width: 80,
+      headerAlign: 'center',
+      align:'center',
+      headerClassName: 'super-app-theme--header',
+      editable: false,
+      hide: true,
+    },
+
+    {
+      field: 'patient_address',
+      headerName: 'Address',
+      width: 220,
+      headerAlign: 'center',
+      sortable:false,
+      headerClassName: 'super-app-theme--header',
+      editable: true,
+    },
+
+   
+    
+
+    {
+      field: 'parent_name',
+      headerName: 'Parent Name',
+      width: 200,
+      headerAlign: 'center',
+      hide:true,
+      align:'center',
+      headerClassName: 'super-app-theme--header',
+      editable: true,
+    },
+
+    {
+      field: 'parent_phone',
+      headerName: 'Parent Phone',
+      width: 170,
+      align:'center',
+      headerAlign: 'center',
+      hide:true,
+      headerClassName: 'super-app-theme--header',
+      editable: true,
+      sortable:false,
+    },
+    
+
+    {
+      field: 'parent_address',
+      headerName: 'Parent Address',
+      width: 220,
+      sortable:false,
+      headerAlign: 'center',
+      hide:true,
+      headerClassName: 'super-app-theme--header',
+      editable: true,
+    },
+
+    
+    
+
+    {
+      field: 'medical_history',
+      
+      headerName: 'Medical History',
+      width: 180,
+      headerAlign: 'center',
+      align:'center',
+      hide:true,
+      headerClassName: 'super-app-theme--header',
+      editable: true,
+    },
+    
+
+    {
+      field: 'current_medications',
+      headerName: 'Current Medications',
+      width: 180,
+      headerAlign: 'center',
+
+      align:'center',
+      hide:true,
+      
+      headerClassName: 'super-app-theme--header',
+      
+    },
+
+    {
+      field: 'viewe',
+      headerName: 'Viewe',
+      width: 80,
+      headerAlign: 'center',
+      align:'center',
+      
+      headerClassName: 'super-app-theme--header',
+      renderCell: (params) => {
+        return (
+            <div className="d-flex justify-content-between align-items-center" style={{ cursor: "pointer" }}>
+                <MatEdit index={params.row.id} />
+             </div>
+        );
+     }
+      
+    },
+    
+    
   ];
 
-  // const rows = [
-  //   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35  ,tel:"099-3422033"},
-  //   { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42,tel:"099-029211" },
-  //   { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 ,tel:"089-3121133"},
-  //   { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 ,tel:"099-3422083"},
-  //   { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: 12,tel:"087-3422033" },
-  //   { id: 6, lastName: 'Melisandre', firstName: "Aawee", age: 150 ,tel:"077-3422033"},
-  //   { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 ,tel:"099-3422033"},
-  //   { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36,tel:"099-3422033" },
-  //   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65,tel:"099-3422033" },
-  // ];
+
   
   const [medicalracord, setMedicalracord] = useState<Partial<MedicalRecordInterface>[]>([]);
 
@@ -117,25 +232,6 @@ function HistoryMedicalracord() {
           setTemp(res.data);
           setMedicalracord(res.data);
         
-          // let result: Partial<MedicalRecordInterface>[] = res.data;
-          // result.map((item:Partial<MedicalRecordInterface>) => {
-          // console.log(item)
-          //   setTemp([ ...temp, {
-          //     id:item.ID,
-          //     hospital_number:item.Hospital_Number,
-          //     personal_id:item.Personal_ID,
-          //     patient_id: item.Patient_ID,
-	        //     patient_age : item.Patient_Age,
-          //   	patient_gender : item.Patient_gender,
-          //     patient_dob : item.Patient_dob,
-	        //     patient_phone :item.Patient_phone
-          //   }])
-
-          // } )
-          
-         
-  
-          
         } else {
           console.log("else");
         }
@@ -167,7 +263,7 @@ function HistoryMedicalracord() {
  components={{ Toolbar: GridToolbar }}
  pageSize={9}
  rowsPerPageOptions={[5]}
- checkboxSelection
+//  checkboxSelection
  // disableSelectionOnClick
  experimentalFeatures={{ newEditingApi: true }}
 />

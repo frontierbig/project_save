@@ -154,7 +154,7 @@ func CreateMedicalRecord(c *gin.Context) {
 	mr := entity.MedicalRecord{
 		Hospital_Number:     MedicalRecord.Hospital_Number,
 		Personal_ID:         MedicalRecord.Personal_ID,
-		Patient:    User,
+		Patient:    User.Name,
 		Patient_Age:         MedicalRecord.Patient_Age,
 		Patient_gender:      MedicalRecord.Patient_gender,
 		Patient_dob:         MedicalRecord.Patient_dob,

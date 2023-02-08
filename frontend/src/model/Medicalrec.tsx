@@ -1,7 +1,11 @@
+import { UserInterface } from "./UserUI"
+
 export interface MedicalRecordInterface {
     ID: number,
     Hospital_Number : string, 
 	Personal_ID : string 
+
+	patient : string
 
 	Patient_ID: number
 	Patient_Age : number
@@ -64,6 +68,7 @@ export interface MedicalRecordInterface {
     hospital_number : string, 
 	personal_id : string 
 	patient_id: number
+	patient : object
 	patient_age : number
 	patient_gender : string
 	patient_dob : Date

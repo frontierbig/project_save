@@ -21,7 +21,7 @@ type MedicalRecord struct {
 	Personal_ID     string `gorm:"uniqueIndex" json:"personal_id"`
 
 	Patient_ID      int      `json:"patient_id"`
-	Patient    User          `gorm:"references:id" json:"patient"`
+	Patient    string          `gorm:"references:id" json:"patient"`
 	Patient_Age     int      `json:"patient_age"`
 	Patient_gender  string      `json:"patient_gender"`
 	Patient_dob     time.Time   `json:"patient_dob"`
@@ -34,12 +34,12 @@ type MedicalRecord struct {
 	Mother_only bool
 	Father_only bool
 
-	Parent_Name    string
-	Parent_address string
-	Parent_phone   string
+	Parent_Name    string			`json:"parent_name"`
+	Parent_address string		`json:"parent_address"`
+	Parent_phone   string		`json:"parent_phone"`
 
-	Medical_history     string
-	Current_medications string
+	Medical_history     string		`json:"medical_history"`
+	Current_medications string		`json:"current_medications"`
 
 	//chronic or Recurring conditionss
 	Asthma bool

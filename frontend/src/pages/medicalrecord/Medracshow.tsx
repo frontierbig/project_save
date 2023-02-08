@@ -269,7 +269,7 @@ export default function HistoryMedicalrecord() {
                                type="string"
                                inputProps={{name:"Hospital_Number"}}
                                variant="outlined" 
-                               value={item.Hospital_Number}                   
+                               value={item.patient}                   
                                fullWidth
                                />
                             </Grid>
