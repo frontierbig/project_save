@@ -8,29 +8,10 @@ import { DataGrid, GridToolbar,GridColDef ,GridValueGetterParams } from '@mui/x-
 import { MedicalRecordInterface2,MedicalRecordInterface } from '../../model/Medicalrec';
 import { colors } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import { getInitialGridRowState } from "@material-ui/data-grid";
 
 
 
-const MatEdit = (index:any ) => {
-  const handleEditClick = () => {
-      console.log('123321321312')
-  }
-
-  return <div>
-    <Button
-                    style={{ float: "left" }}
-                    component={RouterLink}
-                    to={"/medrecshow/" + index}
-                    color="primary"
-                  >
-                    <VisibilityOutlinedIcon style={{ fill: '#0072ea' }} />
-                  </Button>
-  </div>
-                     
-          
-             
-         
-};
 
  
 
@@ -194,24 +175,51 @@ function HistoryMedicalracord() {
       align:'center',
       
       headerClassName: 'super-app-theme--header',
-      renderCell: (params) => {
-        return (
-            <div className="d-flex justify-content-between align-items-center" style={{ cursor: "pointer" }}>
-                <MatEdit index={params.row.id} />
-             </div>
-        );
-     }
+
+    
+   
+renderCell: (params) => {
+  return (
+      <div className="d-flex justify-content-between align-items-center" style={{ cursor: "pointer" }}>
+          <MatEdit />
+       </div>
+  );
+}
+     
       
     },
     
     
   ];
 
+  const MatEdit = () => {
+    return <div>
+      <Button
+                      style={{ float: "left" }}
+                      component={RouterLink}
+                      to={"/medrecshow/"+idpatient}
+                      color="primary"
+                    >
+                      <VisibilityOutlinedIcon style={{ fill: '#0072ea' }} />
+                    </Button>
+    </div> 
+  };
+  
+
+  const [idpatient,SetIdpatient] = useState(0)
+
 
   
   const [medicalracord, setMedicalracord] = useState<Partial<MedicalRecordInterface>[]>([]);
 
   const [temp, setTemp] = useState<Partial<MedicalRecordInterface2>[]>([]);
+
+
+  
+const Setidp =(id:any)=>{
+  console.log("is id ",id.id)
+  SetIdpatient(id)
+}
 
 
 
@@ -262,9 +270,11 @@ function HistoryMedicalracord() {
  density="comfortable"
  components={{ Toolbar: GridToolbar }}
  pageSize={9}
+ 
+  onRowClick={Setidp}
  rowsPerPageOptions={[5]}
-//  checkboxSelection
- // disableSelectionOnClick
+ 
+ 
  experimentalFeatures={{ newEditingApi: true }}
 />
 </div>

@@ -25,6 +25,8 @@ import { MedicalRecordInterface } from '../../model/Medicalrec';
 
 
 
+
+
 const useStyles = makeStyles((theme: Theme) =>
 
  createStyles({
