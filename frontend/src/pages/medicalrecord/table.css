@@ -1,0 +1,23 @@
+.MuiListItem-button:hover{
+    cursor:auto;
+
+    
+}
+.MuiDataGrid-columnHeaders{
+    background: #594CB9;
+    color: white;
+}
+.histable{
+    width: 100%;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+}
+.MuiDataGrid-toolbarContainer{
+    display: flex;
+    justify-content: center;
+}
+.MuiDataGrid-toolbarFilterList{
+    transform: translate(400px,10px);
+
+}

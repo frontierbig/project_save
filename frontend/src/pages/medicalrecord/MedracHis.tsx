@@ -1,7 +1,7 @@
 import React, { useEffect ,useState} from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import './medrec.css'
+import './table.css'
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 
 import { DataGrid, GridToolbar,GridColDef ,GridValueGetterParams } from '@mui/x-data-grid';
@@ -10,10 +10,6 @@ import { colors } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { getInitialGridRowState } from "@material-ui/data-grid";
 
-
-
-
- 
 
 function HistoryMedicalracord() {
 
@@ -181,7 +177,14 @@ function HistoryMedicalracord() {
 renderCell: (params) => {
   return (
       <div className="d-flex justify-content-between align-items-center" style={{ cursor: "pointer" }}>
-          <MatEdit />
+           <Button
+                      style={{ float: "left" }}
+                      component={RouterLink}
+                      to={"/medrecshow/"+params.row.id}
+                      color="primary"
+                    >
+                      <VisibilityOutlinedIcon style={{ fill: '#0072ea' }} />
+                    </Button>
        </div>
   );
 }
@@ -192,21 +195,8 @@ renderCell: (params) => {
     
   ];
 
-  const MatEdit = () => {
-    return <div>
-      <Button
-                      style={{ float: "left" }}
-                      component={RouterLink}
-                      to={"/medrecshow/"+idpatient}
-                      color="primary"
-                    >
-                      <VisibilityOutlinedIcon style={{ fill: '#0072ea' }} />
-                    </Button>
-    </div> 
-  };
-  
 
-  const [idpatient,SetIdpatient] = useState(0)
+
 
 
   
@@ -216,10 +206,7 @@ renderCell: (params) => {
 
 
   
-const Setidp =(id:any)=>{
-  console.log("is id ",id.id)
-  SetIdpatient(id)
-}
+
 
 
 
@@ -263,15 +250,13 @@ const Setidp =(id:any)=>{
  return (
 
   <div className="histable">
-  <div style={{ height: 830, width: '80%' }}>
+  <div style={{ height: 830, width: '80%' ,marginBottom:'2rem'}}>
  <DataGrid
  rows={temp}
  columns={columns}
  density="comfortable"
  components={{ Toolbar: GridToolbar }}
  pageSize={9}
- 
-  onRowClick={Setidp}
  rowsPerPageOptions={[5]}
  
  

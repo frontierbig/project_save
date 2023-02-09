@@ -23,7 +23,7 @@ import { FormControl } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { KeyboardDateTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
-import { MedicalRecordInterface } from '../../model/Medicalrec';
+import { MedicalRecordInterface2 } from '../../model/Medicalrec';
 import { DecrytionInterface } from '../../model/Decryption';
 
 
@@ -82,7 +82,7 @@ export default function HistoryMedicalrecord() {
     const classes = useStyles();
     const [decryption, setDecryption] = useState<Partial<DecrytionInterface>>( {} );
     // const [decryption, setDecryption] = useState("")
-    const [medicalrecord, setMedicalrecord] = useState<MedicalRecordInterface[]>([]);
+    const [medicalrecord, setMedicalrecord] = useState<MedicalRecordInterface2[]>([]);
     const [output,SetOutput] = useState("")
 
     // const [decryption, setMedicalrecord] = useState<MedicalRecordInterface[]>([]);
@@ -93,27 +93,6 @@ export default function HistoryMedicalrecord() {
     const[parents,setParents]=useState<any[]>([])
     
     
-  
-    const getMedicalrecord = async() => {
-      const apiUrl = "http://localhost:8080/api/ListMedicalRecord";
-      const requestOptions = {
-        method: "GET",
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
-              "Content-Type": "application/json",},
-      };
-  
-      fetch(apiUrl, requestOptions)
-        .then((response) => response.json())
-        .then((res) => {
-          console.log(res.data);
-          if (res.data) {
-            setMedicalrecord(res.data);
-          } else {
-            console.log("else");
-          }
-        });
-    };
-
 
     let { id } = useParams();
 
@@ -139,8 +118,6 @@ export default function HistoryMedicalrecord() {
           }
         });
     };
-  
-  
     useEffect(() => {
       getMedicalracordByID();
       setParents(ParentData);
@@ -149,20 +126,11 @@ export default function HistoryMedicalrecord() {
 
       
     }, []);
-     
-
-  // const  handleChange = (event:any)  =>
-  // {
-  //   setDecryption(event.target.value);
-  // };
-
   const handleChange = (event: ChangeEvent<{name?: string; value: any}>) => {
     const name = event.target.name as keyof typeof decryption;
     setDecryption({...decryption, [name]: event.target.value,});
   }; 
 
-
- 
 
       const DecryptionMedicalrecord =  async () => {
       
@@ -203,11 +171,13 @@ export default function HistoryMedicalrecord() {
       
     return (
     <>
-    <NavbarPatient/>
+    <div className="paper">
+        <div className="content">
 
-   
-    <Container className={classes.container} maxWidth="lg">
-    <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
+      <div>
+        <div>
+         
+<Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
         Decriptionsuccess
         </Alert>
@@ -217,345 +187,314 @@ export default function HistoryMedicalrecord() {
           Decription fail  , invalid Key
         </Alert>
       </Snackbar>
-    <Paper className={classes.paper}>
-        <div >
-            <div >
+          <br />
+       
 
-      <br/><br/> 
-      
+          <div className="toptitle">
+            Personal Health and Medical Record
+          </div>
 
-                <Typography
-                    component="h2"
-
-                    variant="h6"
-
-                    color="primary"
-
-                    gutterBottom
-                >
-                    ข้อมูลป่วย
-                </Typography>
-
-            </div>
-            
+          
         </div>
+      </div>
+      <Divider />
 
+      <h3 className="title">Participant information</h3>
 
+      <Grid container spacing={5}>
+      
+        <Grid item xs={6} >
+          <p>Hospital number</p>
+          <TextField
+            
+            id="Hospital_Number"
+            type="string"
+            inputProps={{ name: "Hospital_Number" }}
+            variant="outlined"
+            value={""}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
         
-        <Divider />                    
-                    {medicalrecord.map((item: MedicalRecordInterface) => (
-                    <MenuItem value={item.ID} key={item.ID}  >
-                      <Grid container spacing={5}>
-                      {/* <Grid item xs={5}>
-                                <p>ID</p>
-                               <TextField 
-                               disabled
-                               id="Hospital_Number" 
-                               type="string"
-                               inputProps={{name:"Hospital_Number"}}
-                               variant="outlined" 
-                               value={item.ID}                   
-                               fullWidth
-                               />
-                            </Grid> */}
 
+        {/* <Grid item xs={6}>
+          <p>Personal ID</p>
+          <TextField
+            id="Personal_ID"
+            type="string"
+            inputProps={{ name: "Personal_ID" }}
+            variant="outlined"
+            value={medicalrecord.Personal_ID || ""}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
 
+        <Grid item xs={6}>
+          <p>Name</p>
+          <Select
+            variant="outlined"
+            defaultValue={0}
+            inputProps={{ name: "Patient_ID" }}
+            onChange={handleChange}
+            fullWidth
+          >
+            <MenuItem value={0} key={0} disabled>
+              SelectUser
+            </MenuItem>
+            {User.map((item: UserInterface) => (
+              <MenuItem value={item.ID} key={item.ID}>
+                {item.Name}
+              </MenuItem>
+            ))}
+          </Select>
+        </Grid>
 
-                            <Grid item xs={5}>
-                                <p>Hospital number</p>
-                               <TextField 
-                               disabled
-                               id="Hospital_Number" 
-                               type="string"
-                               inputProps={{name:"Hospital_Number"}}
-                               variant="outlined" 
-                               value={item.patient}                   
-                               fullWidth
-                               />
-                            </Grid>
+        <Grid item xs={6}>
+          <p>Age</p>
+          <TextField
+            id="Patient_Age"
+            type="string"
+            inputProps={{ name: "Patient_Age" }}
+            variant="outlined"
+            value={medicalrecord.Patient_Age || ""}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
 
-                            <Grid item xs={5}>
-                        <p>Personal ID</p>
-                        <TextField 
-                        disabled
-                        id="Personal_ID" 
-                        type="string"
-                        inputProps={{name:"Personal_ID"}}
-                        variant="outlined" 
-                        value={item.Personal_ID}                 
-                        fullWidth/>
-                        </Grid>
+        <Grid item xs={6}>
+          <p>Gender</p>
+          <TextField
+            id="Patient_gender"
+            type="string"
+            inputProps={{ name: "Patient_gender" }}
+            variant="outlined"
+            value={medicalrecord.Patient_gender || ""}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
 
+        <Grid item xs={6}>
+          <FormControl variant="outlined">
+            <p>Date of birth</p>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                name="Patient_dob"
+                value={selectedDate}
+                onChange={handleDateChange}
+                format="yyyy-MM-dd"
+                fullWidth
+              />
+            </MuiPickersUtilsProvider>
+          </FormControl>
+        </Grid>
 
-                        <Grid item xs={5}>
-                                <p>Name</p>
-                               <TextField 
-                               disabled
-                               id="Hospital_Number" 
-                               type="string"
-                               variant="outlined" 
-                               value={item.Patient_ID}                   
-                               fullWidth
-                               />
-                            </Grid>
+        <Grid item xs={6}>
+          <p>Address</p>
+          <TextField
+            id="Patient_address"
+            type="string"
+            inputProps={{ name: "Patient_address" }}
+            variant="outlined"
+            value={medicalrecord.Patient_address || ""}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
 
-                            <Grid item xs={5}>
-                                <p>Age</p>
-                               <TextField 
-                               disabled
-                               type="string"
-                               variant="outlined" 
-                               value={item.Patient_Age}                   
-                               fullWidth
-                               />
-                            </Grid>
+        <Grid item xs={6}>
+          <p>Phone</p>
+          <TextField
+            id="Patient_phone"
+            type="string"
+            inputProps={{ name: "Patient_phone" }}
+            variant="outlined"
+            value={medicalrecord.Patient_phone || ""}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
 
-                            <Grid item xs={5}>
-                                <p>Gender</p>
-                               <TextField 
-                               disabled
-                               type="string"
-                               variant="outlined" 
-                               value={item.Patient_gender}                   
-                               fullWidth
-                               />
-                            </Grid>
+        <Grid item xs={6}>
+          <div className="container my-4" style={{ width: "500px" }}>
+            <form className="form w-100">
+              <h3 className="title">Parent infromation</h3>
+              <div className="form-check"></div>
+              {parents.map((Parent, index) => (
+                <div className="form-check" key={index}>
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    name={Parent.name}
+                    checked={Parent?.isChecked || false}
+                    onChange={handleChangecheckbox}
+                  />
+                  <label className="namecheckbox">{Parent.name}</label>
+                </div>
+              ))}
+            </form>
+          </div>
+        </Grid>
 
-                            <Grid item xs={5}>
-                                <p>Date of birth</p>
-                               <TextField 
-                               disabled
-                               type="string"
-                               variant="outlined" 
-                               value={item.Patient_dob}                   
-                               fullWidth
-                               />
-                            </Grid>
+        <Grid item xs={6}>
+          {" "}
+        </Grid>
 
+        <Grid item xs={6}>
+          <p>Parent name</p>
+          <TextField
+            id="Parent_Name"
+            type="string"
+            inputProps={{ name: "Parent_Name" }}
+            variant="outlined"
+            value={medicalrecord.Parent_Name || ""}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
 
-                            <Grid item xs={5}>
-                                <p>Address</p>
-                               <TextField 
-                               disabled
-                               type="string"
-                               variant="outlined" 
-                               value={item.Patient_address}                   
-                               fullWidth
-                               />
-                            </Grid>
+        <Grid item xs={6}>
+          <p>Parent Address</p>
+          <TextField
+            id="Parent_address"
+            type="string"
+            inputProps={{ name: "Parent_address" }}
+            variant="outlined"
+            value={medicalrecord.Parent_address || ""}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
 
+        <Grid item xs={6}>
+          <p>Parent Phone</p>
+          <TextField
+            id="Parent_phone"
+            type="string"
+            inputProps={{ name: "Parent_phone" }}
+            variant="outlined"
+            value={medicalrecord.Parent_phone || ""}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={6}></Grid>
 
-                            <Grid item xs={5}>
-                                <p>Phon</p>
-                               <TextField 
-                               disabled
-                               type="string"
-                               variant="outlined" 
-                               value={item.Parent_phone}                   
-                               fullWidth
-                               />
-                            </Grid>
+        <Grid item xs={6}>
+          <h3 className='title'>Medical history</h3>
+        </Grid>
+        <Grid item xs={6}></Grid>
 
+        <Grid item xs={6}>
+          <p>Medical history</p>
+          <TextField
+            id="Medical_history"
+            type="string"
+            inputProps={{ name: "Medical_history" }}
+            variant="outlined"
+            value={medicalrecord.Medical_history || ""}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
 
-                            <Grid item xs={12}>
-                            <h3>Parent infromation</h3>
-                            </Grid>
+        <Grid item xs={6}>
+          <p>Current Medications</p>
+          <TextField
+            id="Current_medications"
+            type="string"
+            inputProps={{ name: "Current_medications" }}
+            variant="outlined"
+            value={medicalrecord.Current_medications || ""}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
 
-                            <Grid item xs={5}>
-                                <p>Parent name</p>
-                               <TextField 
-                               disabled
-                               type="string"
-                               variant="outlined" 
-                               value={item.Parent_Name}                   
-                               fullWidth
-                               />
-                            </Grid>
+        <Grid item xs={6}>
+          <div className="container my-4" style={{ width: "500px" }}>
+            <form className="form w-100">
+              <h3 className="title">Chronic or Recurring conditions</h3>
+              <div className="form-check"></div>
+              {chronics.map((chronic, index) => (
+                <div className="form-check" key={index}>
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    name={chronic.name}
+                    checked={chronic?.isChecked || false}
+                    onChange={handleChangecheckbox1}
+                  />
+                  <label className="namecheckbox">
+                    {chronic.name}
+                  </label>
+                </div>
+              ))}
+            </form>
+          </div>
+        </Grid>
 
-                            <Grid item xs={5}>
-                                <p>Parent Address</p>
-                               <TextField 
-                               disabled
-                               type="string"
-                               variant="outlined" 
-                               value={item.Parent_address}                   
-                               fullWidth
-                               />
-                            </Grid>
+        <Grid item xs={6}>
+          <div className="container my-4" style={{ width: "500px" }}>
+            <form className="form w-100">
+              <h3 className="title">Allergies</h3>
+              <div className="form-check"></div>
+              {allergies.map((aller, index) => (
+                <div className="form-check" key={index}>
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    name={aller.name}
+                    checked={aller?.isChecked || false}
+                    onChange={handleChangecheckbox2}
+                  />
+                  <label className="namecheckbox">{aller.name}</label>
+                </div>
+              ))}
+            </form>
+          </div>
+        </Grid>
 
-                            <Grid item xs={5}>
-                                <p>Parent Phone</p>
-                               <TextField 
-                               disabled
-                               type="string"
-                               variant="outlined" 
-                               value={item.Parent_phone}                   
-                               fullWidth
-                               />
-                            </Grid>
+        <Grid item xs={6}>
+          <Button
+            variant="contained"
+            color="primary"
+            component={RouterLink}
+            to="/medrachistory"
+          >
+            กลับ
+          </Button>
+        </Grid>
 
+        <Grid item xs={6}>
+          <Button
+            style={{ float: "right" }}
+            variant="contained"
+            onClick={submitMedicalrecord}
+            color="primary"
+          >
+            บันทึก
+          </Button>
+        </Grid> */}
+      </Grid>
+      </div>
 
-                            <Grid item xs={12}>
-                            <h3>Medical history</h3>
-                            </Grid>
-
-
-
-                            <Grid item xs={5}>
-                              <p>Medical history</p>
-                               <TextField 
-                               disabled
-                               type="string"
-                               variant="outlined" 
-                               value={item.Parent_phone}                   
-                               fullWidth
-                               />
-                               
-                            </Grid>
-                            
-
-                            <Grid item xs={5}>
-                              <p>Current Medications</p>
-                               <TextField 
-                               disabled
-                               type="string"
-                               variant="outlined" 
-                               value={item.Parent_phone}                   
-                               fullWidth
-                               />
-                            </Grid>
-
-
-
-
-                            
-                    <Grid item xs={5}>
-                    
-                    <div className="container my-4" style={{ width: "500px" }}>
-                      <form className="form w-100">
-                       <h3>Chronic or Recurring conditions</h3>
-                           <div className="form-check">
-         
-                          </div>
-                           {chronics.map((chronic, index) => (
-                            <div className="form-check" key={index}>
-                            <input
-                             type="checkbox"
-                             className="form-check-input"
-                             name={chronic.name}
-                              checked={chronic?.isChecked || false}
-                               />
-                           <label className="form-check-label ms-2">{chronic.name}</label>
-                            </div>
-                               ))}
-                           </form>
-                          </div>
-                     </Grid>
-
-
-
-
-                            <Grid item xs={5}>
-                    
-                    <div className="container my-4" style={{ width: "500px" }}>
-                      <form className="form w-100">
-                       <h3>Allergies</h3>
-                           <div className="form-check">
-         
-                             </div>
-                             {allergies.map((aller, index) => (
-                             <div className="form-check" key={index}>
-                               <input
-                              type="checkbox"
-                              className="form-check-input"
-                             name={aller.name}
-                             checked={aller?.isChecked || false}
-                                  />
-                              <label className="form-check-label ms-2">{aller.name}</label>
-                            </div>
-                           ))}
-                              </form>
-                            </div>
-                          </Grid>
-                          
-
-                            {/* <Grid item xs={12}>
-                            <h3>Secret Data</h3>
-                            </Grid>
-
-
-                            <Grid item xs={5}>
-                                <p>Secret Data</p>
-                               <TextField 
-                               disabled
-                               id="Secret_Data" 
-                               type="string"
-                               inputProps={{name:"Secret_Data"}}
-                               variant="outlined" 
-                               value={item.Secret_Data}                   
-                               fullWidth
-                               />
-                            </Grid>
-
-                            <Grid item xs={5}>
-                                <p>Decryption</p>
-                               <TextField 
-                               id="Decryption" 
-                               type="string"
-                               inputProps={{name:"Decryption"}}
-                               variant="outlined" 
-                               value={decryption.Decryption||""}
-                               onChange={handleChange}                  
-                               fullWidth
-                               />
-                            </Grid>
-
-                            <Grid item xs={5}>
-                                <p>Output</p>
-                               <TextField 
-                               id="Output" 
-                               type="string"
-                               disabled
-                               inputProps={{name:"Output"}}
-                               variant="outlined" 
-                               value={output||""}                
-                               fullWidth
-                               />
-                            </Grid>
-                            
-                            
-
-                            <Grid item xs={6}>
-                      <Button
-                        style={{ float: "right"}}
-                        variant="contained"
-                        onClick={DecryptionMedicalrecord}
-                        color="primary"
-                          
-                      >
-                        Decryption
-                      </Button>
-                    </Grid> */}
-
-                      </Grid>
-                    </MenuItem>
-                ))}
-                    
-                    
-                    <Grid item xs={6}>
-                        <Button 
-                                variant="contained" 
-                                color="primary" 
-                                component={RouterLink}
-                                to="/medrachistory"
-                                >กลับ</Button>
-                    </Grid>
-
-        
-        </Paper>
-    </Container>
+      </div>
+    </>
     
- </>
-  
-)
+  );
 }
+
+
+{/* <Grid item xs={6}>
+<Button 
+        variant="contained" 
+        color="primary" 
+        component={RouterLink}
+        to="/medrachistory"
+        >กลับ</Button>
+</Grid> */}
+
