@@ -136,7 +136,7 @@ func CreateTreatment(c *gin.Context) {
 		Appointment:       payload.Appointment_time,
 
 		Encription_Key: encryptedKey,
-		Doctor: User,
+		Doctor: User.Name,
 
 		// Secret_Data : Treatment.Secret_Data,
 

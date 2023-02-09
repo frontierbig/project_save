@@ -27,15 +27,15 @@ function MedracTabel() {
       hideable: false,
     },
 
-    {
-      field: "hospital_number",
-      headerName: "Hospital Number",
-      headerAlign: "center",
-      align: "center",
-      width: 170,
-      // hide: true,
-      editable: false,
-    },
+    // {
+    //   field: "hospital_number",
+    //   headerName: "Hospital Number",
+    //   headerAlign: "center",
+    //   align: "center",
+    //   width: 170,
+    //   // hide: true,
+    //   editable: false,
+    // },
 
     {
       field: "patient",
@@ -48,9 +48,9 @@ function MedracTabel() {
       editable: true,
     },
     {
-      field: "personal_id",
-      headerName: "Personal ID",
-      width: 180,
+      field: "diagnosis_results",
+      headerName: "Diagnosis results",
+      width: 200,
       align: "center",
       headerAlign: "center",
       editable: false,
@@ -58,8 +58,8 @@ function MedracTabel() {
     },
 
     {
-      field: "patient_phone",
-      headerName: "Tel",
+      field: "method_treatment",
+      headerName: "Method Treatment",
       align: "center",
       headerAlign: "center",
       sortable: false,
@@ -68,7 +68,7 @@ function MedracTabel() {
     },
     {
       field: "patient_age",
-      headerName: "Age",
+      headerName: "Docter",
       // hide: true,
       width: 100,
       headerAlign: "center",

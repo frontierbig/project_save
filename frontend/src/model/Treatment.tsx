@@ -24,6 +24,7 @@ export interface TreatmentInterface {
     method_treatment: string,
     appointment: Date,
     doctor_ID  :number,
+    doctor :string,
     encription_Key: string ,
 
 

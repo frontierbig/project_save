@@ -32,7 +32,7 @@ func main() {
 
 
 			protected.GET("/api/ListMedicalRecord", MedicalRecord.ListMedicalRecord)
-			protected.GET("/api/Treatment", MedicalRecord.ListTreatment)
+			protected.GET("/api/ListTreatment", MedicalRecord.ListTreatment)
 
 
 			protected.GET("/api/ListMedicalRecord2", MedicalRecord.ListMedicalRecord2)

@@ -70,9 +70,7 @@ export default function MedrecDoctor() {
   // const classes = useStyles();
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
-  const [medicalrecord, setMedicalRecord] = useState<
-    Partial<MedicalRecordInterface>
-  >({});
+  const [medicalrecord, setMedicalRecord] = useState<Partial<MedicalRecordInterface>>({});
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
 

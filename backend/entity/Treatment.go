@@ -15,7 +15,7 @@ type Treatment struct {
 	Appointment    time.Time   `json:"appointment"`
 
 	Doctor_ID  int  `json:"doctor_ID"`
-	Doctor   User  `gorm:"references:id"`
+	Doctor   string  `gorm:"references:id" json:"doctor"`
 	Encription_Key string  `json:"encription_Key"`
 	
 	
