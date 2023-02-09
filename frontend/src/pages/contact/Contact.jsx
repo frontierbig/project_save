@@ -6,12 +6,11 @@ import{BsMessenger} from "react-icons/bs"
 import{IoLogoWhatsapp} from "react-icons/io"
 import Footer from '../../components/Footer'
 import { BsFillTelephoneFill} from "react-icons/bs";
-import Navbar from '../../components/Navbar'
+// import Navbar from '../../components/Navbar'
 
 const Contact = () => {
   return (
     <>
-    <Navbar/>
     <div className='bg-imagecontact'>
       <div className='Text_contact'>
         <h1>Address</h1>

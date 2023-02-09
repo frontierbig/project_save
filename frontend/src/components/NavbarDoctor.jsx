@@ -9,7 +9,7 @@ import{useState} from 'react'
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 
-const Navbar = () => {
+const NavbarDoctor = () => {
       const[isNavShowing,setIsNavShowing] = useState(false)
   return (
     <nav>
@@ -46,4 +46,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default NavbarDoctor

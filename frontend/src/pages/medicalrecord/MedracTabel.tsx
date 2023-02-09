@@ -19,7 +19,8 @@ import { colors } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { getInitialGridRowState } from "@material-ui/data-grid";
 
-function HistoryMedicalracord() {
+function MedracTabel() {
+
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -36,7 +37,7 @@ function HistoryMedicalracord() {
       headerAlign: "center",
       align: "center",
       width: 170,
-      hide: true,
+      // hide: true,
       editable: false,
     },
 
@@ -72,7 +73,7 @@ function HistoryMedicalracord() {
     {
       field: "patient_age",
       headerName: "Age",
-      hide: true,
+      // hide: true,
       width: 100,
       headerAlign: "center",
       align: "center",
@@ -221,7 +222,7 @@ function HistoryMedicalracord() {
 
   return (
     <>
-      <div className="paper">
+      <div className="papertable">
         <div className="histable">
 
          
@@ -234,7 +235,7 @@ function HistoryMedicalracord() {
             <Button
               style={{ float: "left"  ,cursor: "pointer",backgroundColor:'#23395d' ,padding:'10px',color:'white' }}
               component={RouterLink}
-              to={"/recordpatient"}
+              to={"/doctorrecordcreate"}
               color="inherit"
               size='medium'
               
@@ -261,4 +262,4 @@ function HistoryMedicalracord() {
   );
 }
 
-export default HistoryMedicalracord;
+export default MedracTabel;

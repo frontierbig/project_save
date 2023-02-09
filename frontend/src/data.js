@@ -62,24 +62,17 @@ export const linkDoctor = [
         name: "Home",
         path: '/'
     },
-    {
-        name: "Doctor",
-        path: '/doctor'
-    },
+   
     {
         name: "Department",
         path: '/department'
     },
     {   
         name:"Medicalrecord",
-        path: '/Doctorrecord'
+        path: '/doctorrecordtable'
     }
     ,
-    {   
-        name:"Medicalhistory",
-        path: '/Doctorhistory'
-    }
-    ,
+   
     {   
         name:"Treatment",
         path: '/treatmentdoctor'

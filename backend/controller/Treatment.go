@@ -130,7 +130,7 @@ func CreateTreatment(c *gin.Context) {
 
 	mr := entity.Treatment{
 
-		Patient: Patient,
+		Patient: Patient.Name,
 		Diagnosis_results: encrypted_Diagnosis,
 		Method_treatment:  encrypted_Method_treatment,
 		Appointment:       payload.Appointment_time,
@@ -287,3 +287,5 @@ func decrypt(encryptedString string, keyString string, c *gin.Context) (decrypte
 	println(plaintext)
 	return fmt.Sprintf("%s", plaintext), nil
 }
+
+

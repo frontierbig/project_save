@@ -49,7 +49,7 @@ const AllergiesData = [
   { name: "Medicine/drugs" },
 ];
 
-export default function MedrecPatient() {
+export default function MedrecDoctor() {
   const [User, setUser] = useState<UserInterface[]>([]);
 
   const [parents, setParents] = useState<any[]>([]);
@@ -366,10 +366,7 @@ export default function MedrecPatient() {
             </Grid>
 
             <Grid item xs={6}>
-              <div className="container my-4" style={{ width: "500px" }}>
-                <form className="form w-100">
                   <h3 className="title">Parent infromation</h3>
-                  <div className="form-check"></div>
                   {parents.map((Parent, index) => (
                     <div className="form-check" key={index}>
                       <input
@@ -382,8 +379,6 @@ export default function MedrecPatient() {
                       <label className="namecheckbox">{Parent.name}</label>
                     </div>
                   ))}
-                </form>
-              </div>
             </Grid>
 
             <Grid item xs={6}>
@@ -462,10 +457,9 @@ export default function MedrecPatient() {
             </Grid>
 
             <Grid item xs={6}>
-              <div className="container my-4" style={{ width: "500px" }}>
-                <form className="form w-100">
+             
                   <h3 className="title">Chronic or Recurring conditions</h3>
-                  <div className="form-check"></div>
+                  
                   {chronics.map((chronic, index) => (
                     <div className="form-check" key={index}>
                       <input
@@ -478,13 +472,12 @@ export default function MedrecPatient() {
                       <label className="namecheckbox">{chronic.name}</label>
                     </div>
                   ))}
-                </form>
-              </div>
+             
             </Grid>
 
             <Grid item xs={6}>
-              <div className="container my-4" style={{ width: "500px" }}>
-                <form className="form w-100">
+            
+          
                   <h3 className="title">Allergies</h3>
                   <div className="form-check"></div>
                   {allergies.map((aller, index) => (
@@ -499,8 +492,7 @@ export default function MedrecPatient() {
                       <label className="namecheckbox">{aller.name}</label>
                     </div>
                   ))}
-                </form>
-              </div>
+             
             </Grid>
 
             <Grid item xs={6}>
@@ -508,7 +500,7 @@ export default function MedrecPatient() {
                 variant="contained"
                 color="primary"
                 component={RouterLink}
-                to="/medrachistory"
+                to="/doctorrecordtable"
               >
                 กลับ
               </Button>

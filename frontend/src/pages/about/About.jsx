@@ -4,14 +4,12 @@ import Footer from '../../components/Footer'
 import AboutPic from '../../images/about.jpg'
 import About1 from '../../images/about1.jpg'
 import About2 from '../../images/about2.png'
-import Navbar from '../../components/Navbar'
 const About = () => {
     return (
       <>
-      <Navbar/>
-      <div className='about__img'>
+      {/* <div className='about__img'>
         <img src={AboutPic} alt="about_pic"/>
-      </div>
+      </div> */}
       <div className='about__container'>
         <div className='about_his'>
         <h1>Hospital history</h1>

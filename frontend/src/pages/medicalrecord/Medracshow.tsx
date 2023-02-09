@@ -258,6 +258,7 @@ export default function HistoryMedicalrecord() {
                       <h3 className="title">Parent infromation</h3>
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Both_parent"
                         checked={item.Both_parent}
@@ -267,6 +268,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Guardain"
                         checked={item.Guardian}
@@ -277,6 +279,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Mother_Only"
                         checked={item.Mother_only}
@@ -287,6 +290,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Father_only"
                         checked={item.Father_only}
@@ -372,12 +376,14 @@ export default function HistoryMedicalrecord() {
                         type="checkbox"
                         className="form-check-input"
                         checked={item.Asthma}
+                        disabled
                       />
                       <label className="namecheckbox">Asthma</label>
                     </div>
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Guardain"
                         checked={item.Heart_disease}
@@ -390,6 +396,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Mother_Only"
                         checked={item.Bleeding_Disorders}
@@ -400,6 +407,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Father_only"
                         checked={item.Urinary_Infection}
@@ -410,6 +418,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Father_only"
                         checked={item.Convulsions}
@@ -424,6 +433,7 @@ export default function HistoryMedicalrecord() {
                         type="checkbox"
                         className="form-check-input"
                         name="Father_only"
+                        disabled
                         checked={item.Vision_Contacts}
                       />
                       <label className="namecheckbox">
@@ -434,6 +444,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Father_only"
                         checked={item.Diabetes}
@@ -444,6 +455,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Father_only"
                         checked={item.Teeth_dentures}
@@ -456,6 +468,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Father_only"
                         checked={item.Ear_Infection}
@@ -466,6 +479,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Father_only"
                         checked={item.Menstrual_problems}
@@ -475,6 +489,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Father_only"
                         checked={item.Emotional}
@@ -486,6 +501,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Father_only"
                         checked={item.Fainting}
@@ -495,6 +511,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Father_only"
                         checked={item.Hypertension}
@@ -507,6 +524,7 @@ export default function HistoryMedicalrecord() {
                       <h3 className="title">AllergiesData</h3>
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         checked={item.Animals}
                       />
@@ -515,6 +533,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Guardain"
                         checked={item.Plants}
@@ -525,6 +544,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Mother_Only"
                         checked={item.Food}
@@ -535,6 +555,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Father_only"
                         checked={item.Pollen}
@@ -545,6 +566,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Father_only"
                         checked={item.Hay_Fever}
@@ -555,6 +577,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Father_only"
                         checked={item.Insect_Stings}
@@ -565,6 +588,7 @@ export default function HistoryMedicalrecord() {
                     <div className="form-check">
                       <input
                         type="checkbox"
+                        disabled
                         className="form-check-input"
                         name="Father_only"
                         checked={item.Medicine_drugs}
@@ -578,7 +602,7 @@ export default function HistoryMedicalrecord() {
                       variant="contained"
                       color="primary"
                       component={RouterLink}
-                      to="/medrachistory"
+                      to="/doctorrecordtable"
                     >
                       กลับ
                     </Button>

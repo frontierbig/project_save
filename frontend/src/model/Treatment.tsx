@@ -15,3 +15,18 @@ export interface TreatmentInterface {
   
   }
   
+  export interface TreatmentInterface2 {
+    id: number,
+    
+    patient_ID: number,
+    patient: string, 
+    diagnosis_results: string,
+    method_treatment: string,
+    appointment: Date,
+    doctor_ID  :number,
+    encription_Key: string ,
+
+
+  
+  }
+  

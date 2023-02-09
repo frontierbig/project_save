@@ -35,8 +35,9 @@
     transform: translate(400px,10px);
 
 }
-.paper{
-
-    background-color: #f3f4f6;
+.papertable{
+    display: flex;
+    justify-content: center;
+    width: 100%;
    
 }
