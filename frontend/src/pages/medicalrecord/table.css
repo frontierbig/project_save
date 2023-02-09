@@ -4,21 +4,39 @@
     
 }
 .MuiDataGrid-columnHeaders{
-    background: #594CB9;
+    background: #3e399a;
     color: white;
 }
 .histable{
-    width: 100%;
+    width:70%;
     margin-top: 100px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+
+}
+.btnicons{
+    /* background-color: red; */
+    font-size: 25px;
+    font-family:  sans-serif;
+    color: #0c0c47;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom:15px ;
 }
 .MuiDataGrid-toolbarContainer{
     display: flex;
-    background-color: rebeccapurple;
+    /* background-color: rebeccapurple; */
     justify-content: center;
 }
 .MuiDataGrid-toolbarFilterList{
     transform: translate(400px,10px);
 
+}
+.paper{
+
+    background-color: #f3f4f6;
+   
 }
