@@ -15,6 +15,7 @@
 }
 .MuiDataGrid-toolbarContainer{
     display: flex;
+    background-color: rebeccapurple;
     justify-content: center;
 }
 .MuiDataGrid-toolbarFilterList{

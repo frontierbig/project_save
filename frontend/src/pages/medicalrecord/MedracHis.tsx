@@ -200,13 +200,9 @@ renderCell: (params) => {
 
 
   
-  const [medicalracord, setMedicalracord] = useState<Partial<MedicalRecordInterface>[]>([]);
+  // const [medicalracord, setMedicalracord] = useState<Partial<MedicalRecordInterface>[]>([]);
 
   const [temp, setTemp] = useState<Partial<MedicalRecordInterface2>[]>([]);
-
-
-  
-
 
 
 
@@ -225,7 +221,7 @@ renderCell: (params) => {
         if (res.data) {
 
           setTemp(res.data);
-          setMedicalracord(res.data);
+          // setMedicalracord(res.data);
         
         } else {
           console.log("else");

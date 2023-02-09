@@ -68,12 +68,55 @@ export interface MedicalRecordInterface {
     hospital_number : string, 
 	personal_id : string 
 	patient_id: number
-	patient : object
+	patient : string
 	patient_age : number
 	patient_gender : string
 	patient_dob : Date
 	patient_address :string
 	patient_phone :string
+
+	Both_parent : boolean
+	Guardian : boolean
+	Mother_only : boolean
+	Father_only : boolean
+
+	parent_name :string
+	parent_address: string
+	parent_phone :string
+
+	medical_history :string
+	current_medications: string
+
+	//chronic or Recurring conditionss
+	Asthma : boolean
+	Heart_disease : boolean
+	Bleeding_Disorders : boolean
+	Urinary_Infection : boolean
+	Convulsions : boolean
+	Vision_Contacts : boolean
+	Diabetes : boolean
+	Teeth_dentures : boolean
+	Ear_Infection : boolean
+	Menstrual_problems : boolean
+	Emotional : boolean
+	Fainting  : boolean
+	Hypertension : boolean
+
+	//Allergies
+
+	Animals : boolean
+	Plants : boolean
+	Food : boolean
+	Pollen : boolean
+	Hay_Fever : boolean
+	Insect_Stings : boolean
+	Medicine_drugs : boolean
+
+
+	Secret_Data: string
+
+	Master_Key :string
+
 
   
   }
