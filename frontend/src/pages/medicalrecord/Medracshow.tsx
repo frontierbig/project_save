@@ -5,27 +5,18 @@ import React, {
   ChangeEvent,
   useEffect,
   useState,
-  Fragment,
-  SyntheticEvent,
 } from "react";
 import { Link as RouterLink, useParams } from "react-router-dom";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
-import { Box, Paper } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { Select } from "@material-ui/core";
-import { MenuItem } from "@material-ui/core";
 import { Snackbar } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { FormControl } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import {
-  KeyboardDateTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { MedicalRecordInterface2 } from "../../model/Medicalrec";
@@ -36,13 +27,10 @@ function Alert(props: AlertProps) {
 }
 export default function HistoryMedicalrecord() {
   const [decryption, setDecryption] = useState<Partial<DecrytionInterface>>({});
-  // const [decryption, setDecryption] = useState("")
   const [medicalrecord, setMedicalrecord] = useState<MedicalRecordInterface2[]>(
     []
   );
   const [output, SetOutput] = useState("");
-
-  // const [decryption, setMedicalrecord] = useState<MedicalRecordInterface[]>([]);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   let { id } = useParams();

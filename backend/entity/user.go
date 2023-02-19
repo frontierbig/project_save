@@ -13,7 +13,7 @@ type User struct {
 	Password string
 	Tel      string
 	Gender   string
-	Key   string
+	// Key   string
 
 	Brithday time.Time
 	RoleID *uint

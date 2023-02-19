@@ -28,6 +28,7 @@ import MedrecDoctor from "./pages/medicalrecord/MedracDoctor"
 import MedracTabel from "./pages/medicalrecord/MedracTabel"
 import TreatmentDoctor from "./pages/treatment/TreatmentDoctor";
 import TreatmentDoctorTable from "./pages/treatment/TreatmentTabel";
+import TreatmentShow from "./pages/treatment/treatmentshow";
 
 import MedrecPatient from "./pages/medicalrecord/MedracDoctor";
 import MedrecShow from "./pages/medicalrecord/Medracshow";
@@ -107,6 +108,7 @@ export default function App() {
             <Route path='treatmentdoctor'element ={<TreatmentDoctor/>}/>
             <Route path='treatmentdoctortable'element ={<TreatmentDoctorTable/>}/>
             <Route path="medrecshow/:id" element={<MedrecShow/>} />
+            <Route path="treatmentshow/:id" element={<TreatmentShow/>} />
               </Routes>
               </>
               )}

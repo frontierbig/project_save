@@ -78,7 +78,7 @@ func SetupDatabase() {
 		Gender:   "Female",
 		Brithday: time.Now().AddDate(-21, -11, 5),
 		Role:     Role1,
-		Key:      "692546ad410fd46d09be787077942d972d6173d0ce50559df470adc016d4c7fa",
+		// Key:      "692546ad410fd46d09be787077942d972d6173d0ce50559df470adc016d4c7fa",
 	}
 	db.Model(&User{}).Create(&User3)
 
