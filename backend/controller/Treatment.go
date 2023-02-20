@@ -178,7 +178,7 @@ type Datadecryptreturn struct {
 func DecryptionTreatment(c *gin.Context) {
 
 	var Treatment entity.Treatment
-	MedrecID := c.Param("MedrecID")
+	TreatmentID := c.Param("TreatmentID")
 	var Data Payload
 
 	if err := c.ShouldBindJSON(&Data); err != nil {
@@ -186,7 +186,7 @@ func DecryptionTreatment(c *gin.Context) {
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", MedrecID).First(&Treatment); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", TreatmentID).First(&Treatment); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
 		return
 	}

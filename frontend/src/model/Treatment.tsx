@@ -26,8 +26,12 @@ export interface TreatmentInterface {
     doctor_ID  :number,
     doctor :string,
     encription_Key: string ,
-
-
   
   }
+
+  export interface resprondecrytion{
+    diagnosis_results: string,
+    method_treatment: string,
+  }
+  
   

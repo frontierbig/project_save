@@ -31,7 +31,8 @@ func main() {
 
 			protected.GET("/api/ListMedicalRecord2", MedicalRecord.ListMedicalRecord2)
 			// protected.GET("/api/DecryptionMedicalRecord", MedicalRecord.DecryptionMedicalRecord)
-			protected.POST("/api/DecryptionMedicalRecord/:MedrecID", MedicalRecord.DecryptionMedicalRecord)
+
+			protected.POST("/api/DecryptionMedicalRecord/:TreatmentID", MedicalRecord.DecryptionTreatment)
 
 			protected.GET("/api/ListMedicalRecord/:MedrecID", MedicalRecord.ListMedicalRecordByID)
 

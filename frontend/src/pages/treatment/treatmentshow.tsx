@@ -21,14 +21,19 @@ import { Snackbar } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { DecrytionInterface } from "../../model/Decryption";
 import { TreatmentInterface2 } from "../../model/Treatment";
-
+import { resprondecrytion } from "../../model/Treatment";
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 export default function TreatmentShow() {
   const [decryption, setDecryption] = useState<Partial<DecrytionInterface>>({});
   const [treatment, setTreatment] = useState<TreatmentInterface2[]>([]);
-  const [output, SetOutput] = useState("");
+
+  const [output2, setOutput2] = useState<resprondecrytion[]>([]);
+
+  const [output, SetOutput] = useState([]);
+
+
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
@@ -48,6 +53,9 @@ export default function TreatmentShow() {
         console.log(res.data);
         if (res.data) {
           setTreatment(res.data);
+
+
+
         } else {
           console.log("else");
         }
@@ -55,6 +63,7 @@ export default function TreatmentShow() {
   };
   useEffect(() => {
     getTreatmentByID();
+    // DecryptionMedicalrecord()
   }, []);
   const handleChange = (event: ChangeEvent<{ name?: string; value: any }>) => {
     const name = event.target.name as keyof typeof decryption;
@@ -77,10 +86,15 @@ export default function TreatmentShow() {
       .then((res) => {
         console.log(res.data);
         if (res.data) {
-          setDecryption(res.data);
-          SetOutput(res.data);
 
-          return res.data;
+          const a = res.data.map((item: resprondecrytion) => {
+            return item.diagnosis_results
+        
+          });
+          ////////////////////////////////////////////////
+          setOutput2(a); 
+
+
         } else {
           setError(true);
           console.log(res);
@@ -223,7 +237,49 @@ export default function TreatmentShow() {
                 />
               </Grid>
             </Grid> */}
-            
+
+<Grid item xs={5}>
+                                <p>Decryption</p>
+                               <TextField 
+                               id="Decryption" 
+                               type="string"
+                               inputProps={{name:"Decryption"}}
+                               variant="outlined" 
+                               value={decryption.Decryption||""}
+                               onChange={handleChange}                  
+                               fullWidth
+                               />
+                            </Grid>
+
+
+                            {}
+
+                            <Grid item xs={5}>
+                                <p>Output</p>
+                               <TextField 
+                               id="Output" 
+                               type="string"
+                               disabled
+                               inputProps={{name:"Output"}}
+                               variant="outlined" 
+                               value={output2}                
+                               fullWidth
+                               />
+                            </Grid>
+                            
+                            
+
+                            <Grid item xs={6}>
+                      <Button
+                        style={{ float: "right"}}
+                        variant="contained"
+                        onClick={DecryptionMedicalrecord}
+                        color="primary"
+                          
+                      >
+                        Decryption
+                      </Button>
+                    </Grid>
             <Grid item xs={12}></Grid>
 
     
