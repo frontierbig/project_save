@@ -116,10 +116,6 @@ func CreateTreatment(c *gin.Context) {
 			return
 		}
 
-		// if err := entity.DB().Raw("UPDATE users SET key = ? WHERE id = ?", encryptedKey,User.ID).Find(&User).Error; err != nil {
-		// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		// 	return
-		// }
 
 		mr := entity.Treatment{
 			Patient_ID:        int(Patient.ID),
