@@ -91,7 +91,10 @@ export default function TreatmentShow() {
           console.log(res);
           setOutput(b.methodtreatment)
           setOutput2(b.diagnosis); 
+          // setTreatment(res.data)
           setSuccess(true)
+          // let  method_treatment = 'method_treatment';
+          // setTreatment({ ...treatment,[method_treatment]: b.methodtreatment})
           
         } else {
           setError(true);
@@ -237,7 +240,7 @@ export default function TreatmentShow() {
               </Grid>
             </Grid> */}
 
-<Grid item xs={10}>
+<Grid item xs={6}>
                                 <p>Decryption</p>
                                <TextField 
                                id="Decryption" 
@@ -250,12 +253,14 @@ export default function TreatmentShow() {
                                />
                             </Grid>
 
-                            <Grid item xs={5}>
+                            <Grid item xs={10}>
                                 <p>Output</p>
                                <TextField 
                                id="Output" 
                                type="string"
                                disabled
+                               multiline
+                               rows={3}
                                inputProps={{name:"Output"}}
                                variant="outlined" 
                                value={output2}                
@@ -263,19 +268,30 @@ export default function TreatmentShow() {
                                />
                             </Grid>
 
-                            <Grid item xs={5}>
+                            <Grid item xs={10}>
                                 <p>Output</p>
                                <TextField 
                                id="Output" 
                                type="string"
                                disabled
+                               multiline
+                               rows={3}
                                inputProps={{name:"Output"}}
                                variant="outlined" 
                                value={output}                
                                fullWidth
                                />
                             </Grid>
-                            
+                            <Grid item xs={6}>
+              <Button
+                variant="contained"
+                color="primary"
+                component={RouterLink}
+                to="/treatmentdoctortable"
+              >
+                กลับ
+              </Button>
+            </Grid>
                             
                             
 
@@ -290,19 +306,10 @@ export default function TreatmentShow() {
                         Decryption
                       </Button>
                     </Grid>
-            <Grid item xs={12}></Grid>
+            
 
     
-            <Grid item xs={6}>
-              <Button
-                variant="contained"
-                color="primary"
-                component={RouterLink}
-                to="/treatmentdoctortable"
-              >
-                กลับ
-              </Button>
-            </Grid>
+           
 
             <Grid item xs={6}>
             
