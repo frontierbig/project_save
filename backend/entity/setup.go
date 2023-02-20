@@ -58,7 +58,7 @@ func SetupDatabase() {
 	PasswordUser2, err := bcrypt.GenerateFromPassword([]byte("123"), 14)
 
 	User2 := User{
-		Name:     "Doc",
+		Name:     "Dr.McFakey",
 		Password: string(PasswordUser2),
 		Email:    "doctor@gmail.com",
 		Tel:      "097-XXXXXXX",
