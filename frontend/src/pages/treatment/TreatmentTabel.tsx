@@ -97,7 +97,7 @@ function MedracTabel() {
             <Button
               style={{ float: "left" }}
               component={RouterLink}
-              to={"/medrecshow/" + params.row.id}
+              to={"/treatmentshow/" + params.row.id}
               color="primary"
             >
               <VisibilityOutlinedIcon style={{ fill: "#0072ea" }} />

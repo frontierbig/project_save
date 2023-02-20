@@ -87,12 +87,11 @@ export default function TreatmentShow() {
       .then((res) => {
         console.log(res.data);
         let b = res.data
-        // let a =JSON.stringify(res.data)
-        // console.log(a);
-        console.log(b.diagnosis)
         if (res.data) {
+          console.log(res);
           setOutput(b.methodtreatment)
           setOutput2(b.diagnosis); 
+          setSuccess(true)
           
         } else {
           setError(true);
@@ -122,25 +121,25 @@ export default function TreatmentShow() {
         <div className="content">
           <div>
             <div>
-              <Snackbar
-                open={success}
-                autoHideDuration={6000}
-                onClose={handleClose}
-              >
-                <Alert onClose={handleClose} severity="success">
-                  บันทึกข้อมูลสำเร็จ
-                </Alert>
-              </Snackbar>
-              <Snackbar
-                open={error}
-                autoHideDuration={6000}
-                onClose={handleClose}
-              >
-                <Alert onClose={handleClose} severity="error">
-                  {ErrorMessage}
-                </Alert>
-              </Snackbar>
-              <br />
+            <Snackbar
+                      open={success}
+                      autoHideDuration={6000}
+                      onClose={handleClose}
+                    >
+                      <Alert onClose={handleClose} severity="success">
+                        Decriptionsuccess
+                      </Alert>
+                    </Snackbar>
+                    <Snackbar
+                      open={error}
+                      autoHideDuration={6000}
+                      onClose={handleClose}
+                    >
+                      <Alert onClose={handleClose} severity="error">
+                        Decription fail , invalid Key
+                      </Alert>
+                    </Snackbar>
+                    <br />
 
               <div className="toptitle">Treatment</div>
             </div>
