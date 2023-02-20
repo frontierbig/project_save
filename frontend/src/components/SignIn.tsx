@@ -9,6 +9,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import './signin.css'
 
 import { SigninInterface } from "../model/SignInUI";
 
@@ -81,7 +82,7 @@ function SignIn() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" >
       <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
           เข้าสู่ระบบสำเร็จ
@@ -100,12 +101,7 @@ function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        
-        <p>Email: admin@gmail.com, password: 1234 <br></br>
-        Email: member@gmail.com, password: 1234
-        </p>
-        
-        
+
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"

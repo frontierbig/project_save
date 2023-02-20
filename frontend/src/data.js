@@ -63,10 +63,10 @@ export const linkDoctor = [
         path: '/'
     },
    
-    {
-        name: "Department",
-        path: '/department'
-    },
+    // {
+    //     name: "Department",
+    //     path: '/department'
+    // },
     {   
         name:"Medicalrecord",
         path: '/doctorrecordtable'
