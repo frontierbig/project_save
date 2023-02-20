@@ -148,18 +148,18 @@ function MedracTabel() {
           <div className="btnicons" >
 
           <div>
-            <p>Medicalrecord</p>
+            <p>Treatmemt</p>
           </div>
             <Button
               style={{ float: "left"  ,cursor: "pointer",backgroundColor:'#23395d' ,padding:'10px',color:'white' }}
               component={RouterLink}
-              to={"/doctorrecordcreate"}
+              to={"/treatmentdoctor"}
               color="inherit"
               size='medium'
               
             >
               <AddCircleOutlineIcon style={{ fill: "white" ,marginRight:'10px'}}  />
-              <p> Add medicalracord</p>
+              <p> Add treament</p>
               
             </Button>
           </div>
