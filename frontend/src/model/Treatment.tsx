@@ -30,8 +30,8 @@ export interface TreatmentInterface {
   }
 
   export interface resprondecrytion{
-    diagnosis_results: string,
-    method_treatment: string,
+    Diagnosis_results: string,
+    Method_treatment: string,
   }
   
   

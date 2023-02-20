@@ -28,10 +28,9 @@ function Alert(props: AlertProps) {
 export default function TreatmentShow() {
   const [decryption, setDecryption] = useState<Partial<DecrytionInterface>>({});
   const [treatment, setTreatment] = useState<TreatmentInterface2[]>([]);
-
+  const [output, setOutput] = useState("");
   const [output2, setOutput2] = useState<resprondecrytion[]>([]);
 
-  const [output, SetOutput] = useState([]);
 
 
   const [success, setSuccess] = useState(false);
@@ -51,6 +50,8 @@ export default function TreatmentShow() {
       .then((response) => response.json())
       .then((res) => {
         console.log(res.data);
+
+
         if (res.data) {
           setTreatment(res.data);
 
@@ -85,21 +86,20 @@ export default function TreatmentShow() {
       .then((response) => response.json())
       .then((res) => {
         console.log(res.data);
+        let b = res.data
+        // let a =JSON.stringify(res.data)
+        // console.log(a);
+        console.log(b.diagnosis)
         if (res.data) {
-
-          const a = res.data.map((item: resprondecrytion) => {
-            return item.diagnosis_results
-        
-          });
-          ////////////////////////////////////////////////
-          setOutput2(a); 
-
-
+          setOutput(b.methodtreatment)
+          setOutput2(b.diagnosis); 
+          
         } else {
           setError(true);
           console.log(res);
         }
-      });
+      })
+      
   };
   const [ErrorMessage, setErrorMessage] = React.useState<String>();
   const handleDateChange = (date: Date | null) => {
@@ -238,7 +238,7 @@ export default function TreatmentShow() {
               </Grid>
             </Grid> */}
 
-<Grid item xs={5}>
+<Grid item xs={10}>
                                 <p>Decryption</p>
                                <TextField 
                                id="Decryption" 
@@ -250,9 +250,6 @@ export default function TreatmentShow() {
                                fullWidth
                                />
                             </Grid>
-
-
-                            {}
 
                             <Grid item xs={5}>
                                 <p>Output</p>
@@ -266,6 +263,20 @@ export default function TreatmentShow() {
                                fullWidth
                                />
                             </Grid>
+
+                            <Grid item xs={5}>
+                                <p>Output</p>
+                               <TextField 
+                               id="Output" 
+                               type="string"
+                               disabled
+                               inputProps={{name:"Output"}}
+                               variant="outlined" 
+                               value={output}                
+                               fullWidth
+                               />
+                            </Grid>
+                            
                             
                             
 
@@ -298,6 +309,8 @@ export default function TreatmentShow() {
             
             </Grid>
           </Grid>
+
+          
         </div>
       </div>
           );
