@@ -109,7 +109,6 @@ function MedracTabel() {
   ];
 
   // const [medicalracord, setMedicalracord] = useState<Partial<MedicalRecordInterface>[]>([]);
-
   const [treatment, setTreatment] = useState<Partial<TreatmentInterface>[]>([]);
 
   const getMedicalracord = async () => {

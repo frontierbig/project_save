@@ -1,6 +1,6 @@
 // import "./medrec.css";
 import NavbarPatient from "../../components/NavbarPatient";
-
+import DateFnsUtils from "@date-io/date-fns";
 import React, {
   ChangeEvent,
   useEffect,
@@ -11,30 +11,27 @@ import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+
+import {KeyboardDatePicker} from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+
+import { FormControl } from "@material-ui/core";
+
 import { Snackbar } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
-import { FormControl } from "@material-ui/core";
-import DateFnsUtils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import {
-    KeyboardDateTimePicker,
-    KeyboardDatePicker,
-  } from "@material-ui/pickers";
-import { MedicalRecordInterface2 } from "../../model/Medicalrec";
 import { DecrytionInterface } from "../../model/Decryption";
-import { TreatmentInterface } from "../../model/Treatment";
+import { TreatmentInterface2 } from "../../model/Treatment";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 export default function TreatmentShow() {
   const [decryption, setDecryption] = useState<Partial<DecrytionInterface>>({});
-  const [treatment, setTreatment] = useState<TreatmentInterface[]>(
-    []
-  );
+  const [treatment, setTreatment] = useState<TreatmentInterface2[]>([]);
   const [output, SetOutput] = useState("");
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   let { id } = useParams();
   const getTreatmentByID = async () => {
     const apiUrl = `http://localhost:8080/api/ListTreatment/${id}`; //ดึง
@@ -56,7 +53,6 @@ export default function TreatmentShow() {
         }
       });
   };
-
   useEffect(() => {
     getTreatmentByID();
   }, []);
@@ -106,7 +102,7 @@ export default function TreatmentShow() {
   return (
     <>
       <div className="oneh">
-        {treatment.map((item: TreatmentInterface) => {
+        {treatment.map((item: TreatmentInterface2) => {
           return (
             <div className="paper">
         <div className="content">
@@ -132,33 +128,25 @@ export default function TreatmentShow() {
               </Snackbar>
               <br />
 
-              <div className="toptitle"> Treatment</div>
+              <div className="toptitle">Treatment</div>
             </div>
           </div>
           <Divider />
           <br />
 
           <Grid container spacing={5}>
-            {/* <Grid item xs={5}>
+
+
+             <Grid item xs={6}>
               <p>Name</p>
-              <Select
+              <TextField   
+                type="string"
                 variant="outlined"
-                // value={equipment.SportTypeID}
-                onChange={handleChange}
-                defaultValue={0}
-                inputProps={{ name: "Patient_ID" }}
+                value={item.patient}
+                disabled
                 fullWidth
-              >
-                <MenuItem value={0} key={0} disabled>
-                  SelectUser
-                </MenuItem>
-                {patient.map((item: UserInterface) => (
-                  <MenuItem value={item.ID} key={item.ID}>
-                    {item.Name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Grid> */}
+              />
+            </Grid>
 
             <Grid item xs={5}></Grid>
 
@@ -167,9 +155,10 @@ export default function TreatmentShow() {
               <TextField
                 id="Diagnosis_results"
                 type="string"
+                disabled
                 inputProps={{ name: "Diagnosis_results" }}
                 variant="outlined"
-                value={item.Diagnosis_results}
+                value={item.diagnosis_results}
                 multiline
                 rows={3}
                 fullWidth
@@ -183,28 +172,31 @@ export default function TreatmentShow() {
                 type="string"
                 inputProps={{ name: "Method_treatment" }}
                 variant="outlined"
-                // value={treatment.Method_treatment || ""}
+                value={item.method_treatment}
                 multiline
                 rows={3}
+                disabled
                 onChange={handleChange}
                 fullWidth
               />
             </Grid>
 
-            {/* <Grid item xs={6}>
+            <Grid item xs={6}>
               <FormControl variant="outlined">
                 <p>Appointment time</p>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     name="Patient_dob"
-                    // value={selectedDate}
+                    value={selectedDate}
                     onChange={handleDateChange}
                     format="yyyy/MM/dd HH:mm"
                     fullWidth
+                    disabled
                   />
                 </MuiPickersUtilsProvider>
               </FormControl>
-            </Grid> */}
+            </Grid>
+
             <Grid item xs={5}></Grid>
 
             {/* <Grid item xs={12}>
@@ -231,6 +223,7 @@ export default function TreatmentShow() {
                 />
               </Grid>
             </Grid> */}
+            
             <Grid item xs={12}></Grid>
 
     

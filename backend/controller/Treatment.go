@@ -4,8 +4,6 @@ import (
 	"net/http"
 	"time"
 
-	
-
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
@@ -226,7 +224,7 @@ func ListTreatment(c *gin.Context) {
 }
 
 func ListTreatmentByID(c *gin.Context) {
-	TreatmentID := c.Param("Treatment")
+	TreatmentID := c.Param("TreatmentID")
 
 	var Treatment []*entity.Treatment
 	if err :=
