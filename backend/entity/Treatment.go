@@ -14,5 +14,7 @@ type Treatment struct {
 	Doctor   string  		`gorm:"references:id" json:"doctor"`
 	Encription_Key string  	`json:"encription_Key"`
 
+	
+
 	SubTreatment []SubTreatment  `gorm:"foreignKey:Treatment_ID"`
 }

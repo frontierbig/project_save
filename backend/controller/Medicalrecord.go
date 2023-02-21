@@ -238,6 +238,7 @@ func DecryptionMedicalRecord(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
 		return
 	}
+	
 	fmt.Println(Data.Decryption)
 	fmt.Println(MedicalRecord.Secret_Data)
 

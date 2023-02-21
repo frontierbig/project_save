@@ -2,7 +2,7 @@ package controller
 
 import (
 	"net/http"
-	"time"
+	// "time"
 
 	"crypto/aes"
 	"crypto/cipher"
@@ -16,16 +16,6 @@ import (
 
 	"net/smtp"
 )
-
-type TreatmentPayload struct {
-	Master_Key        string // ต้องสร้างฟิลมารับ Decrypt tion อยู่หน้า medrecshow
-	Patient_ID        uint
-	Diagnosis_results string
-	Method_treatment  string
-	Appointment_time  time.Time
-	Doctor_ID         uint
-	Encryptionselect  bool
-}
 
 // POST /users
 func CreateTreatment(c *gin.Context) {
@@ -48,7 +38,7 @@ func CreateTreatment(c *gin.Context) {
 	}
 
 	if tx := entity.DB().Where("id = ?", payload.Doctor_ID).First(&User); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Doctor not found"})
 		return
 	}
 
@@ -97,18 +87,18 @@ func CreateTreatment(c *gin.Context) {
 		}
 		fmt.Println("Email Sent Successfully!")
 
-		encrypted_Diagnosis, err := encrypt(payload.Diagnosis_results, key)
+		// encrypted_Diagnosis, err := encrypt(payload.Diagnosis_results, key)
 
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
+		// if err != nil {
+		// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		// 	return
+		// }
 
-		encrypted_Method_treatment, err := encrypt(payload.Method_treatment, key)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
+		// encrypted_Method_treatment, err := encrypt(payload.Method_treatment, key)
+		// if err != nil {
+		// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		// 	return
+		// }
 
 		encryptedKey, err := encrypt(key, payload.Master_Key)
 		if err != nil {
@@ -120,9 +110,9 @@ func CreateTreatment(c *gin.Context) {
 		mr := entity.Treatment{
 			Patient_ID:        int(Patient.ID),
 			Patient:           Patient.Name,
-			Diagnosis_results: encrypted_Diagnosis,
-			Method_treatment:  encrypted_Method_treatment,
-			Appointment:       payload.Appointment_time,
+			// Diagnosis_results: encrypted_Diagnosis,
+			// Method_treatment:  encrypted_Method_treatment,
+			// Appointment:       payload.Appointment_time,
 
 			Encription_Key: encryptedKey,
 			Doctor_ID:      int(User.ID),
@@ -144,9 +134,9 @@ func CreateTreatment(c *gin.Context) {
 		mr := entity.Treatment{
 			Patient_ID:        int(Patient.ID),
 			Patient:           Patient.Name,
-			Diagnosis_results: payload.Diagnosis_results,
-			Method_treatment:  payload.Method_treatment,
-			Appointment:       payload.Appointment_time,
+			// Diagnosis_results: payload.Diagnosis_results,
+			// Method_treatment:  payload.Method_treatment,
+			// Appointment:       payload.Appointment_time,
 			Doctor_ID:         int(User.ID),
 			Encription_Key:    "",
 			Doctor:            User.Name,
@@ -187,24 +177,24 @@ func DecryptionTreatment(c *gin.Context) {
 		return
 	}
 	fmt.Println(Data.Decryption)
-	fmt.Println(Treatment.Diagnosis_results)
-	fmt.Println(Treatment.Method_treatment)
+	// fmt.Println(Treatment.Diagnosis_results)
+	// fmt.Println(Treatment.Method_treatment)
 
-	decrypted, err := decrypt(Treatment.Diagnosis_results, Data.Decryption, c)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
-		return
-	}
+	// decrypted, err := decrypt(Treatment.Diagnosis_results, Data.Decryption, c)
+	// if err != nil {
+	// 	c.JSON(http.StatusBadRequest, err.Error())
+	// 	return
+	// }
 
-	decrypted2, err := decrypt(Treatment.Method_treatment, Data.Decryption, c)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
-		return
-	}
+	// decrypted2, err := decrypt(Treatment.Method_treatment, Data.Decryption, c)
+	// if err != nil {
+	// 	c.JSON(http.StatusBadRequest, err.Error())
+	// 	return
+	// }
 
-	data := Datadecryptreturn{Diagnosis: decrypted, Methodtreatment: decrypted2}
+	// data := Datadecryptreturn{Diagnosis: decrypted, Methodtreatment: decrypted2}
 
-	c.JSON(http.StatusOK, gin.H{"data": data})
+	c.JSON(http.StatusOK, gin.H{"data": "data"})
 
 }
 
