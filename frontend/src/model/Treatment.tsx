@@ -10,8 +10,6 @@ export interface TreatmentInterface {
 
     Doctor_ID  :number,
     Encription_Key: string ,
-
-
   
   }
   
@@ -33,5 +31,18 @@ export interface TreatmentInterface {
     Diagnosis_results: string,
     Method_treatment: string,
   }
-  
+
+  export interface Treatmentuserinterface{
+    id : number,
+    name : string,
+  }
+
+  export  interface SubTreatmentInterface {
+    id :number ,
+    Treatment_ID :number
+    Diagnosis_results :string
+    Method_treatment  :string
+    Appointment   : Date
+    Selected_encryp  :boolean
+  }
   

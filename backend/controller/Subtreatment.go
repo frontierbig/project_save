@@ -37,8 +37,8 @@ type SubTreatmentPayload struct {
 
 // POST /users
 func CreateSubTreatment(c *gin.Context) {
-	var Patient entity.User
-	var User entity.User
+	// var Patient entity.User
+	// var User entity.User
 	var Treatment entity.Treatment
 	var payload SubTreatmentPayload
 
@@ -48,18 +48,20 @@ func CreateSubTreatment(c *gin.Context) {
 		return
 	}
 	fmt.Println("is playlode", payload.Master_Key)
-	if tx := entity.DB().Where("id = ?", Treatment.Patient_ID).First(&Patient); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Patient not found"})
-		return
-	}
-	if tx := entity.DB().Where("id = ?", Treatment.Doctor_ID).First(&User); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
-		return
-	}
+
 	if tx := entity.DB().Where("id = ?", payload.Treatment_ID).First(&Treatment); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Treatment not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Treatment  not found"})
 		return
 	}
+
+	// if tx := entity.DB().Where("id = ?", Treatment.Doctor_ID).First(&User); tx.RowsAffected == 0 {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
+	// 	return
+	// }
+	// if tx := entity.DB().Where("id = ?", payload.Treatment_ID).First(&Treatment); tx.RowsAffected == 0 {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Treatment not found"})
+	// 	return
+	// }
 
 	if Treatment.Encription_Key == ""{
 		fmt.Println(payload.Encryptionselect)
@@ -236,27 +238,28 @@ func DecryptionSubTreatment(c *gin.Context) {
 
 }
 
-func ListSubTreatment(c *gin.Context) {
-	var Treatment []*entity.Treatment
-	if err :=
-		entity.DB().Table("treatments").Find(&Treatment).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+func ListTreatmentUser(c *gin.Context) {
+	var Treatmentuser []struct {
+		ID   uint   `json:"id"`
+		Patient string `json:"name"`
+	}
+	if err := entity.DB().Table("treatments").Select("id,patient").Find(&Treatmentuser).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Notfound Treatment_user"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": Treatment})
-
+	c.JSON(http.StatusOK, gin.H{"data": Treatmentuser})
 }
 
-func ListSubTreatmentByID(c *gin.Context) {
-	TreatmentID := c.Param("TreatmentID")
+// func ListSubTreatmentByID(c *gin.Context) {
+// 	TreatmentID := c.Param("TreatmentID")
 
-	var Treatment []*entity.Treatment
-	if err :=
-		entity.DB().Raw("SELECT * FROM treatments WHERE id = ?", TreatmentID).Find(&Treatment).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": Treatment})
+// 	var Treatment []*entity.Treatment
+// 	if err :=
+// 		entity.DB().Raw("SELECT * FROM treatments WHERE id = ?", TreatmentID).Find(&Treatment).Error; err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	c.JSON(http.StatusOK, gin.H{"data": Treatment})
 
-}
+// }
 

@@ -85,7 +85,11 @@ export const linkDoctor = [
     {
         name: "Contact",
         path: '/contact'
-    }
+    },
+    {
+        name: "Subtreatment",
+        path: '/subtreatment'   
+    },
 ]
 export const linkAdmin = [
     {

@@ -11,12 +11,7 @@ export interface UserInterface{
     RoleID: number,
 
     Key : string,
-    // ID: string,
-    // FirstName: string;
-    // LastName: string;
-    // Email: string;
-    // Age: number;
-    // BirthDay: Date | null;
+
 }
 
 export interface RoleInterface {
