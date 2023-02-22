@@ -263,6 +263,60 @@ func ListTreatmentByID(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": Treatmentrespon})
 }
 
+func DecrypListTreatmentByID(c *gin.Context) {
+	TreatmentID := c.Param("TreatmentID")
+	var Treatment []*entity.Treatment
+	var SubTreatment []*entity.SubTreatment
+
+	var Treatmentrespon []struct {
+		Treatment   []*entity.Treatment    `json:"treatment"`
+		SubTreatment []*entity.SubTreatment `json:"sub_treatment"`
+	}
+
+	if err :=
+		entity.DB().Raw("SELECT * FROM treatments WHERE id = ?", TreatmentID).Find(&Treatment).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if err :=
+		entity.DB().Raw("SELECT * FROM sub_treatments WHERE treatment_id = ?", 					 
+		TreatmentID).Find(&SubTreatment).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Create a new instance of the Treatmentrespon struct
+	response := struct {
+		Treatment   []*entity.Treatment    `json:"treatment"`
+		SubTreatment []*entity.SubTreatment `json:"sub_treatment"`
+	}{
+		Treatment:   Treatment,
+		SubTreatment: SubTreatment,
+	}
+
+	// Append the response to the slice of Treatmentrespon
+	Treatmentrespon = append(Treatmentrespon, response)
+
+	// Return the JSON response
+	c.JSON(http.StatusOK, gin.H{"data": Treatmentrespon})
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 func encrypt(stringToEncrypt string, keyString string) (encryptedString string, err error) {
 
 	//Since the key is in string, we need to convert decode it to bytes
