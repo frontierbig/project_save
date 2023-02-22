@@ -16,18 +16,10 @@ import (
 
 	// "net/smtp"
 )
-type TreatmentPayload struct {
-	Master_Key        string // ต้องสร้างฟิลมารับ Decrypt tion อยู่หน้า medrecshow
-	Patient_ID        uint
-	Treatment_ID    uint
-	Doctor_ID         uint
-	Encryptionselect  bool
-}
-
-
 
 type SubTreatmentPayload struct {
 	Master_Key        string
+	
 	Treatment_ID    uint
 	Diagnosis_results string
 	Method_treatment  string
@@ -122,7 +114,7 @@ func CreateSubTreatment(c *gin.Context) {
 				Diagnosis_results: encrypted_Diagnosis,
 				Method_treatment:  encrypted_Method_treatment,
 				Appointment:       payload.Appointment_time,
-				Selected_encryp  :true,
+				Selected_encryp  : payload.Encryptionselect,
 				Treatment_ID:  int(Treatment.ID),
 			}
 	
@@ -139,7 +131,7 @@ func CreateSubTreatment(c *gin.Context) {
 				Method_treatment:  payload.Method_treatment,
 				Appointment:       payload.Appointment_time,
 				Treatment_ID:  int(Treatment.ID),
-				Selected_encryp: false,
+				Selected_encryp: payload.Encryptionselect,
 			}
 			// 12: บันทึก
 			if err := entity.DB().Create(&mr).Error; err != nil {

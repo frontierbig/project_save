@@ -99,12 +99,14 @@ export default function MedrecPatient() {
     let data = {
       //?? ""
       Patient_ID: treatment.Patient_ID ?? "",
+      Doctor_ID: User.ID,
+      Encryptionselect:checked,
+      Master_Key: masterkey.Master_Key ?? "",
+
+
       Diagnosis_results: treatment.Diagnosis_results ?? "",
       Method_treatment: treatment.Method_treatment ?? "",
       Appointment_time: selectedDate ?? "",
-      Master_Key: masterkey.Master_Key ?? "",
-      Doctor_ID: User.ID,
-      Encryptionselect:checked,
     };
 
     console.log(data);
@@ -163,7 +165,7 @@ export default function MedrecPatient() {
               </Snackbar>
               <br />
 
-              <div className="toptitle"> Treatment</div>
+              <div className="toptitle"> Create Treatment</div>
             </div>
           </div>
           <Divider />

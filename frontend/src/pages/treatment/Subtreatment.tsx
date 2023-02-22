@@ -162,7 +162,7 @@ export default function SubTreatmentDoctor() {
               </Snackbar>
               <br />
 
-              <div className="toptitle"> Treatment</div>
+              <div className="toptitle"> Add Treatment</div>
             </div>
           </div>
           <Divider />

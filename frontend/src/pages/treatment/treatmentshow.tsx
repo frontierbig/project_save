@@ -1,42 +1,51 @@
-// import "./medrec.css";
+import "./treatmentshow.css";
 import NavbarPatient from "../../components/NavbarPatient";
 import DateFnsUtils from "@date-io/date-fns";
-import React, {
-  ChangeEvent,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-
-import {KeyboardDatePicker} from "@material-ui/pickers";
+import { KeyboardDatePicker } from "@material-ui/pickers";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-
 import { FormControl } from "@material-ui/core";
-
 import { Snackbar } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { DecrytionInterface } from "../../model/Decryption";
-import { TreatmentInterface2 } from "../../model/Treatment";
+import {
+  TreatmentshowInterface,
+  SubTreatmentshowInterface,
+} from "../../model/Treatment";
 import { resprondecrytion } from "../../model/Treatment";
+
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Collapse,
+  IconButton,
+} from "@material-ui/core";
+import { ExpandMore } from "@material-ui/icons";
+import { padding, style } from "@mui/system";
+
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 export default function TreatmentShow() {
   const [decryption, setDecryption] = useState<Partial<DecrytionInterface>>({});
-  const [treatment, setTreatment] = useState<TreatmentInterface2[]>([]);
+  const [treatment, setTreatment] = useState<TreatmentshowInterface[]>([]);
+  const [subtreatment, setSubTreatment] = useState<SubTreatmentshowInterface[]>(
+    []
+  );
   const [output, setOutput] = useState("");
   const [output2, setOutput2] = useState<resprondecrytion[]>([]);
-
-
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   let { id } = useParams();
+
   const getTreatmentByID = async () => {
     const apiUrl = `http://localhost:8080/api/ListTreatment/${id}`; //ดึง
     const requestOptions = {
@@ -50,13 +59,17 @@ export default function TreatmentShow() {
       .then((response) => response.json())
       .then((res) => {
         console.log(res.data);
-
-
         if (res.data) {
-          setTreatment(res.data);
+          // Access the individual fields of the Treatmentrespon struct
+          const treatment = res.data[0].treatment;
+          const subTreatment = res.data[0].sub_treatment;
 
+          // Use the values in the Treatmentrespon struct
+          console.log("Treatment:", treatment);
+          console.log("SubTreatment:", subTreatment);
 
-
+          setTreatment(treatment);
+          setSubTreatment(subTreatment);
         } else {
           console.log("else");
         }
@@ -86,22 +99,20 @@ export default function TreatmentShow() {
       .then((response) => response.json())
       .then((res) => {
         console.log(res.data);
-        let b = res.data
+        let b = res.data;
         if (res.data) {
           console.log(res);
-          setOutput(b.methodtreatment)
-          setOutput2(b.diagnosis); 
+          setOutput(b.methodtreatment);
+          setOutput2(b.diagnosis);
           // setTreatment(res.data)
-          setSuccess(true)
+          setSuccess(true);
           // let  method_treatment = 'method_treatment';
           // setTreatment({ ...treatment,[method_treatment]: b.methodtreatment})
-          
         } else {
           setError(true);
           console.log(res);
         }
-      })
-      
+      });
   };
   const [ErrorMessage, setErrorMessage] = React.useState<String>();
   const handleDateChange = (date: Date | null) => {
@@ -115,16 +126,28 @@ export default function TreatmentShow() {
     setError(false);
   };
 
+  interface CollapseCardProps {
+    title: string;
+    content: React.ReactNode;
+  }
+  const [expanded, setExpanded] = React.useState<boolean[]>([]);
+
+  const handleExpandClick = (index: number) => {
+    let curArr = [...expanded];
+    curArr[index] = !curArr[index];
+    setExpanded(curArr);
+  };
+
   return (
     <>
       <div className="oneh">
-        {treatment.map((item: TreatmentInterface2) => {
+        {treatment.map((item: TreatmentshowInterface) => {
           return (
             <div className="paper">
-        <div className="content">
-          <div>
-            <div>
-            <Snackbar
+              <div className="content">
+                <div>
+                  <div>
+                    <Snackbar
                       open={success}
                       autoHideDuration={6000}
                       onClose={handleClose}
@@ -144,184 +167,185 @@ export default function TreatmentShow() {
                     </Snackbar>
                     <br />
 
-              <div className="toptitle">Treatment</div>
+                    <div className="toptitle">Treatment</div>
+                  </div>
+                </div>
+                <Divider />
+                <br />
+
+                <Grid container spacing={5}>
+                  <Grid item xs={6}>
+                    <p>Name</p>
+                    <TextField
+                      type="string"
+                      variant="outlined"
+                      value={item.patient}
+                      disabled
+                      fullWidth
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <p>Doctor</p>
+                    <TextField
+                      type="string"
+                      variant="outlined"
+                      value={item.doctor}
+                      disabled
+                      fullWidth
+                    />
+                  </Grid>
+
+                  <Grid item xs={5}></Grid>
+
+                  <Grid item xs={12}>
+                    {subtreatment.map(
+                      (item: SubTreatmentshowInterface, index: number) => {
+                        return (
+                          <div key={index}>
+                            <Card>
+                              <CardHeader
+                                className="cardheaddertitle"
+                                title={"Treatment Reccode " + (index + 1)}
+                                titleTypographyProps={{
+                                  style: { fontSize: "18px" },
+                                }}
+                                action={
+                                  <IconButton
+                                    onClick={() => handleExpandClick(index)}
+                                  >
+                                    <ExpandMore />
+                                  </IconButton>
+                                }
+                              />
+                              <Collapse in={expanded[index]}>
+                                <div className="contenttreatmentreccord">
+                                  <Grid item xs={12} style={{ float: "right" }}>
+                                  
+                                    <p className="appointment">Diagnosis results </p>
+                                 
+                                
+                                  
+                                    <FormControl>
+                                      <MuiPickersUtilsProvider
+                                        utils={DateFnsUtils}
+                                      >
+                                        <KeyboardDatePicker
+                                          name="Patient_dob"
+                                          value={item.appointment}
+                                          onChange={handleDateChange}
+                                          format="yyyy/MM/dd HH:mm"
+                                          fullWidth
+                                          disabled
+                                        />
+                                      </MuiPickersUtilsProvider>
+                                    </FormControl>
+                                   
+                                  </Grid>
+                                  <Grid item xs={12}>
+                                    <p>Diagnosis results </p>
+                                    <TextField
+                                      type="string"
+                                      variant="outlined"
+                                      multiline
+                                      rows={3}
+                                      value={item.diagnosis_results}
+                                      disabled
+                                      fullWidth
+                                    />
+                                  </Grid>
+
+                                  <Grid item xs={12}>
+                                    <p>Method Treatment</p>
+                                    <TextField
+                                      type="string"
+                                      variant="outlined"
+                                      multiline
+                                      rows={3}
+                                      value={item.method_treatment}
+                                      disabled
+                                      fullWidth
+                                    />
+                                  </Grid>
+                                </div>
+                              </Collapse>
+                            </Card>
+                          </div>
+                        );
+                      }
+                    )}
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <p>Decryption</p>
+                    <TextField
+                      id="Decryption"
+                      type="string"
+                      inputProps={{ name: "Decryption" }}
+                      variant="outlined"
+                      value={decryption.Decryption || ""}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Grid>
+
+                  <Grid item xs={10}>
+                    <p>Output</p>
+                    <TextField
+                      id="Output"
+                      type="string"
+                      disabled
+                      multiline
+                      rows={3}
+                      inputProps={{ name: "Output" }}
+                      variant="outlined"
+                      value={output2}
+                      fullWidth
+                    />
+                  </Grid>
+
+                  <Grid item xs={10}>
+                    <p>Output</p>
+                    <TextField
+                      id="Output"
+                      type="string"
+                      disabled
+                      multiline
+                      rows={3}
+                      inputProps={{ name: "Output" }}
+                      variant="outlined"
+                      value={output}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      component={RouterLink}
+                      to="/treatmentdoctortable"
+                    >
+                      กลับ
+                    </Button>
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <Button
+                      style={{ float: "right" }}
+                      variant="contained"
+                      onClick={DecryptionMedicalrecord}
+                      color="primary"
+                    >
+                      Decryption
+                    </Button>
+                  </Grid>
+
+                  <Grid item xs={6}></Grid>
+                </Grid>
+              </div>
             </div>
-          </div>
-          <Divider />
-          <br />
-
-          <Grid container spacing={5}>
-
-
-             <Grid item xs={6}>
-              <p>Name</p>
-              <TextField   
-                type="string"
-                variant="outlined"
-                value={item.patient}
-                disabled
-                fullWidth
-              />
-            </Grid>
-
-            <Grid item xs={5}></Grid>
-
-            <Grid item xs={10}>
-              <p>Diagnosis results</p>
-              <TextField
-                id="Diagnosis_results"
-                type="string"
-                disabled
-                inputProps={{ name: "Diagnosis_results" }}
-                variant="outlined"
-                value={item.diagnosis_results}
-                multiline
-                rows={3}
-                fullWidth
-              />
-            </Grid>
-
-            <Grid item xs={10}>
-              <p>Method of treatment</p>
-              <TextField
-                id="Method_treatment"
-                type="string"
-                inputProps={{ name: "Method_treatment" }}
-                variant="outlined"
-                value={item.method_treatment}
-                multiline
-                rows={3}
-                disabled
-                onChange={handleChange}
-                fullWidth
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormControl variant="outlined">
-                <p>Appointment time</p>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    name="Patient_dob"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    format="yyyy/MM/dd HH:mm"
-                    fullWidth
-                    disabled
-                  />
-                </MuiPickersUtilsProvider>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={5}></Grid>
-
-            {/* <Grid item xs={12}>
-              <h3>Encryption</h3>
-
-              <Switch
-                checked={checked}
-                onChange={handleChangesw}
-                inputProps={{ "aria-label": "controlled" }}
-                value={checked}
-               
-              />
-
-           <Grid item xs={5} className={checked? "encryptioninputacctive" : "encryptioninputhide"}>
-                <p>Master Key</p>
-                <TextField
-                  id="Master_Key"
-                  type="string"
-                  inputProps={{ name: "Master_Key" }}
-                  variant="outlined"
-                  value={masterkey.Master_Key || ""}
-                  onChange={handleChangekey}
-                  fullWidth
-                />
-              </Grid>
-            </Grid> */}
-
-<Grid item xs={6}>
-                                <p>Decryption</p>
-                               <TextField 
-                               id="Decryption" 
-                               type="string"
-                               inputProps={{name:"Decryption"}}
-                               variant="outlined" 
-                               value={decryption.Decryption||""}
-                               onChange={handleChange}                  
-                               fullWidth
-                               />
-                            </Grid>
-
-                            <Grid item xs={10}>
-                                <p>Output</p>
-                               <TextField 
-                               id="Output" 
-                               type="string"
-                               disabled
-                               multiline
-                               rows={3}
-                               inputProps={{name:"Output"}}
-                               variant="outlined" 
-                               value={output2}                
-                               fullWidth
-                               />
-                            </Grid>
-
-                            <Grid item xs={10}>
-                                <p>Output</p>
-                               <TextField 
-                               id="Output" 
-                               type="string"
-                               disabled
-                               multiline
-                               rows={3}
-                               inputProps={{name:"Output"}}
-                               variant="outlined" 
-                               value={output}                
-                               fullWidth
-                               />
-                            </Grid>
-                            <Grid item xs={6}>
-              <Button
-                variant="contained"
-                color="primary"
-                component={RouterLink}
-                to="/treatmentdoctortable"
-              >
-                กลับ
-              </Button>
-            </Grid>
-                            
-                            
-
-                            <Grid item xs={6}>
-                      <Button
-                        style={{ float: "right"}}
-                        variant="contained"
-                        onClick={DecryptionMedicalrecord}
-                        color="primary"
-                          
-                      >
-                        Decryption
-                      </Button>
-                    </Grid>
-            
-
-    
-           
-
-            <Grid item xs={6}>
-            
-            </Grid>
-          </Grid>
-
-          
-        </div>
-      </div>
           );
         })}
-        ,
       </div>
     </>
   );

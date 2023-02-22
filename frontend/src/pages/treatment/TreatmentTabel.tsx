@@ -146,10 +146,22 @@ function MedracTabel() {
          
 
           <div className="btnicons" >
-
           <div>
             <p>Treatmemt</p>
           </div>
+
+          <div>
+          <Button
+              style={{ float: "left"  ,cursor: "pointer",backgroundColor:'#23395d' ,padding:'10px',color:'white' }}
+              component={RouterLink}
+              to={"/subtreatment"}
+              color="inherit"
+              size='medium'
+              
+            >
+              <AddCircleOutlineIcon style={{ fill: "white" ,marginRight:'10px'}}  />
+              <p> Add Treatment</p>
+            </Button>
             <Button
               style={{ float: "left"  ,cursor: "pointer",backgroundColor:'#23395d' ,padding:'10px',color:'white' }}
               component={RouterLink}
@@ -159,10 +171,13 @@ function MedracTabel() {
               
             >
               <AddCircleOutlineIcon style={{ fill: "white" ,marginRight:'10px'}}  />
-              <p> Add treament</p>
-              
+              <p> Create Treatment</p>
             </Button>
+
           </div>
+          </div>
+
+
           <div style={{ height: 830, width: "100%", marginBottom: "2rem" }}>
             <DataGrid
               rows={treatment}
