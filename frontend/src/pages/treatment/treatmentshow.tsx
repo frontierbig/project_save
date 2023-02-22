@@ -26,9 +26,7 @@ import {
   Collapse,
   IconButton,
 } from "@material-ui/core";
-import { ExpandMore } from "@material-ui/icons";
-import { padding, style } from "@mui/system";
-
+import { ExpandMore,ExpandLess } from "@material-ui/icons";
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -196,8 +194,41 @@ export default function TreatmentShow() {
                     />
                   </Grid>
 
-                  <Grid item xs={5}></Grid>
+               
 
+                    <div className="treatmentreccordlist">
+                    <div className="toptitle">Treatment Reccord List</div>
+                    <div>
+
+                    <Button
+                      style={{ float: "right" }}
+                      variant="contained"
+                      size="small"
+                      onClick={DecryptionMedicalrecord}
+                      color="primary"
+                    >
+                      Decryption
+                    </Button>
+
+                    <Button
+                      style={{ float: "right" }}
+                      variant="contained"
+                      size="small"
+                      onClick={DecryptionMedicalrecord}
+                      color="primary"
+                    >
+                      Decryption
+                    </Button>
+
+                    </div>
+                    
+                    </div>
+               
+
+                    
+                   
+
+   
                   <Grid item xs={12}>
                     {subtreatment.map(
                       (item: SubTreatmentshowInterface, index: number) => {
@@ -208,24 +239,21 @@ export default function TreatmentShow() {
                                 className="cardheaddertitle"
                                 title={"Treatment Reccode " + (index + 1)}
                                 titleTypographyProps={{
-                                  style: { fontSize: "18px" },
+                                  style: { fontSize: "18px" , fontWeight: 600  },
                                 }}
+                         
                                 action={
-                                  <IconButton
-                                    onClick={() => handleExpandClick(index)}
-                                  >
-                                    <ExpandMore />
+                                  <IconButton onClick={() => handleExpandClick(index)}>
+                                      {expanded[index] ? <ExpandLess /> : <ExpandMore />}
+
                                   </IconButton>
                                 }
                               />
                               <Collapse in={expanded[index]}>
                                 <div className="contenttreatmentreccord">
-                                  <Grid item xs={12} style={{ float: "right" }}>
+                                  <Grid item xs={4} style={{ float: "right" }}>
                                   
-                                    <p className="appointment">Diagnosis results </p>
-                                 
-                                
-                                  
+                                    <p className="appointment">Appointment time </p>    
                                     <FormControl>
                                       <MuiPickersUtilsProvider
                                         utils={DateFnsUtils}
@@ -236,13 +264,20 @@ export default function TreatmentShow() {
                                           onChange={handleDateChange}
                                           format="yyyy/MM/dd HH:mm"
                                           fullWidth
+                                          inputVariant={"standard"}
                                           disabled
+                                          style={{ borderBottom: 'none' }}
+                                          // disabled
                                         />
                                       </MuiPickersUtilsProvider>
                                     </FormControl>
                                    
                                   </Grid>
-                                  <Grid item xs={12}>
+                                  
+
+                                  <div className="addpadingtreatmentshow">
+                                  <Grid item xs={12} >
+                        
                                     <p>Diagnosis results </p>
                                     <TextField
                                       type="string"
@@ -253,8 +288,10 @@ export default function TreatmentShow() {
                                       disabled
                                       fullWidth
                                     />
+                                
                                   </Grid>
-
+                                  </div>
+                                <div className="addpadingtreatmentshow">
                                   <Grid item xs={12}>
                                     <p>Method Treatment</p>
                                     <TextField
@@ -267,6 +304,7 @@ export default function TreatmentShow() {
                                       fullWidth
                                     />
                                   </Grid>
+                                  </div>
                                 </div>
                               </Collapse>
                             </Card>
@@ -288,36 +326,10 @@ export default function TreatmentShow() {
                       fullWidth
                     />
                   </Grid>
-
-                  <Grid item xs={10}>
-                    <p>Output</p>
-                    <TextField
-                      id="Output"
-                      type="string"
-                      disabled
-                      multiline
-                      rows={3}
-                      inputProps={{ name: "Output" }}
-                      variant="outlined"
-                      value={output2}
-                      fullWidth
-                    />
+                  <Grid item xs={6}>
+              
                   </Grid>
 
-                  <Grid item xs={10}>
-                    <p>Output</p>
-                    <TextField
-                      id="Output"
-                      type="string"
-                      disabled
-                      multiline
-                      rows={3}
-                      inputProps={{ name: "Output" }}
-                      variant="outlined"
-                      value={output}
-                      fullWidth
-                    />
-                  </Grid>
                   <Grid item xs={6}>
                     <Button
                       variant="contained"

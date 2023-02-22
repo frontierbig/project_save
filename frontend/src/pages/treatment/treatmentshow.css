@@ -14,3 +14,13 @@
     color: gray;
     transform: translateY(-20px) ;
 }
+.addpadingtreatmentshow{
+    margin-bottom: 30px;
+}
+.treatmentreccordlist{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 1rem 2rem 1rem 2rem;
+}
