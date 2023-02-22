@@ -18,10 +18,10 @@ import {
   SubTreatmentshowInterface,
 } from "../../model/Treatment";
 import { resprondecrytion } from "../../model/Treatment";
-
+import Card from '@mui/material/Card';
 import {
-  Card,
-  CardContent,
+  // Card,
+  // CardContent,
   CardHeader,
   Collapse,
   IconButton,
@@ -233,9 +233,11 @@ export default function TreatmentShow() {
                     {subtreatment.map(
                       (item: SubTreatmentshowInterface, index: number) => {
                         return (
-                          <div key={index}>
-                            <Card>
+                          <div key={index}  >
+                            
+                            <Card sx={{ borderRadius: 0 }}>
                               <CardHeader
+                               
                                 className="cardheaddertitle"
                                 title={"Treatment Reccode " + (index + 1)}
                                 titleTypographyProps={{
@@ -264,6 +266,7 @@ export default function TreatmentShow() {
                                           onChange={handleDateChange}
                                           format="yyyy/MM/dd HH:mm"
                                           fullWidth
+                                          InputProps={{    disableUnderline: true,   }}
                                           inputVariant={"standard"}
                                           disabled
                                           style={{ borderBottom: 'none' }}
