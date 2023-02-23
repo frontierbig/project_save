@@ -14,7 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sut64/team03/backend/entity"
 
-	// "net/smtp"
+	"net/smtp"
 )
 
 type SubTreatmentPayload struct {
@@ -29,8 +29,8 @@ type SubTreatmentPayload struct {
 
 // POST /users
 func CreateSubTreatment(c *gin.Context) {
-	// var Patient entity.User
-	// var User entity.User
+	var Patient entity.User
+	var User entity.User
 	var Treatment entity.Treatment
 	var payload SubTreatmentPayload
 
@@ -46,14 +46,14 @@ func CreateSubTreatment(c *gin.Context) {
 		return
 	}
 
-	// if tx := entity.DB().Where("id = ?", Treatment.Doctor_ID).First(&User); tx.RowsAffected == 0 {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
-	// 	return
-	// }
-	// if tx := entity.DB().Where("id = ?", payload.Treatment_ID).First(&Treatment); tx.RowsAffected == 0 {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Treatment not found"})
-	// 	return
-	// }
+	if tx := entity.DB().Where("id = ?", Treatment.Doctor_ID).First(&User); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
+		return
+	}
+	if tx := entity.DB().Where("id = ?", payload.Treatment_ID).First(&Treatment); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Treatment not found"})
+		return
+	}
 
 	if Treatment.Encription_Key == ""{
 		fmt.Println(payload.Encryptionselect)
@@ -64,29 +64,29 @@ func CreateSubTreatment(c *gin.Context) {
 			}
 			key := hex.EncodeToString(bytes)
 
-		// from := "big16635@gmail.com"
-		// password := "vcxvgglchwchhzcj"
-		// fmt.Println(User.Email)
-		// fmt.Println(Patient.Email)
-		// to := []string{
-		// 	Patient.Email,
-		// }
+		from := "b6202286@g.sut.ac.th"
+		password := "bjsvplnrqjycniqw"
+		fmt.Println(User.Email)
+		fmt.Println(Patient.Email)
+		to := []string{
+			Patient.Email,
+		}
 
-		// smtpHost := "smtp.gmail.com"
-		// smtpPort := "587"
+		smtpHost := "smtp.gmail.com"
+		smtpPort := "587"
 
-		// message := []byte("Patient Key is " + key)
+		message := []byte("Patient Key is " + key)
 
-		// // Authentication.
-		// auth := smtp.PlainAuth("", from, password, smtpHost)
+		// Authentication.
+		auth := smtp.PlainAuth("", from, password, smtpHost)
 
-		// // Sending email.
-		// err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
-		// if err != nil {
-		// 	fmt.Println(err)
-		// 	return
-		// }
-		// fmt.Println("Email Sent Successfully!")
+		// Sending email.
+		err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println("Email Sent Successfully!")
 
 			encrypted_Diagnosis, err := encrypt(payload.Diagnosis_results, key)
 			if err != nil {

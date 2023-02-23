@@ -211,9 +211,6 @@ func CreateMedicalRecord(c *gin.Context) {
 }
 
 
-// type Payload struct {
-// 	Decryption string `json:"decryption"`
-// }
 
 
 

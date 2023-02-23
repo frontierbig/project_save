@@ -32,6 +32,9 @@ function Alert(props: AlertProps) {
 }
 export default function TreatmentShow() {
   const [decryption, setDecryption] = useState<Partial<DecrytionInterface>>({});
+  
+  const Role: any = localStorage.getItem("Role"||"");
+ 
   const [treatment, setTreatment] = useState<TreatmentshowInterface[]>([]);
   const [subtreatment, setSubTreatment] = useState<SubTreatmentshowInterface[]>(
     []
@@ -77,35 +80,38 @@ export default function TreatmentShow() {
     getTreatmentByID();
     // DecryptionMedicalrecord()
   }, []);
-  const handleChange = (event: ChangeEvent<{ name?: string; value: any }>) => {
-    const name = event.target.name as keyof typeof decryption;
-    setDecryption({ ...decryption, [name]: event.target.value });
-  };
 
-  const DecryptionMedicalrecord = async () => {
-    const apiUrl = `http://localhost:8080/api/DecryptionMedicalRecord/${id}`;
+
+  const handleChange = (event: ChangeEvent<{name?: string; value: any}>) => {
+    const name = event.target.name as keyof typeof decryption;
+    setDecryption({...decryption, [name]: event.target.value,});
+  }; 
+  const DecrypListTreatmentByID = async () => {
+    let data = {
+      Role: Role,
+      Master_Key:decryption.Decryption,
+    };
+    const apiUrl = `http://localhost:8080/api/DecrypListTreatmentByID/${id}`;
     const requestOptions = {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(decryption),
+      body: JSON.stringify(data),
     };
-
     fetch(apiUrl, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         console.log(res.data);
-        let b = res.data;
+        
         if (res.data) {
-          console.log(res);
-          setOutput(b.methodtreatment);
-          setOutput2(b.diagnosis);
           // setTreatment(res.data)
-          setSuccess(true);
-          // let  method_treatment = 'method_treatment';
-          // setTreatment({ ...treatment,[method_treatment]: b.methodtreatment})
+          
+          // Use the values in the Treatmentrespon struct
+          
+          // console.log("SubTreatment:", subTreatment);
+          
         } else {
           setError(true);
           console.log(res);
@@ -204,7 +210,7 @@ export default function TreatmentShow() {
                       style={{ float: "right" }}
                       variant="contained"
                       size="small"
-                      onClick={DecryptionMedicalrecord}
+                      onClick={DecrypListTreatmentByID}
                       color="primary"
                     >
                       Decryption
@@ -214,7 +220,7 @@ export default function TreatmentShow() {
                       style={{ float: "right" }}
                       variant="contained"
                       size="small"
-                      onClick={DecryptionMedicalrecord}
+                      onClick={DecrypListTreatmentByID}
                       color="primary"
                     >
                       Decryption
@@ -348,7 +354,7 @@ export default function TreatmentShow() {
                     <Button
                       style={{ float: "right" }}
                       variant="contained"
-                      onClick={DecryptionMedicalrecord}
+                      onClick={DecrypListTreatmentByID}
                       color="primary"
                     >
                       Decryption
