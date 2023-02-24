@@ -47,25 +47,25 @@ function MedracTabel() {
       headerAlign: "center",
       editable: true,
     },
-    {
-      field: "diagnosis_results",
-      headerName: "Diagnosis results",
-      width: 350,
-      align: "center",
-      headerAlign: "center",
-      editable: false,
-      sortable: false,
-    },
+    // {
+    //   field: "diagnosis_results",
+    //   headerName: "Diagnosis results",
+    //   width: 350,
+    //   align: "center",
+    //   headerAlign: "center",
+    //   editable: false,
+    //   sortable: false,
+    // },
 
-    {
-      field: "method_treatment",
-      headerName: "Method Treatment",
-      align: "center",
-      headerAlign: "center",
-      sortable: false,
-      width: 350,
-      editable: true,
-    },
+    // {
+    //   field: "method_treatment",
+    //   headerName: "Method Treatment",
+    //   align: "center",
+    //   headerAlign: "center",
+    //   sortable: false,
+    //   width: 350,
+    //   editable: true,
+    // },
     {
       field: "doctor",
       headerName: "Docter",
@@ -152,7 +152,7 @@ function MedracTabel() {
 
           <div>
           <Button
-              style={{ float: "left"  ,cursor: "pointer",backgroundColor:'#23395d' ,padding:'10px',color:'white' }}
+              style={{ float: "left"  ,cursor: "pointer",backgroundColor:'#23395d' ,padding:'10px',color:'white' ,marginRight:'10px'}}
               component={RouterLink}
               to={"/subtreatment"}
               color="inherit"

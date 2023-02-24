@@ -169,42 +169,7 @@ type Datadecryptreturn struct {
 	Methodtreatment string `json:"methodtreatment"`
 }
 
-func DecryptionTreatment(c *gin.Context) {
 
-	var Treatment entity.Treatment
-	TreatmentID := c.Param("TreatmentID")
-	var Data Payload
-
-	if err := c.ShouldBindJSON(&Data); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	if tx := entity.DB().Where("id = ?", TreatmentID).First(&Treatment); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
-		return
-	}
-	fmt.Println(Data.Decryption)
-	// fmt.Println(Treatment.Diagnosis_results)
-	// fmt.Println(Treatment.Method_treatment)
-
-	// decrypted, err := decrypt(Treatment.Diagnosis_results, Data.Decryption, c)
-	// if err != nil {
-	// 	c.JSON(http.StatusBadRequest, err.Error())
-	// 	return
-	// }
-
-	// decrypted2, err := decrypt(Treatment.Method_treatment, Data.Decryption, c)
-	// if err != nil {
-	// 	c.JSON(http.StatusBadRequest, err.Error())
-	// 	return
-	// }
-
-	// data := Datadecryptreturn{Diagnosis: decrypted, Methodtreatment: decrypted2}
-
-	c.JSON(http.StatusOK, gin.H{"data": "data"})
-
-}
 
 func ListTreatment(c *gin.Context) {
 	var Treatment []*entity.Treatment
@@ -219,16 +184,16 @@ func ListTreatment(c *gin.Context) {
 
 func ListTreatmentByID(c *gin.Context) {
 	TreatmentID := c.Param("TreatmentID")
-	var Treatment []*entity.Treatment
 	var SubTreatment []*entity.SubTreatment
+	var Treatment *entity.Treatment
 
-	var Treatmentrespon []struct {
-		Treatment    []*entity.Treatment    `json:"treatment"`
-		SubTreatment []*entity.SubTreatment `json:"sub_treatment"`
-	}
+	// var Treatmentrespon []struct {
+	// 	Treatment    *entity.Treatment    `json:"treatment"`
+	// 	SubTreatment []*entity.SubTreatment `json:"sub_treatment"`
+	// }
 
 	if err :=
-		entity.DB().Raw("SELECT * FROM treatments WHERE id = ?", TreatmentID).Find(&Treatment).Error; err != nil {
+		entity.DB().Raw("SELECT * FROM treatments WHERE id = ?", TreatmentID).Scan(&Treatment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -239,9 +204,10 @@ func ListTreatmentByID(c *gin.Context) {
 		return
 	}
 
+
 	// Create a new instance of the Treatmentrespon struct
 	response := struct {
-		Treatment    []*entity.Treatment    `json:"treatment"`
+		Treatment    *entity.Treatment    `json:"treatment"`
 		SubTreatment []*entity.SubTreatment `json:"sub_treatment"`
 	}{
 		Treatment:    Treatment,
@@ -249,11 +215,17 @@ func ListTreatmentByID(c *gin.Context) {
 	}
 
 	// Append the response to the slice of Treatmentrespon
-	Treatmentrespon = append(Treatmentrespon, response)
+	// Treatmentrespon = append(Treatmentrespon, response)
 
 	// Return the JSON response
-	c.JSON(http.StatusOK, gin.H{"data": Treatmentrespon})
+	c.JSON(http.StatusOK, gin.H{"data": response})
 }
+
+
+
+
+
+
 
 func encrypt(stringToEncrypt string, keyString string) (encryptedString string, err error) {
 
@@ -357,11 +329,6 @@ func DecrypListTreatmentByID(c *gin.Context) {
 	//ถ้าเป็นหมอ ให้เอา key ใน  database มา decryption ก่อน			
 	if Payloaddecryp.Role == "doctor" {
 		fmt.Println("Success")
-
-		// Create a new instance of the Treatmentrespon struct
-		
-		// Append the response to the slice of Treatmentrespon
-		// Treatmentrespon = append(Treatmentrespon, response)
 		var SubTreatmentRespon []*entity.SubTreatment
 		for _, item := range SubTreatment {
 			if item.Selected_encryp == true {
@@ -384,17 +351,7 @@ func DecrypListTreatmentByID(c *gin.Context) {
 			} else {
 				SubTreatmentRespon = append(SubTreatmentRespon, item)
 			}
-			// Create a new response struct for the item
-			// response2 := struct {
-			// 	Treatment    []*entity.Treatment    `json:"treatment"`
-			// 	SubTreatment []*entity.SubTreatment `json:"sub_treatment"`
-			// }{
-			// 	SubTreatment: []*entity.SubTreatment{item},
-			// }
-
-			// // Append the response2 struct to the Treatmentrespon slice
-			// Treatmentrespon = append(Treatmentrespon, response2)
-
+		
 			
 		}
 

@@ -1,5 +1,4 @@
 import "./treatmentshow.css";
-import NavbarPatient from "../../components/NavbarPatient";
 import DateFnsUtils from "@date-io/date-fns";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router-dom";
@@ -11,6 +10,8 @@ import { KeyboardDatePicker } from "@material-ui/pickers";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { FormControl } from "@material-ui/core";
 import { Snackbar } from "@material-ui/core";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import KeyIcon from '@mui/icons-material/Key';
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { DecrytionInterface } from "../../model/Decryption";
 import {
@@ -20,13 +21,18 @@ import {
 import { resprondecrytion } from "../../model/Treatment";
 import Card from '@mui/material/Card';
 import {
-  // Card,
-  // CardContent,
   CardHeader,
   Collapse,
   IconButton,
 } from "@material-ui/core";
 import { ExpandMore,ExpandLess } from "@material-ui/icons";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -35,7 +41,8 @@ export default function TreatmentShow() {
   
   const Role: any = localStorage.getItem("Role"||"");
  
-  const [treatment, setTreatment] = useState<TreatmentshowInterface[]>([]);
+  // const [treatment, setTreatment] = useState<TreatmentshowInterface[]>([]);
+  const [treatment, setTreatment] = useState<Partial<TreatmentshowInterface>>({});
   const [subtreatment, setSubTreatment] = useState<SubTreatmentshowInterface[]>(
     []
   );
@@ -61,16 +68,8 @@ export default function TreatmentShow() {
       .then((res) => {
         console.log(res.data);
         if (res.data) {
-          // Access the individual fields of the Treatmentrespon struct
-          const treatment = res.data[0].treatment;
-          const subTreatment = res.data[0].sub_treatment;
-
-          // Use the values in the Treatmentrespon struct
-          console.log("Treatment:", treatment);
-          console.log("SubTreatment:", subTreatment);
-
-          setTreatment(treatment);
-          setSubTreatment(subTreatment);
+          setTreatment(res.data.treatment);
+          setSubTreatment(res.data.sub_treatment);
         } else {
           console.log("else");
         }
@@ -78,9 +77,17 @@ export default function TreatmentShow() {
   };
   useEffect(() => {
     getTreatmentByID();
-    // DecryptionMedicalrecord()
   }, []);
 
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setDecryption({...decryption, "Decryption": "",});
+  };
 
   const handleChange = (event: ChangeEvent<{name?: string; value: any}>) => {
     const name = event.target.name as keyof typeof decryption;
@@ -106,19 +113,14 @@ export default function TreatmentShow() {
         console.log(res.data);
         
         if (res.data) {
-          const treatment = res.data.treatment
-          const subTreatment =res.data.sub_treatment
-          // console.log("this treatment == >",treatment)
-          
-          // Use the values in the Treatmentrespon struct
-          
-          // console.log("SubTreatment:", subTreatment);
-          setTreatment(treatment);
-          // setSubTreatment(subTreatment);
+          setTreatment(res.data.treatment);
+          setSubTreatment(res.data.sub_treatment);
+          setSuccess(true);
+          setDecryption({...decryption, "Decryption": "",});
+          handleCloseDialog();
           
         } else {
           setError(true);
-          console.log(res);
         }
       });
   };
@@ -146,11 +148,33 @@ export default function TreatmentShow() {
     setExpanded(curArr);
   };
 
+  const handleExpandClickall = () => {
+    let trueCount = 0;
+    var falseCount = 0;
+    expanded.forEach((value) => {
+      if (value === true) {
+        trueCount++;
+      } else {
+        falseCount++;
+      }
+    });
+
+    if (falseCount === 0) {
+      let falseArr = Array(expanded.length).fill(false);
+      setExpanded(falseArr);
+      
+    }else{
+      let trueArr = Array(expanded.length).fill(true);
+      setExpanded(trueArr);
+    }
+ 
+  };
+
+
   return (
     <>
       <div className="oneh">
-        {treatment.map((item: TreatmentshowInterface) => {
-          return (
+        
             <div className="paper">
               <div className="content">
                 <div>
@@ -187,7 +211,7 @@ export default function TreatmentShow() {
                     <TextField
                       type="string"
                       variant="outlined"
-                      value={item.patient}
+                      value={treatment.patient||""}
                       disabled
                       fullWidth
                     />
@@ -198,7 +222,7 @@ export default function TreatmentShow() {
                     <TextField
                       type="string"
                       variant="outlined"
-                      value={item.doctor}
+                      value={treatment.doctor||""}
                       disabled
                       fullWidth
                     />
@@ -211,34 +235,60 @@ export default function TreatmentShow() {
                     <div>
 
                     <Button
-                      style={{ float: "right" }}
+                      style={{ float: "left"  ,cursor: "pointer" ,color:'white' ,marginRight:'10px'}}
                       variant="contained"
                       size="small"
-                      onClick={DecrypListTreatmentByID}
+                      onClick={handleClickOpen}
                       color="primary"
                     >
-                      Decryption
-                    </Button>
+         <KeyIcon style={{ fill: "#white",marginRight:'10px' }} />
+          Decryption
+      </Button>
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Decryption</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+          You can see all treatment encrypted data   Plesase Enter  Decryption Key.
+          </DialogContentText>
+          <TextField
+            margin="dense"
+            id="Decryption"
+            value={decryption.Decryption || ""}
+            inputProps={{ name: "Decryption" }}
+            label="Decryption Key"
+            onChange={handleChange}
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button 
+          style={{ float: "left"  ,cursor: "pointer",backgroundColor:'#b20000' ,color:'white' }}
+          onClick={handleCloseDialog}
+         
+          >Cancel</Button>
+          <Button 
+          onClick={DecrypListTreatmentByID}
+          style={{ float: "left"  ,cursor: "pointer",backgroundColor:'#166d52' ,color:'white' }}
+          >OK</Button>
+        </DialogActions>
+      </Dialog>
 
                     <Button
                       style={{ float: "right" }}
                       variant="contained"
                       size="small"
-                      onClick={DecrypListTreatmentByID}
+                      onClick={handleExpandClickall}
                       color="primary"
                     >
-                      Decryption
+                      <VisibilityOutlinedIcon style={{ fill: "#white",marginRight:'10px' }} />
+                      Show data
                     </Button>
 
                     </div>
                     
                     </div>
                
-
-                    
-                   
-
-   
                   <Grid item xs={12}>
                     {subtreatment.map(
                       (item: SubTreatmentshowInterface, index: number) => {
@@ -327,6 +377,47 @@ export default function TreatmentShow() {
                     )}
                   </Grid>
 
+                  {/* <div>
+                  <Button
+                      style={{ float: "left"  ,cursor: "pointer" ,color:'white' ,marginRight:'10px'}}
+                      variant="contained"
+                      size="small"
+                      onClick={handleClickOpen}
+                      color="primary"
+                    >
+         <KeyIcon style={{ fill: "#white",marginRight:'10px' }} />
+          Decryption all
+      </Button>
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Decryption</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+          You can see all treatment encrypted data   Plesase Enter  Decryption Key.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Decryption Key"
+            type="email"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button 
+          style={{ float: "left"  ,cursor: "pointer",backgroundColor:'#b20000' ,color:'white' }}
+          onClick={handleCloseDialog}
+         
+          >Cancel</Button>
+          <Button 
+          onClick={handleCloseDialog}
+          style={{ float: "left"  ,cursor: "pointer",backgroundColor:'#166d52' ,color:'white' }}
+          >OK</Button>
+        </DialogActions>
+      </Dialog>
+    </div> */}
+{/* 
                   <Grid item xs={6}>
                     <p>Decryption</p>
                     <TextField
@@ -338,10 +429,8 @@ export default function TreatmentShow() {
                       onChange={handleChange}
                       fullWidth
                     />
-                  </Grid>
-                  <Grid item xs={6}>
-              
-                  </Grid>
+                  </Grid> */}
+                  
 
                   <Grid item xs={6}>
                     <Button
@@ -369,8 +458,7 @@ export default function TreatmentShow() {
                 </Grid>
               </div>
             </div>
-          );
-        })}
+          
       </div>
     </>
   );
