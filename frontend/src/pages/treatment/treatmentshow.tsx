@@ -106,11 +106,15 @@ export default function TreatmentShow() {
         console.log(res.data);
         
         if (res.data) {
-          // setTreatment(res.data)
+          const treatment = res.data.treatment
+          const subTreatment =res.data.sub_treatment
+          // console.log("this treatment == >",treatment)
           
           // Use the values in the Treatmentrespon struct
           
           // console.log("SubTreatment:", subTreatment);
+          setTreatment(treatment);
+          // setSubTreatment(subTreatment);
           
         } else {
           setError(true);
