@@ -31,7 +31,6 @@ type TreatmentPayload struct {
 
 // POST /users
 func CreateTreatment(c *gin.Context) {
-
 	var Patient entity.User
 	var User entity.User
 	var payload TreatmentPayload
@@ -111,7 +110,7 @@ func CreateTreatment(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"data": mr})
+		// c.JSON(http.StatusOK, gin.H{"data": mr})
 
 		addsub := entity.SubTreatment{
 			Diagnosis_results: encrypted_Diagnosis,
@@ -124,7 +123,8 @@ func CreateTreatment(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"data": addsub})
+		c.JSON(http.StatusOK, gin.H{"data": mr})
+		// c.JSON(http.StatusOK, gin.H{"data": addsub})
 
 	} else {
 
@@ -141,7 +141,7 @@ func CreateTreatment(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"data": mr})
+		// c.JSON(http.StatusOK, gin.H{"data": mr})
 
 		addsub := entity.SubTreatment{
 			Diagnosis_results: payload.Diagnosis_results,
@@ -154,7 +154,7 @@ func CreateTreatment(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"data": addsub})
+		c.JSON(http.StatusOK, gin.H{"data": mr})
 
 	}
 

@@ -108,7 +108,6 @@ export default function App() {
             <Route path='contact' element ={<Contact/>}/>
             <Route path='doctorrecordtable' element ={<MedracTabel/>}/>
             <Route path='doctorrecordcreate' element ={<MedrecDoctor/>}/>
-            {/* <Route path="medrachistory" element={<HistoryMedicalracord />} /> */}
             <Route path='treatmentdoctor'element ={<TreatmentDoctor/>}/>
             <Route path='treatmentdoctortable'element ={<TreatmentDoctorTable/>}/>
             <Route path='subtreatment'element ={<SubTreatmentDoctor/>}/>

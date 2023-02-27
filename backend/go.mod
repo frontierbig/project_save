@@ -3,6 +3,7 @@ module github.com/sut64/team03/backend
 go 1.16
 
 require (
+	github.com/brianvoe/gofakeit/v6 v6.20.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.7.7
 	github.com/golang/protobuf v1.5.2 // indirect

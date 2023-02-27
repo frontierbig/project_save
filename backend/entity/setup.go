@@ -2,6 +2,7 @@ package entity
 
 import (
 	"time"
+	"github.com/brianvoe/gofakeit/v6"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
@@ -15,6 +16,7 @@ func DB() *gorm.DB {
 }
 
 func SetupDatabase() {
+	gofakeit.Seed(time.Now().UnixNano())
 	database, err := gorm.Open(sqlite.Open("project.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
@@ -39,92 +41,123 @@ func SetupDatabase() {
 		Name: "admin",
 	}
 	db.Model(&Role{}).Create(&Role3)
-
-	//setup User ----------------------------------------------------------------------
-	PasswordUser1, err := bcrypt.GenerateFromPassword([]byte("123"), 14)
-
-	User1 := User{
-		Name:     "patient",
-		Password: string(PasswordUser1),
-		Email:    "big166351@gmail.com",
-		Tel:      "082-XXXXXXX",
-		Gender:   "Male",
-		Brithday: time.Now().AddDate(-21, -8, 2),
-		Role:     Role1,
-	}
-
-	db.Model(&User{}).Create(&User1)
-
+	//
 	PasswordUser2, err := bcrypt.GenerateFromPassword([]byte("123"), 14)
 
 	User2 := User{
-		Name:     "Dr.McFakey",
+		Name:     "Dr.Michael Smith",
 		Password: string(PasswordUser2),
 		Email:    "doctor@gmail.com",
 		Tel:      "097-XXXXXXX",
-		Gender:   "Male",
+		Gender:   "male",
 		Brithday: time.Now().AddDate(-21, -5, 6),
 		Role:     Role2,
 	}
 
 	db.Model(&User{}).Create(&User2)
 
+	User4 := User{
+		Name:     "Dr.Steven Hernandez",
+		Password: string(PasswordUser2),
+		Email:    "doctor2@gmail.com",
+		Tel:      "097-XXXXXXX",
+		Gender:   "male",
+		Brithday: time.Now().AddDate(-21, -5, 6),
+		Role:     Role2,
+	}
+
+	db.Model(&User{}).Create(&User4)
+
+
+	//setup User ----------------------------------------------------------------------
+	PasswordUser1, err := bcrypt.GenerateFromPassword([]byte("123"), 14)
+
+	User1 := User{
+		Name:     "Olivia Wilson",
+		Password: string(PasswordUser1),
+		Email:    "big166351@gmail.com",
+		Tel:      "082-XXXXXXX",
+		Gender:   "male",
+		Brithday: time.Now().AddDate(-21, -8, 2),
+		Role:     Role1,
+	}
+
+	db.Model(&User{}).Create(&User1)
+
 	PasswordUser3, err := bcrypt.GenerateFromPassword([]byte("123"), 14)
 	User3 := User{
-		Name:     "patient2",
+		Name:     "David Lee",
 		Password: string(PasswordUser3),
 		Email:    "big_20995@hotmail.com",
 		Tel:      "045-XXXXXXX",
-		Gender:   "Female",
+		Gender:   "female",
 		Brithday: time.Now().AddDate(-21, -11, 5),
 		Role:     Role1,
 		// Key:      "692546ad410fd46d09be787077942d972d6173d0ce50559df470adc016d4c7fa",
 	}
 	db.Model(&User{}).Create(&User3)
 
-	Doctor1 := Doctor{
-		Name:                  "Tony Tony Chopper",
-		img:                   "ASDASD",
-		specialtybranch:       "TESTDATA",
-		certificate:           "SUT",
-		postgraduateeducation: "CU",
-		Tel:                   "08513544444",
-
-		mail: "095443943",
+	for i := 0; i < 10; i++ {
+		Users := User{
+			Name:     gofakeit.Name(),
+			Email:    gofakeit.Email(),
+			Password: gofakeit.Password(true, true, true, true, false, 12),
+			Tel:      gofakeit.PhoneFormatted(),
+			Gender:   gofakeit.Gender(),
+			Role:     Role1,
+			Brithday: time.Now().AddDate(-21, -8, 2),
+		}
+		db.Model(&User{}).Create(&Users)
 	}
-	db.Model(&Doctor{}).Create(&Doctor1)
 
-	Doctor2 := Doctor{
-		Name:                  "Number2",
-		img:                   "ASDASD",
-		specialtybranch:       "TESTDATA",
-		certificate:           "SUT",
-		postgraduateeducation: "CU",
-		Tel:                   "08513544444",
-		mail:                  "095443943",
-	}
-	db.Model(&Doctor{}).Create(&Doctor2)
 
-	Doctor3 := Doctor{
-		Name:                  "Number3",
-		img:                   "ASDASD",
-		specialtybranch:       "TESTDATA",
-		certificate:           "SUT",
-		postgraduateeducation: "CU",
-		Tel:                   "08513544444",
-		mail:                  "095443943",
-	}
-	db.Model(&Doctor{}).Create(&Doctor3)
 
-	Doctor4 := Doctor{
-		Name:                  "Number3",
-		img:                   "ASDASD",
-		specialtybranch:       "TESTDATA",
-		certificate:           "SUT",
-		postgraduateeducation: "CU",
-		Tel:                   "08513544444",
-		mail:                  "095443943",
-	}
-	db.Model(&Doctor{}).Create(&Doctor4)
+
+	
+
+	// Doctor1 := Doctor{
+	// 	Name:                  "Tony Tony Chopper",
+	// 	img:                   "ASDASD",
+	// 	specialtybranch:       "TESTDATA",
+	// 	certificate:           "SUT",
+	// 	postgraduateeducation: "CU",
+	// 	Tel:                   "08513544444",
+
+	// 	mail: "095443943",
+	// }
+	// db.Model(&Doctor{}).Create(&Doctor1)
+
+	// Doctor2 := Doctor{
+	// 	Name:                  "Number2",
+	// 	img:                   "ASDASD",
+	// 	specialtybranch:       "TESTDATA",
+	// 	certificate:           "SUT",
+	// 	postgraduateeducation: "CU",
+	// 	Tel:                   "08513544444",
+	// 	mail:                  "095443943",
+	// }
+	// db.Model(&Doctor{}).Create(&Doctor2)
+
+	// Doctor3 := Doctor{
+	// 	Name:                  "Number3",
+	// 	img:                   "ASDASD",
+	// 	specialtybranch:       "TESTDATA",
+	// 	certificate:           "SUT",
+	// 	postgraduateeducation: "CU",
+	// 	Tel:                   "08513544444",
+	// 	mail:                  "095443943",
+	// }
+	// db.Model(&Doctor{}).Create(&Doctor3)
+
+	// Doctor4 := Doctor{
+	// 	Name:                  "Number3",
+	// 	img:                   "ASDASD",
+	// 	specialtybranch:       "TESTDATA",
+	// 	certificate:           "SUT",
+	// 	postgraduateeducation: "CU",
+	// 	Tel:                   "08513544444",
+	// 	mail:                  "095443943",
+	// }
+	// db.Model(&Doctor{}).Create(&Doctor4)
 
 }

@@ -95,18 +95,48 @@ export default function MedrecPatient() {
 
   const [ErrorMessage, setErrorMessage] = React.useState<String>();
 
+  // const submitTreatment = () => {
+  //   let data = {
+  //     Patient_ID: treatment.Patient_ID ?? "",
+  //     Doctor_ID: User.ID,
+  //     Encryptionselect:checked,
+  //     Master_Key: masterkey.Master_Key ?? "",
+  //     Diagnosis_results: treatment.Diagnosis_results ?? "",
+  //     Method_treatment: treatment.Method_treatment ?? "",
+  //     Appointment_time: selectedDate ?? "",
+  //   };
+  //   const apiUrl = "http://localhost:8080/api/CreateTreatment";
+  //   const requestOptionsPost = {
+  //     method: "POST",
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(data),
+  //   };
+  //   fetch(apiUrl, requestOptionsPost)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //         console.log("TESTTEST")
+  //         setSuccess(true);
+  //       } else {
+  //         setError(true);
+  //         setErrorMessage(res.error);
+  //       }
+  //     });
+  // };
+
   const submitTreatment = () => {
     let data = {
-      //?? ""
-      Patient_ID: treatment.Patient_ID ?? "",
-      Doctor_ID: User.ID,
-      Encryptionselect:checked,
-      Master_Key: masterkey.Master_Key ?? "",
-      Diagnosis_results: treatment.Diagnosis_results ?? "",
-      Method_treatment: treatment.Method_treatment ?? "",
-      Appointment_time: selectedDate ?? "",
-    };
-
+          Patient_ID: treatment.Patient_ID ?? "",
+          Doctor_ID: User.ID,
+          Encryptionselect:checked,
+          Master_Key: masterkey.Master_Key ?? "",
+          Diagnosis_results: treatment.Diagnosis_results ?? "",
+          Method_treatment: treatment.Method_treatment ?? "",
+          Appointment_time: selectedDate ?? "",
+        };
     console.log(data);
 
     const apiUrl = "http://localhost:8080/api/CreateTreatment";
@@ -118,6 +148,7 @@ export default function MedrecPatient() {
       },
       body: JSON.stringify(data),
     };
+
     fetch(apiUrl, requestOptionsPost)
       .then((response) => response.json())
       .then((res) => {
