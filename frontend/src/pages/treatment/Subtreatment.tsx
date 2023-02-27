@@ -157,7 +157,7 @@ export default function SubTreatmentDoctor() {
                 onClose={handleClose}
               >
                 <Alert onClose={handleClose} severity="error">
-                  {ErrorMessage}
+                  Invalid MasterKey
                 </Alert>
               </Snackbar>
               <br />

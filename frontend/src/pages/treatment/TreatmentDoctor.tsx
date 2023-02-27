@@ -102,8 +102,6 @@ export default function MedrecPatient() {
       Doctor_ID: User.ID,
       Encryptionselect:checked,
       Master_Key: masterkey.Master_Key ?? "",
-
-
       Diagnosis_results: treatment.Diagnosis_results ?? "",
       Method_treatment: treatment.Method_treatment ?? "",
       Appointment_time: selectedDate ?? "",
@@ -120,7 +118,6 @@ export default function MedrecPatient() {
       },
       body: JSON.stringify(data),
     };
-
     fetch(apiUrl, requestOptionsPost)
       .then((response) => response.json())
       .then((res) => {

@@ -46,7 +46,7 @@ function MedracTabel() {
 
       hideable: false,
       headerName: "Name",
-      width: 200,
+      width: 250,
       align: "center",
       headerAlign: "center",
       editable: true,

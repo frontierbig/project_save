@@ -209,22 +209,6 @@ func DecryptionSubTreatment(c *gin.Context) {
 		return
 	}
 	fmt.Println(Data.Decryption)
-	// fmt.Println(Treatment.Diagnosis_results)
-	// fmt.Println(Treatment.Method_treatment)
-
-	// decrypted, err := decrypt(Treatment.Diagnosis_results, Data.Decryption, c)
-	// if err != nil {
-	// 	c.JSON(http.StatusBadRequest, err.Error())
-	// 	return
-	// }
-
-	// decrypted2, err := decrypt(Treatment.Method_treatment, Data.Decryption, c)
-	// if err != nil {
-	// 	c.JSON(http.StatusBadRequest, err.Error())
-	// 	return
-	// }
-
-	// data := Datadecryptreturn{Diagnosis: decrypted, Methodtreatment: decrypted2}
 
 	c.JSON(http.StatusOK, gin.H{"data": "data"})
 

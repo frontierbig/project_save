@@ -4,7 +4,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 // import "./table.css";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-
+import { UserInterface } from "../../model/UserUI";
 import {
   DataGrid,
   GridToolbar,
@@ -83,9 +83,9 @@ function MedracTabel() {
 
   // const [medicalracord, setMedicalracord] = useState<Partial<MedicalRecordInterface>[]>([]);
   const [treatment, setTreatment] = useState<Partial<TreatmentInterface>[]>([]);
-
+  const User: UserInterface = JSON.parse(localStorage.getItem("User") || "");
   const getMedicalracord = async () => {
-    const apiUrl = "http://localhost:8080/api/ListTreatment";
+    const apiUrl = `http://localhost:8080/api/ListTreatmentBypatient/${User.ID}`;
     const requestOptions = {
       method: "GET",
       headers: {
@@ -122,7 +122,7 @@ function MedracTabel() {
           <div>
             <p>Treatmemt</p>
           </div>
-
+{/* 
           <div>
           <Button
               style={{ float: "left"  ,cursor: "pointer",backgroundColor:'#23395d' ,padding:'10px',color:'white' ,marginRight:'10px'}}
@@ -147,7 +147,7 @@ function MedracTabel() {
               <p> Create Treatment</p>
             </Button>
 
-          </div>
+          </div> */}
           </div>
 
 

@@ -6,15 +6,12 @@ import {linksPatient} from '../data'
 import {GoThreeBars} from 'react-icons/go'
 import{MdOutlineClose} from 'react-icons/md'
 import{useState} from 'react'
-import Button from "@material-ui/core/Button";
+import Typography from '@material-ui/core/Typography';
+import Toolbar from '@material-ui/core/Toolbar';
+
 
 const Navbar = () => {
       const[isNavShowing,setIsNavShowing] = useState(false)
-
-      const SignOut = () => {
-        localStorage.clear();
-        window.location.href = "/";
-      }
   return (
     <nav>
         <div className="container nav__container">
@@ -23,28 +20,39 @@ const Navbar = () => {
             </Link>
             <ul className={`nav__links ${isNavShowing?'show__nav':'hide__Nav'}`}>
               {
-              linksPatient.map(({name,path},index) =>{
+              linksPatient.map(({name,path,onClick},index) =>{
+              
                 return(
-                  <>
-                  <li key={index} >
-                    <NavLink to={path} className={({isActive})=> isActive?'active-nav':''}
-                    onClick={()=> setIsNavShowing(prev => !prev)}>{name}
-                    </NavLink>
-                  </li>
-                  </>
-                  
-                )
-              })
+                  <li key={index}>
+            <NavLink
+                  to={path}
+                  className={({isActive})=> isActive?'active-nav':''}
+                   onClick={() => {
+                    setIsNavShowing(false)
+                  if (onClick) {
+                    setIsNavShowing(false)
+                       onClick()
+                   }
+        }}
+      >
+        {name}
+      </NavLink>
+    </li>
+                  )
+              }
+              )
             }
             </ul>
             <botton className="nav__toggle-btn" onClick={()=> setIsNavShowing(prev => !prev)}>
+              
               {
                 isNavShowing ? <MdOutlineClose/>: <GoThreeBars/>
               }
               
                 
             </botton>
-            <botton className="btn_Logout" onClick={SignOut} >Logout</botton>
+          
+            
             
             
         </div>

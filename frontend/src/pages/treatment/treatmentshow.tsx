@@ -437,13 +437,14 @@ export default function TreatmentShow() {
                       variant="contained"
                       color="primary"
                       component={RouterLink}
-                      to="/treatmentdoctortable"
+                      to={Role =='doctor'?"/treatmentdoctortable":"/treatmentpatienttable"}
+                      
                     >
                       กลับ
                     </Button>
                   </Grid>
 
-                  <Grid item xs={6}>
+                  {/* <Grid item xs={6}>
                     <Button
                       style={{ float: "right" }}
                       variant="contained"
@@ -452,7 +453,7 @@ export default function TreatmentShow() {
                     >
                       Decryption
                     </Button>
-                  </Grid>
+                  </Grid> */}
 
                   <Grid item xs={6}></Grid>
                 </Grid>

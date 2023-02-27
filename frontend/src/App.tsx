@@ -28,9 +28,10 @@ import MedrecDoctor from "./pages/medicalrecord/MedracDoctor"
 import MedracTabel from "./pages/medicalrecord/MedracTabel"
 import TreatmentDoctor from "./pages/treatment/TreatmentDoctor";
 import TreatmentDoctorTable from "./pages/treatment/TreatmentTabel";
+import TreatmentDoctorTablePatient from "./pages/treatment/TreatmentTabelPatient";
 import TreatmentShow from "./pages/treatment/treatmentshow";
 import SubTreatmentDoctor from "./pages/treatment/Subtreatment"
-import MedrecPatient from "./pages/medicalrecord/MedracDoctor";
+import MedracTabelPatient from "./pages/medicalrecord/MedracTabelPatient";
 import MedrecShow from "./pages/medicalrecord/Medracshow";
 
 
@@ -54,16 +55,20 @@ export default function App() {
 
   if (!token) {
     return (
+    
       <>
-      <BrowserRouter>     
+      <BrowserRouter>    
+      {/* <Route path='/' element ={<SignIn/>}/> 
+      <Route index  element ={<SignIn/>}/> */}
       <Routes>
+      <Route index  element ={<SignIn/>}/>
           <Route index  element ={<Home/>}/>
-          <Route path='about' element ={<About/>}/>
+          {/* <Route path='about' element ={<About/>}/>
           <Route path='contact' element ={<Contact/>}/>
           <Route path='doctor' element ={<Doctor/>}/>
           <Route path='department' element ={<Department/>}/>
           <Route path='*' element ={<Notfound/>}/>
-          <Route path='SingIn' element ={<SignIn/>}/>
+          <Route path='SingIn' element ={<SignIn/>}/> */}
         </Routes>
       </BrowserRouter>
       </>
@@ -78,14 +83,16 @@ export default function App() {
         token && (
           <Fragment>
               {role === "patient" && user?.Role.Name === role && ( <>
-                {/* <NavbarPatient/> */}
+                <NavbarPatient/>
             <Routes>
-            <Route index  element ={<HomePatient/>}/>
+            <Route index  element ={<Home/>}/>
             <Route path='about' element ={<About/>}/>
             <Route path='contact' element ={<Contact/>}/>
-            <Route path='doctorpatient' element ={<DoctorPatient/>}/>
-            <Route path='departmentpatient' element ={<DepartmentPatinet/>}/>
-            <Route path='recordpatient' element ={<MedrecPatient/>}/>
+            {/* <Route path='doctorpatient' element ={<DoctorPatient/>}/> */}
+            {/* <Route path='departmentpatient' element ={<DepartmentPatinet/>}/> */}
+            <Route path='patientrecordshow' element ={<MedracTabelPatient/>}/>
+            <Route path='treatmentpatienttable'element ={<TreatmentDoctorTablePatient/>}/>
+            <Route path="treatmentshow/:id" element={<TreatmentShow/>} />
             {/* <Route path="medrachistory" element={<HistoryMedicalracord />} /> */}
             {/* <Route path='treatmentpatient'element ={<TreatmentPatient/>}/> */}
             <Route path="medrecshow/:id" element={<MedrecShow/>} />
@@ -96,14 +103,11 @@ export default function App() {
               {role === "doctor" && user?.Role.Name === role && ( <>
                 <NavbarDoctor/>
             <Routes>
-            <Route index  element ={<HomePatient/>}/>
+            <Route index  element ={<Home/>}/>
             <Route path='about' element ={<About/>}/>
             <Route path='contact' element ={<Contact/>}/>
-
-
             <Route path='doctorrecordtable' element ={<MedracTabel/>}/>
             <Route path='doctorrecordcreate' element ={<MedrecDoctor/>}/>
-      
             {/* <Route path="medrachistory" element={<HistoryMedicalracord />} /> */}
             <Route path='treatmentdoctor'element ={<TreatmentDoctor/>}/>
             <Route path='treatmentdoctortable'element ={<TreatmentDoctorTable/>}/>

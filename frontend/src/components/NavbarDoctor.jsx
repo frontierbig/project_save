@@ -9,6 +9,7 @@ import{useState} from 'react'
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 
+
 const NavbarDoctor = () => {
       const[isNavShowing,setIsNavShowing] = useState(false)
   return (
@@ -19,26 +20,39 @@ const NavbarDoctor = () => {
             </Link>
             <ul className={`nav__links ${isNavShowing?'show__nav':'hide__Nav'}`}>
               {
-              linkDoctor.map(({name,path},index) =>{
+              linkDoctor.map(({name,path,onClick},index) =>{
+              
                 return(
-                  <li key={index} >
-                    <NavLink to={path} className={({isActive})=> isActive?'active-nav':''}
-                    onClick={()=> setIsNavShowing(prev => !prev)}>{name}
-                    </NavLink>
-                    
-                  </li>
-                  
-                )
-              })
+                  <li key={index}>
+            <NavLink
+                  to={path}
+                  className={({isActive})=> isActive?'active-nav':''}
+                   onClick={() => {
+                    setIsNavShowing(false)
+                  if (onClick) {
+                    setIsNavShowing(false)
+                       onClick()
+                   }
+        }}
+      >
+        {name}
+      </NavLink>
+    </li>
+                  )
+              }
+              )
             }
             </ul>
             <botton className="nav__toggle-btn" onClick={()=> setIsNavShowing(prev => !prev)}>
+              
               {
                 isNavShowing ? <MdOutlineClose/>: <GoThreeBars/>
               }
               
                 
             </botton>
+          
+            
             
             
         </div>

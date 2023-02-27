@@ -1,6 +1,7 @@
-// import {SiOpenaigym} from 'react-icons/si'
-
-
+const SignOut = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  }
 export const links = [
     {
         name: "Home",
@@ -25,37 +26,35 @@ export const links = [
 ]
 
 export const linksPatient = [
-    // {
-    //     name: "Home",
-    //     path: '/'
-    // },
-    // {
-    //     name: "Doctor",
-    //     path: '/doctorpatient'
-    // },
-    // {
-    //     name: "Department",
-    //     path: '/departmentpatient'
-    // },
+    {
+        name: "Home",
+        path: '/'
+    },
+   
     {   
         name:"Medicalrecord",
-        path: '/recordpatient'
+        path: '/patientrecordshow'
     }
     ,
-    
+   
     {   
         name:"Treatment",
-        path: '/treatmentdoctor'
+        path: '/treatmentpatienttable'
     }
     ,
     {
         name: "About",
-        path: '/aboutpatient'
+        path: '/about'
     },
     {
         name: "Contact",
-        path: '/contactpatient'
-    }
+        path: '/contact'
+    },
+    {
+        name: "Logout",
+        path: 'Logout',
+        onClick: SignOut
+    },
 ]
 export const linkDoctor = [
     {
@@ -63,10 +62,6 @@ export const linkDoctor = [
         path: '/'
     },
    
-    // {
-    //     name: "Department",
-    //     path: '/department'
-    // },
     {   
         name:"Medicalrecord",
         path: '/doctorrecordtable'
@@ -85,6 +80,11 @@ export const linkDoctor = [
     {
         name: "Contact",
         path: '/contact'
+    },
+    {
+        name: "Logout",
+        path: 'Logout',
+        onClick: SignOut
     },
   
 ]

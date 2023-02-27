@@ -64,96 +64,12 @@ func CreateMedicalRecord(c *gin.Context) {
 		panic(err.Error())
 	}
 
-	// key := hex.EncodeToString(bytes) 
-
-
-
-	//  // Sender data.
-	//  from := "big16635@gmail.com"
-	//  password := "vcxvgglchwchhzcj"
-   
-	//  // Receiver email address.
-	//  to := []string{
-	//    User.Email,
-	//  }
-   
-	//  // smtp server configuration.
-	//  smtpHost := "smtp.gmail.com"
-	//  smtpPort := "587"
-   
-   
-	//  // Message.
-	//  message := []byte("Patient Key is "+key)
-	 
-	//  // Authentication.
-	//  auth := smtp.PlainAuth("", from, password, smtpHost)
-	 
-	//  // Sending email.
-	//  err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
-	//  if err != nil {
-	//    fmt.Println(err)
-	//    return
-	//  }
-	//  fmt.Println("Email Sent Successfully!")
-
 	
-
-	// encrypted ,err := encrypt(MedicalRecord.Secret_Data, key)
-	//  if err != nil{
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	//  }
-	// encryptedKey ,err:= encrypt(key,MedicalRecord.Master_Key)
-	// if err != nil{
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	//  }
-
-
-	//ลองถอดรหัส 
-
-	// patientkeytest, err := decrypt("d5dd99f8ed05be83c3212b6756caeac9e7c1b8df9d44a7f8cf1c403125894fd751a3ecce6caacdd12c56ae470a7be218c10e83cb30ec342d6478da5ff9c56df1fd2fc61c09d9894cd8da206abeb268ae532ad0e994627d36e4e28eab", "692546ad410fd46d09be787077942d972d6173d0ce50559df470adc016d4c7fa", c)
-	// if err != nil {
-	// 	c.JSON(http.StatusBadRequest, err.Error())
-	// 	return
-	// }
-	// // patientkeytest := decrypted("d5dd99f8ed05be83c3212b6756caeac9e7c1b8df9d44a7f8cf1c403125894fd751a3ecce6caacdd12c56ae470a7be218c10e83cb30ec342d6478da5ff9c56df1fd2fc61c09d9894cd8da206abeb268ae532ad0e994627d36e4e28eab",
-	// // "692546ad410fd46d09be787077942d972d6173d0ce50559df470adc016d4c7fa")
-
-	//  fmt.Println(patientkeytest)
-	
-		
-	
-
-	// f, err := os.Create("KeypatientEncrype.txt")
-
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// defer f.Close()
-	// n, err := fmt.Fprintln(f, encryptedKey)
-
-	// if err != nil {
-
-	// 	log.Fatal(err)
-	// }
-	// if err != nil {
-
-	// 	log.Fatal(err)
-	// }
-
-	// fmt.Println(n, "bytes written")
-	// fmt.Println("done")
-
-	
-
-
-
-	// fmt.Printf("encrypted : %s\n", encrypted)
 
 	mr := entity.MedicalRecord{
 		Hospital_Number:     MedicalRecord.Hospital_Number,
 		Personal_ID:         MedicalRecord.Personal_ID,
+		Patient_ID: int(User.ID),
 		Patient:    User.Name,
 		Patient_Age:         MedicalRecord.Patient_Age,
 		Patient_gender:      MedicalRecord.Patient_gender,
@@ -280,6 +196,21 @@ func ListMedicalRecordByID(c *gin.Context) {
 
 	if err :=
 		entity.DB().Raw("SELECT * FROM medical_records WHERE id = ?", Medrecid).Find(&MedicalRecord).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": MedicalRecord})
+
+}
+
+func ListMedicalRecordByIDBypatient(c *gin.Context) {
+
+	Medrecid := c.Param("MedrecID")
+
+	var MedicalRecord []*entity.MedicalRecord
+
+	if err :=
+		entity.DB().Raw("SELECT * FROM medical_records WHERE patient_id = ?", Medrecid).First(&MedicalRecord).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

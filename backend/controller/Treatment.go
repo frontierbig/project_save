@@ -182,6 +182,21 @@ func ListTreatment(c *gin.Context) {
 
 }
 
+func ListTreatmentByIDBypatient(c *gin.Context) {
+
+	TreatmentID := c.Param("TreatmentID")
+
+	var MedicalRecord []*entity.MedicalRecord
+
+	if err :=
+		entity.DB().Raw("SELECT * FROM treatments WHERE patient_id = ?", TreatmentID).Find(&MedicalRecord).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": MedicalRecord})
+
+}
+
 func ListTreatmentByID(c *gin.Context) {
 	TreatmentID := c.Param("TreatmentID")
 	var SubTreatment []*entity.SubTreatment
@@ -327,8 +342,8 @@ func DecrypListTreatmentByID(c *gin.Context) {
 		return
 	}
 	//ถ้าเป็นหมอ ให้เอา key ใน  database มา decryption ก่อน			
-	if Payloaddecryp.Role == "doctor" {
-		fmt.Println("Success")
+	if Payloaddecryp.Role == "patient" {
+		fmt.Println("patient")
 		var SubTreatmentRespon []*entity.SubTreatment
 		for _, item := range SubTreatment {
 			if item.Selected_encryp == true {
@@ -365,6 +380,48 @@ func DecrypListTreatmentByID(c *gin.Context) {
 
 		// Treatmentrespon = append(Treatmentrespon, response)
 		// // Return the JSON response
+		
+	}else if (Payloaddecryp.Role == "doctor"){
+
+		fmt.Println("doctor")
+		var SubTreatmentRespon []*entity.SubTreatment
+		Decrypkey_patient, err := decrypt(Treatment.Encription_Key, Payloaddecryp.Master_Key, c)
+				if err != nil {
+					c.JSON(http.StatusBadRequest, err.Error())
+					return
+				}
+		for _, item := range SubTreatment {
+			if item.Selected_encryp == true {				
+				Diagnosis_results, err := decrypt(item.Diagnosis_results, Decrypkey_patient, c)
+				if err != nil {
+					c.JSON(http.StatusBadRequest, err.Error())
+					return
+				}
+				item.Diagnosis_results = Diagnosis_results
+
+				Method_treatment, err := decrypt(item.Method_treatment, Decrypkey_patient, c)
+				if err != nil {
+					c.JSON(http.StatusBadRequest, err.Error())
+					return
+				}
+				item.Method_treatment = Method_treatment
+
+				SubTreatmentRespon = append(SubTreatmentRespon, item)
+			} else {
+				SubTreatmentRespon = append(SubTreatmentRespon, item)
+			}
+		
+			
+		}
+
+		Treatmentrespon = struct{
+			Treatment    *entity.Treatment    `json:"treatment"`
+			SubTreatment []*entity.SubTreatment `json:"sub_treatment"`
+		}{
+			Treatment: Treatment,
+			SubTreatment: SubTreatmentRespon,
+		}
+
 		
 	}
 	c.JSON(http.StatusOK, gin.H{"data": Treatmentrespon})

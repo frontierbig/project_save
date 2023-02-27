@@ -29,6 +29,8 @@ func main() {
 
 			protected.GET("/api/ListMedicalRecord", MedicalRecord.ListMedicalRecord)
 			protected.GET("/api/ListTreatment", MedicalRecord.ListTreatment)
+			protected.GET("/api/ListTreatmentBypatient/:TreatmentID", MedicalRecord.ListTreatmentByIDBypatient)
+			
 
 			protected.GET("/api/ListMedicalRecord2", MedicalRecord.ListMedicalRecord2)
 			protected.POST("/api/DecrypListTreatmentByID/:TreatmentID", MedicalRecord.DecrypListTreatmentByID)
@@ -36,6 +38,7 @@ func main() {
 			// protected.POST("/api/DecryptionMedicalRecord/:TreatmentID", MedicalRecord.DecryptionTreatment)
 
 			protected.GET("/api/ListMedicalRecord/:MedrecID", MedicalRecord.ListMedicalRecordByID)
+			protected.GET("/api/ListMedicalRecordBypatient/:MedrecID", MedicalRecord.ListMedicalRecordByIDBypatient)
 
 			protected.GET("/api/ListTreatment/:TreatmentID", MedicalRecord.ListTreatmentByID)
 			protected.GET("/api/ListTreatmentuser", MedicalRecord.ListTreatmentUser)
