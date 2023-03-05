@@ -204,13 +204,11 @@ func ListMedicalRecordByID(c *gin.Context) {
 }
 
 func ListMedicalRecordByIDBypatient(c *gin.Context) {
-
 	Medrecid := c.Param("MedrecID")
-
 	var MedicalRecord []*entity.MedicalRecord
 
 	if err :=
-		entity.DB().Raw("SELECT * FROM medical_records WHERE patient_id = ?", Medrecid).First(&MedicalRecord).Error; err != nil {
+		entity.DB().Raw("SELECT * FROM medical_records WHERE patient_id = ?", Medrecid).Last(&MedicalRecord).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

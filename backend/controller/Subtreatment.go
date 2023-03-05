@@ -9,6 +9,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
+
 	// "io"
 
 	"github.com/gin-gonic/gin"
@@ -18,9 +19,9 @@ import (
 )
 
 type SubTreatmentPayload struct {
-	Master_Key        string
-	
-	Treatment_ID    uint
+	Master_Key string
+
+	Treatment_ID      uint
 	Diagnosis_results string
 	Method_treatment  string
 	Appointment_time  time.Time
@@ -33,7 +34,6 @@ func CreateSubTreatment(c *gin.Context) {
 	var User entity.User
 	var Treatment entity.Treatment
 	var payload SubTreatmentPayload
-
 
 	if err := c.ShouldBindJSON(&payload); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณากรอกข้อมูลให้ถูกต้อง"})
@@ -55,7 +55,7 @@ func CreateSubTreatment(c *gin.Context) {
 		return
 	}
 
-	if Treatment.Encription_Key == ""{
+	if Treatment.Encription_Key == "" {
 		fmt.Println(payload.Encryptionselect)
 		if payload.Encryptionselect == true {
 			bytes := make([]byte, 32) ////generate a random 32 byte key for AES-256
@@ -64,29 +64,29 @@ func CreateSubTreatment(c *gin.Context) {
 			}
 			key := hex.EncodeToString(bytes)
 
-		from := "b6202286@g.sut.ac.th"
-		password := "bjsvplnrqjycniqw"
-		fmt.Println(User.Email)
-		fmt.Println(Patient.Email)
-		to := []string{
-			Patient.Email,
-		}
+			from := "b6202286@g.sut.ac.th"
+			password := "bjsvplnrqjycniqw"
+			fmt.Println(User.Email)
+			fmt.Println(Patient.Email)
+			to := []string{
+				Patient.Email,
+			}
 
-		smtpHost := "smtp.gmail.com"
-		smtpPort := "587"
+			smtpHost := "smtp.gmail.com"
+			smtpPort := "587"
 
-		message := []byte("Patient Key is " + key)
+			message := []byte("Patient Key is " + key)
 
-		// Authentication.
-		auth := smtp.PlainAuth("", from, password, smtpHost)
+			// Authentication.
+			auth := smtp.PlainAuth("", from, password, smtpHost)
 
-		// Sending email.
-		err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		fmt.Println("Email Sent Successfully!")
+			// Sending email.
+			err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			fmt.Println("Email Sent Successfully!")
 
 			encrypted_Diagnosis, err := encrypt(payload.Diagnosis_results, key)
 			if err != nil {
@@ -106,32 +106,32 @@ func CreateSubTreatment(c *gin.Context) {
 			}
 
 			if err :=
-			entity.DB().Table("treatments").Where("id = ?", Treatment.ID).Update("encription_key",encryptedKey ).Error; err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
+				entity.DB().Table("treatments").Where("id = ?", Treatment.ID).Update("encription_key", encryptedKey).Error; err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
 			}
 			mr := entity.SubTreatment{
 				Diagnosis_results: encrypted_Diagnosis,
 				Method_treatment:  encrypted_Method_treatment,
 				Appointment:       payload.Appointment_time,
-				Selected_encryp  : payload.Encryptionselect,
-				Treatment_ID:  int(Treatment.ID),
+				Selected_encryp:   payload.Encryptionselect,
+				Treatment_ID:      int(Treatment.ID),
 			}
-	
+
 			// 12: บันทึก
 			if err := entity.DB().Create(&mr).Error; err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 				return
 			}
 			c.JSON(http.StatusOK, gin.H{"data": mr})
-	
-		}else{
+
+		} else {
 			mr := entity.SubTreatment{
 				Diagnosis_results: payload.Diagnosis_results,
 				Method_treatment:  payload.Method_treatment,
 				Appointment:       payload.Appointment_time,
-				Treatment_ID:  int(Treatment.ID),
-				Selected_encryp: payload.Encryptionselect,
+				Treatment_ID:      int(Treatment.ID),
+				Selected_encryp:   payload.Encryptionselect,
 			}
 			// 12: บันทึก
 			if err := entity.DB().Create(&mr).Error; err != nil {
@@ -140,58 +140,57 @@ func CreateSubTreatment(c *gin.Context) {
 			}
 			c.JSON(http.StatusOK, gin.H{"data": mr})
 		}
-		}else{
-			if payload.Encryptionselect == true {
-				key, err := decrypt(Treatment.Encription_Key,payload.Master_Key, c)
-				if err != nil {
+	} else {
+		if payload.Encryptionselect == true {
+			key, err := decrypt(Treatment.Encription_Key, payload.Master_Key, c)
+			if err != nil {
 				c.JSON(http.StatusBadRequest, err.Error())
 				return
-					}
-					encrypted_Diagnosis, err := encrypt(payload.Diagnosis_results, key)
-					if err != nil {
-						c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-						return
-					}
-					encrypted_Method_treatment, err := encrypt(payload.Method_treatment, key)
-					if err != nil {
-						c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-						return
-					}
-					mr := entity.SubTreatment{
-						Diagnosis_results: encrypted_Diagnosis,
-						Method_treatment:  encrypted_Method_treatment,
-						Appointment:       payload.Appointment_time,
-						Selected_encryp  :true,
-						Treatment_ID:  int(Treatment.ID),
-					}
-			
-					// 12: บันทึก
-					if err := entity.DB().Create(&mr).Error; err != nil {
-						c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-						return
-					}
-					c.JSON(http.StatusOK, gin.H{"data": mr})
-				
-			}else{
-				mr := entity.SubTreatment{
-					Diagnosis_results: payload.Diagnosis_results,
-					Method_treatment:  payload.Method_treatment,
-					Appointment:       payload.Appointment_time,
-					Treatment_ID:  int(Treatment.ID),
-					Selected_encryp: false,
-				}
-				// 12: บันทึก
-				if err := entity.DB().Create(&mr).Error; err != nil {
-					c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-					return
-				}
-				c.JSON(http.StatusOK, gin.H{"data": mr})
-
 			}
+			encrypted_Diagnosis, err := encrypt(payload.Diagnosis_results, key)
+			if err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
+			encrypted_Method_treatment, err := encrypt(payload.Method_treatment, key)
+			if err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
+			mr := entity.SubTreatment{
+				Diagnosis_results: encrypted_Diagnosis,
+				Method_treatment:  encrypted_Method_treatment,
+				Appointment:       payload.Appointment_time,
+				Selected_encryp:   true,
+				Treatment_ID:      int(Treatment.ID),
+			}
+
+			// 12: บันทึก
+			if err := entity.DB().Create(&mr).Error; err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
+			c.JSON(http.StatusOK, gin.H{"data": mr})
+
+		} else {
+			mr := entity.SubTreatment{
+				Diagnosis_results: payload.Diagnosis_results,
+				Method_treatment:  payload.Method_treatment,
+				Appointment:       payload.Appointment_time,
+				Treatment_ID:      int(Treatment.ID),
+				Selected_encryp:   false,
+			}
+			// 12: บันทึก
+			if err := entity.DB().Create(&mr).Error; err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
+			c.JSON(http.StatusOK, gin.H{"data": mr})
+
 		}
+	}
 
 }
-	
 
 func DecryptionSubTreatment(c *gin.Context) {
 
@@ -214,12 +213,23 @@ func DecryptionSubTreatment(c *gin.Context) {
 
 }
 
+// func ListTreatmentUser(c *gin.Context) {
+// 	var TreatmentUser []*entity.Treatment
+// 	if err :=
+// 	entity.DB().Raw("SELECT * FROM treatments").Find(&TreatmentUser).Error; err != nil {
+// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 	return
+// }
+// c.JSON(http.StatusOK, gin.H{"data": TreatmentUser})
+// }
+
 func ListTreatmentUser(c *gin.Context) {
 	var Treatmentuser []struct {
-		ID   uint   `json:"id"`
+		ID      uint   `json:"id"`
 		Patient string `json:"name"`
+		Patient_ID int `json:"patient_id"`
 	}
-	if err := entity.DB().Table("treatments").Select("id,patient").Find(&Treatmentuser).Error; err != nil {
+	if err := entity.DB().Table("treatments").Select("id,patient,patient_id").Find(&Treatmentuser).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Notfound Treatment_user"})
 		return
 	}
@@ -238,4 +248,3 @@ func ListTreatmentUser(c *gin.Context) {
 // 	c.JSON(http.StatusOK, gin.H{"data": Treatment})
 
 // }
-

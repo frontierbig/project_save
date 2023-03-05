@@ -70,6 +70,7 @@ export default function TreatmentShow() {
         if (res.data) {
           setTreatment(res.data.treatment);
           setSubTreatment(res.data.sub_treatment);
+
         } else {
           console.log("else");
         }
@@ -140,13 +141,15 @@ export default function TreatmentShow() {
     title: string;
     content: React.ReactNode;
   }
-  const [expanded, setExpanded] = React.useState<boolean[]>([]);
+  const [expanded, setExpanded] = React.useState<boolean[]>([false]);
 
   const handleExpandClick = (index: number) => {
     let curArr = [...expanded];
     curArr[index] = !curArr[index];
     setExpanded(curArr);
   };
+
+
 
   const handleExpandClickall = () => {
     let trueCount = 0;
@@ -159,12 +162,12 @@ export default function TreatmentShow() {
       }
     });
 
-    if (falseCount === 0) {
-      let falseArr = Array(expanded.length).fill(false);
+    if (falseCount == 0 ) {
+      let falseArr = Array(subtreatment.length).fill(false);
       setExpanded(falseArr);
       
     }else{
-      let trueArr = Array(expanded.length).fill(true);
+      let trueArr = Array(subtreatment.length).fill(true);
       setExpanded(trueArr);
     }
  
@@ -313,7 +316,7 @@ export default function TreatmentShow() {
                               />
                               <Collapse in={expanded[index]}>
                                 <div className="contenttreatmentreccord">
-                                  <Grid item xs={4} style={{ float: "right" }}>
+                                  <Grid item xs={4} style={{ float: "right"}}>
                                   
                                     <p className="appointment">Appointment time </p>    
                                     <FormControl>
@@ -377,60 +380,6 @@ export default function TreatmentShow() {
                     )}
                   </Grid>
 
-                  {/* <div>
-                  <Button
-                      style={{ float: "left"  ,cursor: "pointer" ,color:'white' ,marginRight:'10px'}}
-                      variant="contained"
-                      size="small"
-                      onClick={handleClickOpen}
-                      color="primary"
-                    >
-         <KeyIcon style={{ fill: "#white",marginRight:'10px' }} />
-          Decryption all
-      </Button>
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Decryption</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-          You can see all treatment encrypted data   Plesase Enter  Decryption Key.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Decryption Key"
-            type="email"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button 
-          style={{ float: "left"  ,cursor: "pointer",backgroundColor:'#b20000' ,color:'white' }}
-          onClick={handleCloseDialog}
-         
-          >Cancel</Button>
-          <Button 
-          onClick={handleCloseDialog}
-          style={{ float: "left"  ,cursor: "pointer",backgroundColor:'#166d52' ,color:'white' }}
-          >OK</Button>
-        </DialogActions>
-      </Dialog>
-    </div> */}
-{/* 
-                  <Grid item xs={6}>
-                    <p>Decryption</p>
-                    <TextField
-                      id="Decryption"
-                      type="string"
-                      inputProps={{ name: "Decryption" }}
-                      variant="outlined"
-                      value={decryption.Decryption || ""}
-                      onChange={handleChange}
-                      fullWidth
-                    />
-                  </Grid> */}
-                  
 
                   <Grid item xs={6}>
                     <Button
@@ -444,16 +393,7 @@ export default function TreatmentShow() {
                     </Button>
                   </Grid>
 
-                  {/* <Grid item xs={6}>
-                    <Button
-                      style={{ float: "right" }}
-                      variant="contained"
-                      onClick={DecrypListTreatmentByID}
-                      color="primary"
-                    >
-                      Decryption
-                    </Button>
-                  </Grid> */}
+
 
                   <Grid item xs={6}></Grid>
                 </Grid>

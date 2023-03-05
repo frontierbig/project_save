@@ -57,6 +57,8 @@ export interface TreatmentInterface {
   export interface Treatmentuserinterface{
     id : number,
     name : string,
+    patient_id :number,
+
   }
 
   export  interface SubTreatmentInterface {
