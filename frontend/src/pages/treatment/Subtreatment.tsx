@@ -42,6 +42,9 @@ export default function SubTreatmentDoctor() {
   const [treatmentuser, setTreatmentuser] = useState<Treatmentuserinterface[]>([]);
 
   const User: UserInterface = JSON.parse(localStorage.getItem("User") || "");
+
+  const [patientid,setPatientID]= useState("")
+  
   
   const [expanded, setExpanded] = React.useState<boolean>(false);
 
@@ -118,6 +121,7 @@ export default function SubTreatmentDoctor() {
   const submitTreatment = () => {
     let data = {
       Treatment_ID: subtreatment.Treatment_ID ?? "",
+      Patient_id : patientid??"",
       Diagnosis_results: subtreatment.Diagnosis_results ?? "",
       Method_treatment: subtreatment.Method_treatment ?? "",
       Appointment_time: selectedDate ?? "",
@@ -166,7 +170,8 @@ export default function SubTreatmentDoctor() {
     return value;
   };
 
-  const getMedicalracordByID = async (id : unknown) => {
+  const getMedicalracordByID = async (id : any) => {
+    setPatientID(id)
     const apiUrl = `http://localhost:8080/api/ListMedicalRecordBypatient/${id}`; //ดึง
     const requestOptions = {
       method: "GET",

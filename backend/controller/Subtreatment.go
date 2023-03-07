@@ -22,6 +22,7 @@ type SubTreatmentPayload struct {
 	Master_Key string
 
 	Treatment_ID      uint
+	Patient_ID    uint 
 	Diagnosis_results string
 	Method_treatment  string
 	Appointment_time  time.Time
@@ -47,16 +48,17 @@ func CreateSubTreatment(c *gin.Context) {
 	}
 
 	if tx := entity.DB().Where("id = ?", Treatment.Doctor_ID).First(&User); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Dovtor not found"})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", payload.Treatment_ID).First(&Treatment); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Treatment not found"})
+	if tx := entity.DB().Where("id = ?", payload.Patient_ID).First(&Patient); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Patient not found"})
 		return
 	}
 
 	if Treatment.Encription_Key == "" {
-		fmt.Println(payload.Encryptionselect)
+		fmt.Println(payload.Encryptionselect,"TEST")
+		// fmt.Println("!@#@!#!@#!@#!@#!@#!@#!@")
 		if payload.Encryptionselect == true {
 			bytes := make([]byte, 32) ////generate a random 32 byte key for AES-256
 			if _, err := rand.Read(bytes); err != nil {
@@ -66,8 +68,8 @@ func CreateSubTreatment(c *gin.Context) {
 
 			from := "b6202286@g.sut.ac.th"
 			password := "bjsvplnrqjycniqw"
-			fmt.Println(User.Email)
-			fmt.Println(Patient.Email)
+			// fmt.Println(User.Email)
+			fmt.Println(Patient.Email,"ASDFASDF")
 			to := []string{
 				Patient.Email,
 			}
