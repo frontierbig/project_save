@@ -113,6 +113,7 @@ export default function MedrecPatient() {
           Master_Key: masterkey.Master_Key ?? "",
           Diagnosis_results: treatment.Diagnosis_results ?? "",
           Method_treatment: treatment.Method_treatment ?? "",
+          Note:treatment.Note??"",
           Appointment_time: selectedDate ?? "",
         };
     console.log(data);
@@ -817,6 +818,21 @@ export default function MedrecPatient() {
                 inputProps={{ name: "Method_treatment" }}
                 variant="outlined"
                 value={treatment.Method_treatment || ""}
+                multiline
+                rows={3}
+                onChange={handleChange}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={10}>
+              <p>Note</p>
+              <TextField
+                id="Note"
+                type="string"
+                inputProps={{ name: "Note" }}
+                variant="outlined"
+                value={treatment.Note || ""}
                 multiline
                 rows={3}
                 onChange={handleChange}

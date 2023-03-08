@@ -11,7 +11,7 @@ const MainHeader = () => {
          <p>
          Receive many privileges from the hospital's website,notify information and other services in receiving treatment.
        </p>
-       <Link to = '/SingIn' className='btn lg'>Register</Link>
+       {/* <Link to = '/SingIn' className='btn lg'>Register</Link> */}
        </div>
       </div>
      

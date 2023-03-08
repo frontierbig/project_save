@@ -25,6 +25,7 @@ type SubTreatmentPayload struct {
 	Patient_ID    uint 
 	Diagnosis_results string
 	Method_treatment  string
+	Note  string
 	Appointment_time  time.Time
 	Encryptionselect  bool
 }
@@ -57,7 +58,6 @@ func CreateSubTreatment(c *gin.Context) {
 	}
 
 	if Treatment.Encription_Key == "" {
-		fmt.Println(payload.Encryptionselect,"TEST")
 		// fmt.Println("!@#@!#!@#!@#!@#!@#!@#!@")
 		if payload.Encryptionselect == true {
 			bytes := make([]byte, 32) ////generate a random 32 byte key for AES-256
@@ -100,12 +100,19 @@ func CreateSubTreatment(c *gin.Context) {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 				return
 			}
+			encrypted_Note, err := encrypt(payload.Note, key)
+			if err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
 
 			encryptedKey, err := encrypt(key, payload.Master_Key)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": "Incorrect Master Key"})
 				return
 			}
+
+			
 
 			if err :=
 				entity.DB().Table("treatments").Where("id = ?", Treatment.ID).Update("encription_key", encryptedKey).Error; err != nil {
@@ -115,6 +122,7 @@ func CreateSubTreatment(c *gin.Context) {
 			mr := entity.SubTreatment{
 				Diagnosis_results: encrypted_Diagnosis,
 				Method_treatment:  encrypted_Method_treatment,
+				Note: encrypted_Note,
 				Appointment:       payload.Appointment_time,
 				Selected_encryp:   payload.Encryptionselect,
 				Treatment_ID:      int(Treatment.ID),
@@ -132,6 +140,7 @@ func CreateSubTreatment(c *gin.Context) {
 				Diagnosis_results: payload.Diagnosis_results,
 				Method_treatment:  payload.Method_treatment,
 				Appointment:       payload.Appointment_time,
+				Note: payload.Note,
 				Treatment_ID:      int(Treatment.ID),
 				Selected_encryp:   payload.Encryptionselect,
 			}
@@ -159,9 +168,15 @@ func CreateSubTreatment(c *gin.Context) {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 				return
 			}
+			encrypted_Note, err := encrypt(payload.Note, key)
+			if err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
 			mr := entity.SubTreatment{
 				Diagnosis_results: encrypted_Diagnosis,
 				Method_treatment:  encrypted_Method_treatment,
+				Note: encrypted_Note,
 				Appointment:       payload.Appointment_time,
 				Selected_encryp:   true,
 				Treatment_ID:      int(Treatment.ID),
@@ -178,6 +193,7 @@ func CreateSubTreatment(c *gin.Context) {
 			mr := entity.SubTreatment{
 				Diagnosis_results: payload.Diagnosis_results,
 				Method_treatment:  payload.Method_treatment,
+				Note:payload.Note,
 				Appointment:       payload.Appointment_time,
 				Treatment_ID:      int(Treatment.ID),
 				Selected_encryp:   false,

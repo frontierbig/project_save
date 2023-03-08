@@ -25,6 +25,7 @@ type TreatmentPayload struct {
 	Treatment_ID      uint
 	Diagnosis_results string
 	Method_treatment  string
+	Note   string
 	Appointment_time  time.Time
 	Encryptionselect  bool
 }
@@ -91,6 +92,12 @@ func CreateTreatment(c *gin.Context) {
 			return
 		}
 
+		encrypted_Note, err := encrypt(payload.Note, key)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
 		encryptedKey, err := encrypt(key, payload.Master_Key)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Incorrect Master Key"})
@@ -115,6 +122,7 @@ func CreateTreatment(c *gin.Context) {
 		addsub := entity.SubTreatment{
 			Diagnosis_results: encrypted_Diagnosis,
 			Method_treatment:  encrypted_Method_treatment,
+			Note: encrypted_Note, 
 			Appointment:       payload.Appointment_time,
 			Selected_encryp:   payload.Encryptionselect,
 			Treatment_ID:      int(mr.ID),
@@ -146,6 +154,7 @@ func CreateTreatment(c *gin.Context) {
 		addsub := entity.SubTreatment{
 			Diagnosis_results: payload.Diagnosis_results,
 			Method_treatment:  payload.Method_treatment,
+			Note: payload.Note,
 			Appointment:       payload.Appointment_time,
 			Selected_encryp:   payload.Encryptionselect,
 			Treatment_ID:      int(mr.ID),
@@ -362,6 +371,13 @@ func DecrypListTreatmentByID(c *gin.Context) {
 				}
 				item.Method_treatment = Method_treatment
 
+				Note, err := decrypt(item.Note, Payloaddecryp.Master_Key, c)
+				if err != nil {
+					c.JSON(http.StatusBadRequest, err.Error())
+					return
+				}
+				item.Note = Note
+
 				SubTreatmentRespon = append(SubTreatmentRespon, item)
 			} else {
 				SubTreatmentRespon = append(SubTreatmentRespon, item)
@@ -405,6 +421,13 @@ func DecrypListTreatmentByID(c *gin.Context) {
 					return
 				}
 				item.Method_treatment = Method_treatment
+
+				Note, err := decrypt(item.Note, Decrypkey_patient, c)
+				if err != nil {
+					c.JSON(http.StatusBadRequest, err.Error())
+					return
+				}
+				item.Note = Note
 
 				SubTreatmentRespon = append(SubTreatmentRespon, item)
 			} else {

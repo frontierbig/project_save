@@ -124,6 +124,7 @@ export default function SubTreatmentDoctor() {
       Patient_id : patientid??"",
       Diagnosis_results: subtreatment.Diagnosis_results ?? "",
       Method_treatment: subtreatment.Method_treatment ?? "",
+      Note: subtreatment.Note??"",
       Appointment_time: selectedDate ?? "",
       Master_Key: masterkey.Master_Key ?? "",
       Encryptionselect:checked,
@@ -791,6 +792,21 @@ export default function SubTreatmentDoctor() {
                 inputProps={{ name: "Method_treatment" }}
                 variant="outlined"
                 value={subtreatment.Method_treatment || ""}
+                multiline
+                rows={3}
+                onChange={handleChange}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={10}>
+              <p>Note</p>
+              <TextField
+                id="Note"
+                type="string"
+                inputProps={{ name: "Note" }}
+                variant="outlined"
+                value={subtreatment.Note || ""}
                 multiline
                 rows={3}
                 onChange={handleChange}

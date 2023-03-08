@@ -371,6 +371,22 @@ export default function TreatmentShow() {
                                     />
                                   </Grid>
                                   </div>
+
+
+                                  <div className="addpadingtreatmentshow">
+                                  <Grid item xs={12}>
+                                    <p>Note</p>
+                                    <TextField
+                                      type="string"
+                                      variant="outlined"
+                                      multiline
+                                      rows={3}
+                                      value={item.note}
+                                      disabled
+                                      fullWidth
+                                    />
+                                  </Grid>
+                                  </div>
                                 </div>
                               </Collapse>
                             </Card>
