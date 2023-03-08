@@ -181,9 +181,10 @@ type Datadecryptreturn struct {
 
 
 func ListTreatment(c *gin.Context) {
+	TreatmentID := c.Param("TreatmentID")
 	var Treatment []*entity.Treatment
 	if err :=
-		entity.DB().Table("treatments").Find(&Treatment).Error; err != nil {
+		entity.DB().Raw("SELECT * FROM treatments WHERE doctor_id = ?", TreatmentID).Find(&Treatment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -194,15 +195,13 @@ func ListTreatment(c *gin.Context) {
 func ListTreatmentByIDBypatient(c *gin.Context) {
 
 	TreatmentID := c.Param("TreatmentID")
-
-	var MedicalRecord []*entity.MedicalRecord
-
+	var Treatment []*entity.Treatment
 	if err :=
-		entity.DB().Raw("SELECT * FROM treatments WHERE patient_id = ?", TreatmentID).Find(&MedicalRecord).Error; err != nil {
+		entity.DB().Raw("SELECT * FROM treatments WHERE patient_id = ?", TreatmentID).Find(&Treatment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": MedicalRecord})
+	c.JSON(http.StatusOK, gin.H{"data": Treatment})
 
 }
 

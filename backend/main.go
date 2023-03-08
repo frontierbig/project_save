@@ -28,7 +28,7 @@ func main() {
 			protected.POST("/api/CreateSubTreatment", Treatment.CreateSubTreatment)
 
 			protected.GET("/api/ListMedicalRecord", MedicalRecord.ListMedicalRecord)
-			protected.GET("/api/ListTreatment", MedicalRecord.ListTreatment)
+			protected.GET("/api/ListTreatmentBydoctor/:TreatmentID", MedicalRecord.ListTreatment)
 			protected.GET("/api/ListTreatmentBypatient/:TreatmentID", MedicalRecord.ListTreatmentByIDBypatient)
 			
 
