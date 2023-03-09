@@ -1,7 +1,7 @@
 package entity
 
 import (
-	"time"
+	// "time"
 
 )
 
@@ -11,6 +11,6 @@ type SubTreatment struct {
 	Diagnosis_results string  `json:"diagnosis_results"`
 	Method_treatment string   `json:"method_treatment"`
 	Note    string `json:"note"`
-	Appointment    time.Time  `json:"appointment"`
+	Appointment    string `json:"appointment"`
 	Selected_encryp  bool
 }

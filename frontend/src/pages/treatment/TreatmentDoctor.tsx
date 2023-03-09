@@ -52,7 +52,8 @@ export default function MedrecPatient() {
   const [treatment, setTreatment] = useState<Partial<TreatmentInterface>>({});
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-  const [selectedDate, setSelectedDate] = useState('');
+  // const [selectedDate, setSelectedDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
       return;
@@ -81,30 +82,12 @@ export default function MedrecPatient() {
   // };
 
   const handleDateChange = (event:any) => {
-    setSelectedDate(event.target.value);
+    setSelectedDate(new Date(event.target.value));
   };
 
-  // const getUser = async () => {
-  //   const apiUrl = `http://localhost:8080/api/ListUser`; //ดึง
-  //   const requestOptions = {
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       "Content-Type": "application/json",
-  //     },
-  //   };
-  //   fetch(apiUrl, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       if (res.data) {
-  //         console.log(res.data);
-  //         setPatient(res.data);
-  //       } else {
-  //         console.log("else");
-  //       }
-  //     });
-  // };
+  const utcDate = new Date(selectedDate.getTime() - (selectedDate.getTimezoneOffset() * 60000)).toISOString().substring(0, 16);
+  
+
 
   const [ErrorMessage, setErrorMessage] = React.useState<String>();
   const now = new Date();
@@ -850,18 +833,15 @@ export default function MedrecPatient() {
               <FormControl variant="outlined">
                 {/* <p>Appointment time</p> */}
                 <TextField
-        id="datetime-local"
-        label="Next appointment"
-        type="datetime-local"
-        defaultValue={isoString}
-        // value={selectedDate}
-        
-       
-        InputLabelProps={{
-          shrink: true,
-        }}
-        onChange={handleDateChange}
-      />
+      id="datetime-local"
+      label="Next appointment"
+      type="datetime-local"
+      value={utcDate}
+      InputLabelProps={{
+        shrink: true,
+      }}
+      onChange={handleDateChange}
+    />
                 {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     name="Patient_dob"

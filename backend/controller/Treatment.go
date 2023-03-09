@@ -9,7 +9,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
-	"time"
+	// "time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut64/team03/backend/entity"
@@ -26,7 +26,7 @@ type TreatmentPayload struct {
 	Diagnosis_results string
 	Method_treatment  string
 	Note   string
-	Appointment_time  time.Time
+	Appointment_time  string
 	Encryptionselect  bool
 }
 

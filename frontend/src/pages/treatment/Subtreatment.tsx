@@ -60,7 +60,7 @@ export default function SubTreatmentDoctor() {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   };
 
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [checked, setChecked] = React.useState(false);
   const [masterkey, setMasterkey] = useState<Partial<MasterkeyInterface>>({});
   const [subtreatment, setSubTreatment] = useState<Partial<SubTreatmentInterface>>({});
@@ -89,11 +89,11 @@ export default function SubTreatmentDoctor() {
     setMasterkey({ ...masterkey, [name]: event.target.value });
   };
 
-  const handleDateChange = (date: Date | null) => {
-    console.log(date);
-    setSelectedDate(date);
+  const handleDateChange = (event:any) => {
+    setSelectedDate(new Date(event.target.value));
   };
 
+  const utcDate = new Date(selectedDate.getTime() - (selectedDate.getTimezoneOffset() * 60000)).toISOString().substring(0, 16);
   const getTreatmentUser = async () => {
     const apiUrl = `http://localhost:8080/api/ListTreatmentuser`; //ดึง
     const requestOptions = {
@@ -817,16 +817,16 @@ export default function SubTreatmentDoctor() {
             <Grid item xs={6}>
               <FormControl variant="outlined">
                
-      <TextField
-        id="datetime-local"
-        label="Next appointment"
-        type="datetime-local"
-        defaultValue="2017-05-24T10:30"
-       
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
+              <TextField
+      id="datetime-local"
+      label="Next appointment"
+      type="datetime-local"
+      value={utcDate}
+      InputLabelProps={{
+        shrink: true,
+      }}
+      onChange={handleDateChange}
+    />
   
                 {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker

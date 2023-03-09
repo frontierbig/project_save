@@ -2,7 +2,7 @@ package controller
 
 import (
 	"net/http"
-	"time"
+	// "time"
 
 	// "crypto/aes"
 	// "crypto/cipher"
@@ -26,7 +26,7 @@ type SubTreatmentPayload struct {
 	Diagnosis_results string
 	Method_treatment  string
 	Note  string
-	Appointment_time  time.Time
+	Appointment_time  string
 	Encryptionselect  bool
 }
 
