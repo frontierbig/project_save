@@ -816,8 +816,19 @@ export default function SubTreatmentDoctor() {
 
             <Grid item xs={6}>
               <FormControl variant="outlined">
-                <p>Appointment time</p>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+               
+      <TextField
+        id="datetime-local"
+        label="Next appointment"
+        type="datetime-local"
+        defaultValue="2017-05-24T10:30"
+       
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+  
+                {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     name="Patient_dob"
                     value={selectedDate}
@@ -825,7 +836,7 @@ export default function SubTreatmentDoctor() {
                     format="yyyy/MM/dd HH:mm"
                     fullWidth
                   />
-                </MuiPickersUtilsProvider>
+                </MuiPickersUtilsProvider> */}
               </FormControl>
             </Grid>
             <Grid item xs={5}></Grid>

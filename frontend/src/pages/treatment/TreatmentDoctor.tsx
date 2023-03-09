@@ -46,13 +46,13 @@ export default function MedrecPatient() {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   };
 
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  // const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [checked, setChecked] = React.useState(false);
   const [masterkey, setMasterkey] = useState<Partial<MasterkeyInterface>>({});
   const [treatment, setTreatment] = useState<Partial<TreatmentInterface>>({});
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-
+  const [selectedDate, setSelectedDate] = useState('');
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
       return;
@@ -75,9 +75,13 @@ export default function MedrecPatient() {
     setMasterkey({ ...masterkey, [name]: event.target.value });
   };
 
-  const handleDateChange = (date: Date | null) => {
-    console.log(date);
-    setSelectedDate(date);
+  // const handleDateChange = (date: Date | null) => {
+  //   console.log(date);
+  //   setSelectedDate(date);
+  // };
+
+  const handleDateChange = (event:any) => {
+    setSelectedDate(event.target.value);
   };
 
   // const getUser = async () => {
@@ -103,6 +107,8 @@ export default function MedrecPatient() {
   // };
 
   const [ErrorMessage, setErrorMessage] = React.useState<String>();
+  const now = new Date();
+  const isoString = now.toISOString().substring(0, 16);
 
 
   const submitTreatment = () => {
@@ -842,8 +848,21 @@ export default function MedrecPatient() {
 
             <Grid item xs={6}>
               <FormControl variant="outlined">
-                <p>Appointment time</p>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                {/* <p>Appointment time</p> */}
+                <TextField
+        id="datetime-local"
+        label="Next appointment"
+        type="datetime-local"
+        defaultValue={isoString}
+        // value={selectedDate}
+        
+       
+        InputLabelProps={{
+          shrink: true,
+        }}
+        onChange={handleDateChange}
+      />
+                {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     name="Patient_dob"
                     value={selectedDate}
@@ -851,7 +870,7 @@ export default function MedrecPatient() {
                     format="yyyy/MM/dd HH:mm"
                     fullWidth
                   />
-                </MuiPickersUtilsProvider>
+                </MuiPickersUtilsProvider> */}
               </FormControl>
             </Grid>
             <Grid item xs={5}></Grid>

@@ -81,6 +81,10 @@ export default function MedrecDoctor() {
     setSuccess(false);
     setError(false);
   };
+  const handleDateChange = (date: Date | null) => {
+    console.log(date);
+    setSelectedDate(date);
+  };
 
   const handleChange = (
     event: ChangeEvent<{ name?: string; value: unknown }>
@@ -89,10 +93,10 @@ export default function MedrecDoctor() {
     setMedicalRecord({ ...medicalrecord, [name]: event.target.value });
   };
 
-  const handleDateChange = (date: Date | null) => {
-    console.log(date);
-    setSelectedDate(date);
-  };
+  // const handleDateChange = (date: Date | null) => {
+  //   console.log(date);
+  //   setSelectedDate(date);
+  // };
   const handleChangecheckbox = (e: any) => {
     const { name, checked } = e.target;
     let tempParent = parents.map((parent) =>
@@ -139,6 +143,10 @@ export default function MedrecDoctor() {
   };
 
   const [ErrorMessage, setErrorMessage] = React.useState<String>();
+  
+  // const handleDateChange = (date: Date | null) => {
+  //   console.log(date);
+  // };
   // const classes = useStyles();
 
   const submitMedicalrecord = () => {
@@ -152,7 +160,7 @@ export default function MedrecDoctor() {
           ? parseInt(medicalrecord.Patient_Age)
           : NaN,
       Patient_gender: medicalrecord.Patient_gender ?? "",
-      // Patient_dob:medicalrecord.Patient_dob?? "",
+      Patient_dob:selectedDate ?? "",
       Patient_address: medicalrecord.Patient_address ?? "",
       Patient_phone: medicalrecord.Patient_phone ?? "",
 
